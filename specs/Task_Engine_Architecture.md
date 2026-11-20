@@ -199,27 +199,25 @@ src/
 
 ---
 
-## 5. Quy Chuẩn 5+5 Khi Thiết Kế & Thêm Một Ngành Nghề Mới (Workplace-to-Game Authoring Standard)
+## 5. Triết Lý Tinh Túy & Quy Trình Thiết Kế Ngành Nghề Mới (Flexible Domain-Adaptive Standard)
 
-Để mọi ngành nghề mới thêm vào LucidTask đều đạt sức hút của một **Game Mô phỏng Nghề nghiệp Thực tế** (như hình mẫu *Nợ Có Ơi* — xem chi tiết tại [docs/roadmap/gamification_diegetic_ui_rfc.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/docs/roadmap/gamification_diegetic_ui_rfc.md#L98-L185)) và tuyệt đối **không biến thành bài thi trắc nghiệm bọc vỏ giao diện**, người thiết kế nội dung phải tuân thủ quy trình chuẩn hóa sau:
+Để các ngành nghề mới thêm vào LucidTask vừa giữ được sức hút của một **Game Mô phỏng Nghề nghiệp** vừa **không bị đóng khung cứng nhắc vào một kiểu giao diện duy nhất** (tránh việc lấy cơ chế sổ sách của ngành Kế toán áp đặt lên ngành Marketing hay CNTT), hệ thống phân tách rõ **5 Nguyên lý Tinh túy Chung** và **Quy trình Chọn Archetype Linh hoạt**:
 
-### 5.1. Năm Điều Kiện Chuyển Đổi Bắt Buộc Khi Thiết Kế Tác Vụ Ngành Mới
-1. **Biến tính mơ hồ thành "Vòng lặp phản hồi khép kín" theo 2 Thái cực Ngành:**
-   - *Ngành có luật đúng/sai rạch ròi (Kế toán, Kiểm toán, Pháp chế, Logistics tải trọng, Soát lỗi dữ liệu):* Thiết kế cơ chế kiểm tra khớp số học hoặc quy tắc cứng ngay lập tức (Tổng Nợ = Tổng Có, dòng báo đỏ `Lệch ...` khi chưa cân).
-   - *Ngành có kết quả mở/mơ hồ (Marketing, Truyền thông, Thiết kế, Quản trị):* Lượng hóa hệ quả thành các **chỉ số xung đột trực tiếp** (*Ngân sách – Lượng khách – Uy tín thương hiệu*) để mỗi thao tác điều chỉnh đều làm thanh này tăng và thanh kia tụt ngay trước mắt.
-2. **Nén thời gian & Cắt bỏ toàn bộ "thời gian chết" (*Time Compression*):**
-   - Thu gọn chu kỳ công việc 1 tuần / 1 tháng ngoài đời vào đúng **3–5 phút** ca trực; cắt bỏ mọi thủ tục hành chính rườm rà, chỉ giữ lại các điểm ra quyết định có ma sát cao nhất.
-3. **Thao tác Kiến tạo Chủ động (*Active Construction*) — Cấm Chọn đáp án Thụ động:**
-   - **Bước 1 (Soi chứng từ chạm dòng lỗi thật — *Tactile Authenticity*):** Đặt thẳng tờ Hóa đơn, Đơn đặt hàng, Phiếu xuất kho hoặc Hợp đồng gồm 5–8 dòng lên bàn. Chỉ có 1–2 dòng thực sự gài bẫy (`is_flawed: true`, ví dụ: *"Giảm 5% so với bảng giá — chưa có duyệt của trưởng phòng"*, lệch số lượng thực giao, cộng nhầm tổng). Chạm trúng dòng sai mới bắt được lỗi; chạm vào dòng hợp lệ là bắt nhầm; chứng từ sạch hoàn toàn thì bấm `Hợp lệ ✓`.
-   - **Bước 2 (Lắp ráp & Cân bằng khay số liệu/chứng cứ):** Không dùng nút Radio A/B/C/D viết sẵn lời giải. Người chơi phải tự gắp thẻ nghiệp vụ và gắn số liệu/bằng chứng vào 2 khay đối ứng cho đến khi triệt tiêu dòng báo đỏ `Lệch ...` về `0`.
-4. **Giữ "Điểm cân bằng trừu tượng hóa" (*Abstraction Sweet Spot*) & Dẫn nhập Bình dân hóa (*Micro-scaffolding*):**
-   - Dùng ví dụ bình dân kiểu *"Kế toán vỉa hè"* (chuyện mua xe đẩy bán trà sữa, chuyện thuê ca sĩ hội trường) để giải thích khái niệm chuyên môn trong 15 giây; không nhồi nhét thông tư hay cú pháp code hàn lâm nhưng giữ nguyên 100% cấu trúc tư duy của nghề.
-5. **Thiết kế Nhân cách hóa Công sở (`🛡️ Uy tín` vs `❤️ Thiện cảm`, `Sai sót ẩn`) & "Điểm chốt giải tỏa" (*Closure & Catharsis*):**
-   - Hồ sơ được mang tới bởi các đồng nghiệp có cá tính (*Cô Ba*, *Bé Mít*, *Bé Na*, *Sếp Tài*). Làm đúng nguyên tắc khi đồng nghiệp xin "lách luật" sẽ tăng **🛡️ Uy tín** nhưng giảm **❤️ Thiện cảm**; nể nang cho qua sẽ giữ được **❤️ Thiện cảm** nhưng tạo ra **"Sai sót ẩn" (*Latent Error*)** bị khui ra ở cuối ca.
-   - Cuối mỗi ca phải có nghi thức **Khóa sổ / Chốt bảng cân đối khớp từng đồng (`A = B ✓`)** để tạo cảm giác giải tỏa hoàn tất.
+### 5.1. Năm Nguyên Lý Tinh Túy Chung (Chỉ Áp Dụng Ở Tầng Triết Lý)
+1. **Thao tác Kiến tạo Chủ động (*Active Manipulation*):** Thay thế việc chọn đáp án A/B/C/D thụ động bằng thao tác trực tiếp trên đối tượng lao động đặc thù của nghề đó (chạm, kéo, điều chỉnh nguồn lực, ghim manh mối).
+2. **Vòng lặp Phản hồi Khép kín Thích ứng theo Đặc thù Ngành (*Domain-Adaptive Feedback*):**
+   - *Ngành có luật đúng/sai rạch ròi (Kế toán, Pháp chế, Kiểm thử, Logistics):* Phản hồi qua độ chính xác quy tắc và sự khớp nối định lượng.
+   - *Ngành có kết quả mở/mơ hồ (Marketing, Truyền thông, Thiết kế, Quản trị):* Phản hồi qua sự biến động đối nghịch của các chỉ số đánh đổi (*Trade-off Metrics*) để không áp đặt một đáp án đúng cứng nhắc.
+3. **Điểm cân bằng Trừu tượng hóa (*Abstraction Sweet Spot*):** Lược bỏ kiến thức hàn lâm đại học, dẫn nhập ngắn gọn dễ hiểu trong 15–30 giây (*Micro-scaffolding*), nhưng giữ nguyên cấu trúc tư duy và sự đánh đổi của nghề.
+4. **Nén Thời gian & Hộp cát An toàn (*Time Compression & Safe Stress*):** Cắt bỏ toàn bộ thời gian chết, gói gọn những tình huống ma sát đặc trưng nhất vào 3–5 phút trải nghiệm an toàn.
+5. **Bối cảnh Con người & Điểm chốt Giải tỏa (*Human Context & Closure*):** Tác vụ gắn với sự tương tác xã hội (đồng nghiệp, sếp, khách hàng) và kết thúc bằng một khoảnh khắc tổng kết thành quả rõ ràng.
 
-### 5.2. Quy trình 3 Bước Kỹ Thuật để Đăng Ký Ngành Mới vào Hệ Thống
-1. **Bước 1 (Xác định Thái cực & Archetype):** Chọn cơ chế tương tác phù hợp với thái cực của ngành (`TRIAGE_AND_CLASSIFY`, `CONSTRAINED_ALLOCATION`, `MULTI_SOURCE_INVESTIGATION`, `TRADE_OFF_PRIORITIZATION`).
-2. **Bước 2 (Soạn File JSON theo Checklist 5+5):** Điền quy tắc SOP 3 dòng, danh sách chứng từ đa dòng (`document_rows` có đánh dấu `is_flawed`), lời thoại đồng nghiệp (`npc_name`, `npc_quote`) và cấu hình khay cân bằng vào `stage1_task.json` và `stage2_task.json`.
-3. **Bước 3 (Đăng ký vào Registry):** Khai báo thư mục mới vào `src/registry/index.ts` để hệ thống tự động nạp lên giao diện, thu thập `TelemetryBus` và quy đổi sang khung **Big Five (OCEAN) + Holland RIASEC**.
+### 5.2. Quy trình 3 Bước Linh Hoạt để Thêm Một Ngành Mới
+1. **Bước 1 (Chọn Archetype phù hợp với bản chất riêng của ngành):**
+   - Nghề thiên về kiểm duyệt hồ sơ, chứng từ, phân luồng nhanh? $\rightarrow$ Chọn `TRIAGE_AND_CLASSIFY`.
+   - Nghề thiên về phân bổ ngân sách, cân tải trọng, xếp lịch? $\rightarrow$ Chọn `CONSTRAINED_ALLOCATION`.
+   - Nghề thiên về điều tra sự cố, đối chiếu đa nguồn dữ liệu? $\rightarrow$ Chọn `MULTI_SOURCE_INVESTIGATION`.
+   - Nghề thiên về ra quyết định chiến lược, đánh đổi lợi ích mở? $\rightarrow$ Chọn `TRADE_OFF_PRIORITIZATION`.
+2. **Bước 2 (Soạn File JSON cấu hình ngành):** Định nghĩa bối cảnh đời thường, quy tắc tra cứu ngắn và dữ liệu tương tác vào `stage1_task.json` và `stage2_task.json`.
+3. **Bước 3 (Đăng ký vào Registry):** Khai báo thư mục mới vào `src/registry/index.ts` để hệ thống tự động thu thập `TelemetryBus` và quy đổi sang khung **Big Five (OCEAN) + Holland RIASEC**.
 

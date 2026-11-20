@@ -6,15 +6,15 @@
 
 ---
 
-## 1. Kịch bản Tác vụ Chi tiết & Nguyên Tắc Game Hóa Lao Động (Diegetic Workplace Scenarios)
+## 1. Kịch bản Tác vụ Chi tiết & Triết Lý Tinh Túy Game Hóa Lao Động (Core Simulation Philosophy)
 
-> **Nguyên tắc Vàng & Khung Chuẩn Hóa 5+5 (Workplace-to-Game Conversion Standard):**  
-> Mọi kịch bản nghề nghiệp trong LucidTask (hiện tại và các ngành mở rộng sau này) bắt buộc tuân thủ **5 yếu tố tâm lý hành vi & 5 điều kiện chuyển đổi từ hình mẫu "Nợ Có Ơi"** (chi tiết tại [docs/roadmap/gamification_diegetic_ui_rfc.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/docs/roadmap/gamification_diegetic_ui_rfc.md#L98-L185)):
-> 1. **Vòng lặp phản hồi khép kín theo 2 thái cực ngành:** Ngành luật cứng (Kế toán, Pháp chế, Dữ liệu, Logistics) chấm khớp số học/quy tắc tức thì (báo đỏ `Lệch ...` khi chưa cân); Ngành kết quả mở (Marketing, Truyền thông, Quản trị) lượng hóa thành các chỉ số xung đột trực tiếp (*Ngân sách – Lượng khách – Uy tín*).
-> 2. **Nén thời gian (*Time Compression*):** Thu gọn cả tuần/tháng làm việc vào 3–5 phút, cắt bỏ hoàn toàn thời gian chết.
-> 3. **Thao tác kiến tạo chủ động (*Active Construction* — Không trắc nghiệm A/B hay Radio):** Tự soi chứng từ đa dòng và chạm đúng dòng có bẫy (`is_flawed: true`) hoặc bấm `Hợp lệ ✓` nếu chứng từ sạch; tự lắp thẻ và số liệu/bằng chứng vào khay đối ứng cho hết số `Lệch đỏ`.
-> 4. **Điểm cân bằng trừu tượng hóa (*Abstraction Sweet Spot*) & Dẫn nhập bình dân (*Micro-scaffolding*):** Loại bỏ kiến thức hàn lâm, dùng hình ảnh đời thường gần gũi (như *"Kế toán vỉa hè"*) nhưng bảo toàn 100% cấu trúc tư duy của nghề.
-> 5. **Đời sống công sở (`🛡️ Uy tín` vs `❤️ Thiện cảm`, `Sai sót ẩn`) & Điểm chốt giải tỏa (*Closure & Catharsis*):** Tái hiện mâu thuẫn giữa giữ nguyên tắc (`+Uy tín / -Thiện cảm`) và nể nang đồng nghiệp (`+Thiện cảm` nhưng tích tụ `Sai sót ẩn` bị khui lúc cuối kỳ), kết thúc bằng nghi thức **Khóa sổ / Chốt bảng cân đối khớp từng đồng (`A = B ✓`)**.
+> **Triết Lý Cốt Lõi Tinh Túy (Universal Core Philosophy — Không áp đặt rập khuôn):**  
+> Mỗi ngành nghề có đặc tính công việc khác nhau, vì vậy LucidTask không ép mọi ngành vào chung một khuôn mẫu giao diện, mà chỉ thống nhất **5 Nguyên lý Tinh túy** (chi tiết tại [docs/roadmap/gamification_diegetic_ui_rfc.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/docs/roadmap/gamification_diegetic_ui_rfc.md#L98-L155)):
+> 1. **Thao tác kiến tạo chủ động (*Active Manipulation*):** Tương tác trực tiếp trên đối tượng công việc đặc thù của nghề, tránh hỏi-đáp trắc nghiệm thụ động.
+> 2. **Vòng lặp phản hồi thích ứng theo đặc thù ngành:** Ngành có luật đúng/sai rạch ròi thì phản hồi qua quy tắc & độ khớp số liệu; Ngành có kết quả mở (Marketing, Quản trị, Sáng tạo) thì phản hồi qua sự biến động của các chỉ số đánh đổi xung đột (*Trade-off Metrics*).
+> 3. **Điểm cân bằng trừu tượng hóa (*Abstraction Sweet Spot*):** Lược bỏ kiến thức hàn lâm đại học, dẫn nhập gần gũi trong 15–30 giây (*Micro-scaffolding*), nhưng bảo toàn 100% cấu trúc tư duy của nghề.
+> 4. **Nén thời gian & Áp lực hộp cát an toàn (*Time Compression & Safe Stress*):** Cắt bỏ toàn bộ thời gian chết, gói gọn các điểm ma sát đặc trưng nhất vào 3–5 phút.
+> 5. **Bối cảnh con người & Điểm chốt giải tỏa (*Human Context & Closure*):** Đặt công việc vào mối quan hệ tương tác với đồng nghiệp/khách hàng/cấp trên và kết thúc mỗi chu kỳ ngắn bằng một điểm chốt thành quả rõ ràng.
 
 ### Cụm ngành 1: Kỹ thuật Phần mềm & Khoa học Dữ liệu (Software & Data Operations)
 
