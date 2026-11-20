@@ -1,0 +1,30 @@
+{
+  "industry_id": "IND_MARKETING",
+  "industry_name": "Marketing & Quản Trị Truyền Thông Sự Kiện",
+  "headline": "Tối ưu ngân sách truyền thông, cân bằng yêu cầu đánh đổi giữa độ phủ sóng và chi phí chuyển đổi dưới áp lực cấp trên.",
+  "data_sources": [
+    "Báo cáo Xu hướng Tiếp thị Số & Sự kiện Việt Nam 2025 - Advertising Vietnam",
+    "Khảo sát Lương Ngành Truyền thông & Marketing - Adecco"
+  ],
+  "market_metrics": {
+    "salary_range_0_to_2_years_vnd": { "min": 9000000, "max": 16500000, "median": 12000000 },
+    "salary_range_3_to_5_years_vnd": { "min": 20000000, "max": 45000000, "median": 29000000 },
+    "long_term_growth_projection_2030": "+19.0% mỗi năm (Trọng tâm ở Performance Marketing, Tổ chức Sự kiện Trải nghiệm & Thương mại Xã hội)",
+    "automation_ai_risk_level": "MEDIUM",
+    "automation_risk_explanation": "AI hỗ trợ viết bài quảng cáo cơ bản nhanh chóng, nhưng tư duy đánh đổi nguồn lực ngân sách, xử lý khủng hoảng truyền thông và thấu cảm tâm lý đám đông là năng lực con người độc quyền."
+  },
+  "academic_risk_stats": {
+    "industry_dropout_or_shift_rate": 24.5,
+    "root_cause_breakdown": {
+      "gap_between_expectation_and_reality": 62.0,
+      "peer_or_parental_pressure": 20.0,
+      "academic_struggle": 18.0
+    },
+    "estimated_wasted_cost_1year_vnd": 185000000,
+    "wasted_cost_breakdown": {
+      "tuition_lost": 45000000,
+      "living_expenses_lost": 60000000,
+      "opportunity_cost_youth_lost": 80000000
+    }
+  }
+}

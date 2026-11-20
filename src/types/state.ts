@@ -1,6 +1,6 @@
 /**
  * Finite State Machine (FSM) & User Session State
- * Reference: specs/SOFTWARE_DESIGN_DOCUMENT.md
+ * Reference: specs/SOFTWARE_DESIGN_DOCUMENT.md & docs/roadmap/gamification_diegetic_ui_rfc.md
  */
 
 import { EducationalProgram } from './program';
@@ -14,6 +14,24 @@ export type TaskWorkflowState =
   | 'BLIND_MATCHING'        // Xem thẻ trường ẩn danh
   | 'REVEALED_REPORT';      // Đã mở khóa tên trường & Xem báo cáo đồng thuận 2 cột
 
+export interface BigFiveProfile {
+  conscientiousness: number;   // Tận tâm (0 - 100)
+  openness: number;            // Cởi mở (0 - 100)
+  extraversion: number;        // Hướng ngoại (0 - 100)
+  agreeableness: number;       // Hòa đồng (0 - 100)
+  emotional_stability: number; // Ổn định cảm xúc (0 - 100)
+}
+
+export interface RiasecProfile {
+  realistic: number;           // Kỹ thuật (0 - 100)
+  investigative: number;       // Nghiên cứu (0 - 100)
+  artistic: number;            // Nghệ thuật (0 - 100)
+  social: number;              // Xã hội (0 - 100)
+  enterprising: number;        // Quản lý / Kinh doanh (0 - 100)
+  conventional: number;        // Nghiệp vụ (0 - 100)
+  top_code: string;            // Mã Holland 3 chữ cái cao nhất (VD: "I-C-E")
+}
+
 export interface CompetencyProfile {
   logic_score: number;       // S_Logic (0 - 100)
   patience_score: number;    // S_Patience (0 - 100)
@@ -21,6 +39,10 @@ export interface CompetencyProfile {
   composite_score: number;   // S_Total (0.30 * S1 + 0.70 * S2)
   qualitative_insights: string[];
   early_exit_triggered: boolean;
+  big_five?: BigFiveProfile;
+  riasec?: RiasecProfile;
+  completed_micro_tasks_count?: number;
+  confidence_level?: number; // % Độ tin cậy hồ sơ (tối đa 100% khi hoàn thành >= 5 Micro-Tasks)
 }
 
 export interface ProgramMatchResult {
@@ -38,4 +60,3 @@ export interface UserSessionState {
   matched_programs: ProgramMatchResult[];
   selected_program_id: string | null;
 }
-

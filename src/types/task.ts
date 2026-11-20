@@ -1,6 +1,6 @@
 /**
- * Task Domain Engine Interfaces (Schema-Driven)
- * Reference: specs/Task_Engine_Architecture.md & specs/Data_Schema_&_Seed_Data.md
+ * Task Domain Engine Interfaces (Schema-Driven + Diegetic UI Extension)
+ * Reference: specs/Task_Engine_Architecture.md & docs/roadmap/gamification_diegetic_ui_rfc.md
  */
 
 export type InteractionArchetype =
@@ -19,10 +19,28 @@ export interface HandbookRule {
   hint?: string;
 }
 
+export interface CustomTriageBin {
+  target_id: string;
+  label: string;
+  short_hint: string;
+  key_shortcut: string;
+}
+
+export interface WorkChatMessageItem {
+  id: string;
+  sender: string;
+  role: 'BOSS' | 'CLIENT' | 'CSKH' | 'SYSTEM';
+  text: string;
+  urgency?: 'NORMAL' | 'URGENT';
+}
+
 export interface WorkItem {
   id: string;
   content: string;
   expected_target: string;
+  order_title?: string;
+  everyday_note?: string;
+  boss_feedback_on_error?: string;
   metadata?: Record<string, unknown>;
 }
 
@@ -33,11 +51,18 @@ export interface InvestigationSource {
   content: string[];
 }
 
+export interface TradeOffPreview {
+  quality_delta: string;
+  stakeholder_delta: string;
+  risk_note: string;
+}
+
 export interface ResolutionAction {
   id: string;
   label: string;
   is_optimal: boolean;
   explanation: string;
+  trade_off_preview?: TradeOffPreview;
 }
 
 export interface TaskDefinition {
@@ -49,6 +74,9 @@ export interface TaskDefinition {
   time_limit_seconds: number;
   interaction_archetype: InteractionArchetype;
   handbook_rules: HandbookRule[];
+  sop_quick_rules?: string[];
+  custom_bins?: CustomTriageBin[];
+  work_chat_messages?: WorkChatMessageItem[];
   work_items?: WorkItem[];
   investigation_sources?: InvestigationSource[];
   resolution_actions?: ResolutionAction[];
@@ -58,4 +86,3 @@ export interface TaskDefinition {
     max_error_stress_ratio?: number;
   };
 }
-

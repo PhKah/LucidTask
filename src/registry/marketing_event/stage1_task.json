@@ -1,0 +1,115 @@
+{
+  "id": "TASK_MKT_STAGE1",
+  "stage": 1,
+  "title": "Micro-Task 5: Thẻ Quẹt Cân Đối Ngân Sách 10 Triệu Kéo Khách Sự Kiện Trường",
+  "role_title": "Trưởng Nhóm Truyền Thông Sự Kiện (Event Marketing Lead)",
+  "scenario_brief": "Bạn chỉ được cấp tổng ngân sách 10 triệu đồng để kéo 500 học sinh đến Đêm hội Sáng tạo. Sếp nhắn tin Zalo dồn dập đòi 'vừa phải đông nghẹt khách, vừa phải giữ hình ảnh sang trọng'. Hãy quẹt thẻ từ chối các đề xuất đốt tiền/phản cảm và phê duyệt phương án tối ưu!",
+  "time_limit_seconds": 90,
+  "interaction_archetype": "TRIAGE_AND_CLASSIFY",
+  "sop_quick_rules": [
+    "1. QUY ĐỊNH NGÂN SÁCH: Tổng quỹ chỉ có 10 triệu. Tuyệt đối CHẶN các hạng mục ngốn quá 5 triệu cho 1 kênh đơn lẻ hoặc chi phí/khách > 50.000đ.",
+    "2. QUY ĐỊNH HÌNH ẢNH: Cấm dùng chiêu trò giật tít phản cảm, drama giả tạo hoặc mua lượt thích ảo (không tạo ra khách đến thật).",
+    "3. QUẸT THẺ: Đốt tiền / Chiêu trò bẩn => Quẹt trái [THÙNG 1 / TỪ CHỐI ĐỐT TIỀN (Phím A)]. Hiệu quả & Sang trọng => Quẹt phải [THÙNG 2 / PHÊ DUYỆT (Phím D)]."
+  ],
+  "custom_bins": [
+    {
+      "target_id": "CONN_ERR",
+      "label": "Thùng 1: Lỗi Kết Nối Mạng / Từ Chối Phương Án Đốt Tiền (Quẹt Trái)",
+      "short_hint": "Thuê KOL quá đắt (>5tr), mua like ảo, tạo drama phản cảm",
+      "key_shortcut": "Phím A / ⬅️"
+    },
+    {
+      "target_id": "DATA_ERR",
+      "label": "Thùng 2: Lỗi Dữ Liệu Logic / Phê Duyệt Phương Án Tối Ưu (Quẹt Phải)",
+      "short_hint": "Chi phí hợp lý <= 50k/khách, giữ hình ảnh đẹp, đo được vé thật",
+      "key_shortcut": "Phím D / ➡️"
+    }
+  ],
+  "work_chat_messages": [
+    {
+      "id": "CHAT_MKT_1",
+      "sender": "Thầy Trưởng Ban Tổ Chức (Sếp)",
+      "role": "BOSS",
+      "text": "Ngân sách chốt cứng 10 triệu không xin thêm được 1 đồng đâu nhé! Nhưng tối thứ Bảy này hội trường phải kín 500 ghế và hình ảnh trên báo trường phải thật văn minh, sang trọng!",
+      "urgency": "URGENT"
+    }
+  ],
+  "handbook_rules": [
+    {
+      "rule_id": "RULE_REJECT_WASTE",
+      "category": "Phương Án Đốt Ngân Sách Hoặc Vi Phạm Hình Ảnh",
+      "condition": "Chi phí vượt quá 5 triệu/hạng mục, mua tương tác ảo, hoặc dùng tin đồn phản cảm.",
+      "target_action": "CONN_ERR",
+      "hint": "Quẹt trái: Từ chối phương án (Phím A)"
+    },
+    {
+      "rule_id": "RULE_APPROVE_ROI",
+      "category": "Phương Án Tối Ưu Chuyển Đổi & Thương Hiệu",
+      "condition": "Chi phí trong tầm kiểm soát (<= 3 triệu), thu hút học sinh đăng ký vé thật và văn minh.",
+      "target_action": "DATA_ERR",
+      "hint": "Quẹt phải: Phê duyệt triển khai (Phím D)"
+    }
+  ],
+  "work_items": [
+    {
+      "id": "MKT-01",
+      "order_title": "Đề Xuất #01 — Thuê 1 Hot TikToker Đăng 1 Story (Giá: 8.500.000 VNĐ)",
+      "everyday_note": "Đốt 85% ngân sách cho 1 story 24h, không có cam kết số lượng học sinh sẽ tới trường tham dự thật.",
+      "content": "[CHI PHÍ: 8.500.000đ / 10tr] Thuê KOL mạng xã hội đăng 1 story nhắc tên sự kiện, không gắn link đăng ký vé, chi phí dự kiến 170.000đ/khách.",
+      "expected_target": "CONN_ERR"
+    },
+    {
+      "id": "MKT-02",
+      "order_title": "Đề Xuất #02 — Tung Tin Đồn Giả 'Có Đánh Nhau' Để Câu View Fanpage (0 VNĐ)",
+      "everyday_note": "Chiêu trò truyền thông bẩn: Tuy không tốn tiền nhưng phá hủy hoàn toàn yêu cầu 'hình ảnh sang trọng, văn minh' của nhà trường.",
+      "content": "[CHI PHÍ: 0đ] Tạo drama cãi vã giả trên Confession trường để kéo 50.000 lượt xem rồi đính chính là quảng cáo sự kiện.",
+      "expected_target": "CONN_ERR"
+    },
+    {
+      "id": "MKT-03",
+      "order_title": "Đề Xuất #03 — Mua 20.000 Lượt Like Ảo Cho Bài Viết Sự Kiện (2.500.000 VNĐ)",
+      "everyday_note": "Lãng phí tiền vào nick ảo: Số like nhìn đẹp mắt nhưng 0% chuyển đổi thành học sinh điền form nhận vé thật.",
+      "content": "[CHI PHÍ: 2.500.000đ] Thuê dịch vụ bơm 20.000 like ảo từ tài khoản nước ngoài để báo cáo số liệu đẹp với cấp trên.",
+      "expected_target": "CONN_ERR"
+    },
+    {
+      "id": "MKT-04",
+      "order_title": "Đề Xuất #04 — Vé Mời Điện Tử Theo Nhóm 'Đi 4 Tặng Quà CLB' (1.800.000 VNĐ)",
+      "everyday_note": "Hiệu quả cao: Mỗi học sinh tự rủ thêm 3 bạn cùng lớp điền form lấy mã QR, chi phí chỉ ~12.000đ/khách đến thật.",
+      "content": "[CHI PHÍ: 1.800.000đ] Làm hệ thống vé QR nhóm 4 người nhận bộ huy hiệu thiết kế riêng của sự kiện, cam kết thu về 250 lượt đăng ký thật.",
+      "expected_target": "DATA_ERR"
+    },
+    {
+      "id": "MKT-05",
+      "order_title": "Đề Xuất #05 — Hợp Tác 5 CLB Âm Nhạc Trường Biểu Diễn Giao Lưu (2.000.000 VNĐ)",
+      "everyday_note": "Tận dụng sức mạnh cộng đồng: Thành viên và bạn bè của 5 CLB tự lan tỏa bài viết, vừa sang trọng vừa kéo 200 khán giả trung thành.",
+      "content": "[CHI PHÍ: 2.000.000đ] Tài trợ nước uống và đạo cụ cho 5 CLB học sinh để các CLB đồng loạt mời fan tới cổ vũ đêm hội.",
+      "expected_target": "DATA_ERR"
+    },
+    {
+      "id": "MKT-06",
+      "order_title": "Đề Xuất #06 — Chạy Quảng Cáo Nhắm Đúng Học Sinh Bán Kính 3km (1.500.000 VNĐ)",
+      "everyday_note": "Tối ưu ngân sách: Gắn trực tiếp form đăng ký vé miễn phí, kiểm soát chi phí chuyển đổi ở mức 15.000đ/vé.",
+      "content": "[CHI PHÍ: 1.500.000đ] Chạy quảng cáo bài viết giới thiệu diễn giả & triển lãm kèm nút Đăng ký vé QR cho học sinh THPT quanh trường.",
+      "expected_target": "DATA_ERR"
+    },
+    {
+      "id": "MKT-07",
+      "order_title": "Đề Xuất #07 — Đặt Làm Cổng Chào Hoa Tươi Nhập Khẩu Khổng Lồ (7.800.000 VNĐ)",
+      "everyday_note": "Đốt ngân sách sai mục tiêu: Tốn gần hết 10 triệu cho 1 cổng hoa chụp ảnh nhưng không còn tiền làm truyền thông kéo khách tới.",
+      "content": "[CHI PHÍ: 7.800.000đ / 10tr] Chi 78% tổng quỹ truyền thông để trang trí cổng hoa tươi nhập khẩu ở sảnh ngoài mà cắt toàn bộ ngân sách quảng bá.",
+      "expected_target": "CONN_ERR"
+    },
+    {
+      "id": "MKT-08",
+      "order_title": "Đề Xuất #08 — Góc Check-in Ánh Sáng & Cuộc Thi Ảnh Theo Lớp (1.700.000 VNĐ)",
+      "everyday_note": "Thông minh & tiết kiệm: Tạo động lực cho 20 lớp thi đua kéo thành viên tới check-in để nhận giải Tập thể Ấn tượng.",
+      "content": "[CHI PHÍ: 1.700.000đ] Dựng photobooth ánh sáng nghệ thuật kèm giải thưởng cho lớp có đông thành viên check-in nhất tại sự kiện.",
+      "expected_target": "DATA_ERR"
+    }
+  ],
+  "cut_off_thresholds": {
+    "min_accuracy": 0.60,
+    "min_speed_seconds_per_item": 1.2
+  }
+}

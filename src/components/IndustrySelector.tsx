@@ -1,35 +1,72 @@
 import React from 'react';
-import { ArrowRight, Clock, ShieldCheck, Zap } from 'lucide-react';
+import { ArrowRight, Clock, ShieldCheck, Zap, CheckCircle2, Sparkles } from 'lucide-react';
 import { IndustryRegistry } from '../registry/index';
 
 interface IndustrySelectorProps {
   onSelectIndustry: (industryId: string) => void;
+  completedIndustryIds?: string[];
+  completedMicroTasksCount?: number;
 }
 
-export const IndustrySelector: React.FC<IndustrySelectorProps> = ({ onSelectIndustry }) => {
+const INDUSTRY_TASK_PREVIEWS: Record<
+  string,
+  { task1: string; task2: string; badge: string }
+> = {
+  IND_TECH_SW: {
+    badge: 'ĐỀ XUẤT BẮT ĐẦU (DATA / CNTT)',
+    task1: 'Micro-Task 1 (90s): Đóng dấu kiểm duyệt 8 đơn hàng Trà sữa lỗi nhập liệu & kết nối',
+    task2: 'Micro-Task 2 (210s): Phòng chat cứu sập cổng thanh toán Flash-Sale & Rollback',
+  },
+  IND_ECON_LAW: {
+    badge: 'PHÁP CHẾ & HỢP ĐỒNG',
+    task1: 'Micro-Task 3 (90s): Soi 3 quy định công ty bắt bẫy câu chữ trong 8 thỏa thuận sự kiện',
+    task2: 'Micro-Task 4 (210s): Ghim bằng chứng email bác bỏ yêu cầu phạt cọc 200 triệu',
+  },
+  IND_MARKETING: {
+    badge: 'TRUYỀN THÔNG & SỰ KIỆN',
+    task1: 'Micro-Task 5 (90s): Quẹt thẻ cân đối ngân sách 10 triệu kéo 500 khách sự kiện trường',
+    task2: 'Micro-Task 6 (210s): Xoay chuyển tình thế khi Ca sĩ khách mời hủy show sát giờ G',
+  },
+};
+
+export const IndustrySelector: React.FC<IndustrySelectorProps> = ({
+  onSelectIndustry,
+  completedIndustryIds = [],
+  completedMicroTasksCount = 0,
+}) => {
   const industries = IndustryRegistry.getAllIndustries();
+  const confidencePercent = Math.min(100, Math.round((completedMicroTasksCount / 5) * 100));
 
   return (
     <div className="space-y-8 animate-fadeIn">
-      {/* Editorial Headline */}
-      <div className="card-hairline">
-        <div className="flex items-center gap-2 mb-3">
-          <span className="eyebrow-marker" />
-          <span className="text-xs font-bold uppercase tracking-widest text-muted-gray">
-            HƯỚNG NGHIỆP QUA TÁC VỤ THỰC CHỨNG
-          </span>
+      {/* Editorial Hero Introduction */}
+      <div className="card-hairline border-2 border-black shadow-[4px_4px_0px_0px_#000]">
+        <div className="flex items-center justify-between flex-wrap gap-2 mb-3">
+          <div className="flex items-center gap-2">
+            <span className="eyebrow-marker" />
+            <span className="text-xs font-bold uppercase tracking-widest text-muted-gray">
+              HƯỚNG NGHIỆP QUA TÁC VỤ THỰC CHỨNG (DIEGETIC WORKPLACE SIMULATOR)
+            </span>
+          </div>
+
+          <div className="inline-flex items-center gap-2 bg-night-navy text-white px-3 py-1 text-xs font-mono font-bold">
+            <Sparkles className="w-3.5 h-3.5 text-accent" />
+            <span>
+              TIẾN ĐỘ THƯ VIỆN: {completedMicroTasksCount} / 5 MICRO-TASKS (ĐỘ TIN CẬY: {confidencePercent}%)
+            </span>
+          </div>
         </div>
-        <h1 className="text-2xl sm:text-3xl font-black uppercase tracking-tight mb-4">
+
+        <h1 className="text-2xl sm:text-3xl font-black uppercase tracking-tight mb-3">
           Chọn Cụm Ngành Để Bắt Đầu Chuỗi Tác Vụ Lũy Tiến
         </h1>
         <p className="text-sm text-muted-gray leading-relaxed max-w-3xl">
-          LucidTask không sử dụng các câu hỏi trắc nghiệm tính cách chủ quan. Thay vào đó, bạn sẽ trực tiếp đối mặt với 
-          các sự cố kỹ thuật thực tế để hệ thống đo lường khách quan tư duy giải quyết vấn đề, tính kiên nhẫn và sức bền dưới áp lực thời gian.
+          Không cần kiến thức đại học, không làm trắc nghiệm lý thuyết. Bạn sẽ trực tiếp ngồi vào bàn làm việc giả lập (đóng dấu hồ sơ theo SOP 3 dòng, quẹt thẻ cân đối nguồn lực và xử lý khung chat công việc) để hệ thống đo lường khách quan khung tính cách <strong>Big Five (OCEAN)</strong> và môi trường nghề nghiệp <strong>Holland RIASEC</strong>.
         </p>
 
-        {/* 2-Stage Progression Banner */}
+        {/* 2-Stage Pipeline & 5 Micro-Task Loop Overview */}
         <div className="mt-6 pt-6 border-t border-hairline grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="bg-soft-gray p-4 border border-hairline flex items-start gap-3">
+          <div className="bg-soft-gray p-4 border border-black flex items-start gap-3">
             <div className="w-8 h-8 rounded bg-black text-white flex items-center justify-center font-bold text-xs flex-shrink-0">
               01
             </div>
@@ -39,110 +76,123 @@ export const IndustrySelector: React.FC<IndustrySelectorProps> = ({ onSelectIndu
                 <span className="badge-live-red text-[10px] py-0">BỘ LỌC SÀNG LỌC</span>
               </div>
               <p className="text-xs text-muted-gray leading-normal">
-                Xử lý 8 mã log lỗi dồn dập. Nếu thao tác ẩu hoặc nhấp bừa mà không đọc quy tắc, hệ thống sẽ kích hoạt dừng sớm (Early Exit) để tránh lãng phí thời gian.
+                Đối chiếu Bảng quy định SOP 3 dòng để đóng dấu hoặc quẹt thẻ 8 hồ sơ công việc. Mọi quyết định đều làm biến động 3 thanh chỉ số đánh đổi (Chất lượng - Sếp/Khách - Tinh thần).
               </p>
             </div>
           </div>
 
-          <div className="bg-soft-gray p-4 border border-hairline flex items-start gap-3">
+          <div className="bg-soft-gray p-4 border border-black flex items-start gap-3">
             <div className="w-8 h-8 rounded bg-accent text-black flex items-center justify-center font-bold text-xs flex-shrink-0">
               02
             </div>
             <div>
               <div className="text-xs font-black uppercase text-black mb-1 flex items-center gap-2">
                 <span>Chặng 2: Năng Lực Cốt Lõi (3.5 Phút)</span>
-                <span className="bg-black text-white text-[10px] font-bold px-1.5 py-0.5 rounded uppercase">GIỜ G</span>
+                <span className="bg-black text-white text-[10px] font-bold px-1.5 py-0.5 rounded uppercase">
+                  WAR ROOM &amp; BIG FIVE
+                </span>
               </div>
               <p className="text-xs text-muted-gray leading-normal">
-                Đối soát 3 nguồn thông tin (khiếu nại, log server, lịch sử deploy) để tìm ra nguyên nhân gốc sập cổng thanh toán Flash-Sale dưới áp lực đếm ngược.
+                Xử lý khung chat Zalo/Slack khẩn cấp, ghim bằng chứng từ 3 Tab dữ liệu và hoàn thành tối thiểu 5 Micro-Tasks trong thư viện để đạt độ chính xác Big Five &amp; RIASEC cao nhất.
               </p>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Industry Cards Grid */}
+      {/* Industry Cards Grid (3 Complete Careers = 6 Micro-Tasks) */}
       <div>
-        <div className="flex items-center gap-2 mb-4">
-          <span className="w-2 h-2 bg-black inline-block" />
-          <h2 className="text-sm font-black uppercase tracking-wider text-black">
-            Danh Mục Cụm Ngành Sẵn Sàng Trải Nghiệm
-          </h2>
+        <div className="flex items-center justify-between flex-wrap gap-2 mb-4">
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 bg-black inline-block" />
+            <h2 className="text-sm font-black uppercase tracking-wider text-black">
+              Thư Viện 3 Cụm Ngành Đời Thường (6 Micro-Tasks Thực Chứng)
+            </h2>
+          </div>
+          <span className="text-xs text-muted-gray">
+            Khuyến khích bắt đầu từ ngành bạn quan tâm nhất, sau đó làm thêm các ngành gợi ý
+          </span>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {industries.map(ind => (
-            <div
-              key={ind.id}
-              className="card-hairline hover:border-black transition-colors flex flex-col justify-between group"
-            >
-              <div>
-                <div className="flex items-center justify-between gap-2 mb-3">
-                  <span className="text-xs font-bold text-accent uppercase tracking-wider">
-                    {ind.id}
-                  </span>
-                  <div className="flex items-center gap-1.5 text-xs text-muted-gray">
-                    <Clock className="w-3.5 h-3.5" />
-                    <span>Tổng thời gian: 5 phút</span>
-                  </div>
-                </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {industries.map((ind, idx) => {
+            const preview = INDUSTRY_TASK_PREVIEWS[ind.id] || INDUSTRY_TASK_PREVIEWS.IND_TECH_SW;
+            const isCompleted = completedIndustryIds.includes(ind.id);
+            const isPrimary = idx === 0;
 
-                <h3 className="text-xl font-black uppercase mb-2 group-hover:text-accent transition-colors">
-                  {ind.name}
-                </h3>
-                <p className="text-xs text-muted-gray leading-relaxed mb-6">
-                  {ind.headline}
-                </p>
-
-                <div className="space-y-2 mb-6 text-xs text-gray-700">
-                  <div className="flex items-center gap-2">
-                    <Zap className="w-3.5 h-3.5 text-live-red" />
-                    <span>Thử thách 1: Phân loại mã log lỗi cổng thanh toán (90s)</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <ShieldCheck className="w-3.5 h-3.5 text-black" />
-                    <span>Thử thách 2: Điều tra đứt gãy SSL và ra lệnh Rollback (210s)</span>
-                  </div>
-                </div>
-              </div>
-
-              <button
-                onClick={() => onSelectIndustry(ind.id)}
-                className="btn-pill-dark w-full justify-between"
+            return (
+              <div
+                key={ind.id}
+                className="card-hairline border-2 border-black shadow-[4px_4px_0px_0px_#000] hover:bg-neutral-50 transition-all flex flex-col justify-between group"
               >
-                <span>VÀO PHÒNG MÔ PHỎNG TÁC VỤ</span>
-                <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-              </button>
-            </div>
-          ))}
+                <div>
+                  <div className="flex items-center justify-between gap-2 mb-3">
+                    <span className="text-[10px] font-black bg-accent text-black px-2 py-0.5 border border-black uppercase tracking-wider">
+                      {preview.badge}
+                    </span>
+                    <div className="flex items-center gap-1 text-xs text-muted-gray">
+                      <Clock className="w-3.5 h-3.5" />
+                      <span>2 Micro-Tasks</span>
+                    </div>
+                  </div>
 
-          {/* Upcoming Industry Teaser */}
-          <div className="card-hairline bg-soft-gray border-dashed border-gray-300 flex flex-col justify-between opacity-75">
-            <div>
-              <div className="flex items-center justify-between gap-2 mb-3">
-                <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">
-                  IND_LOG_SCM
-                </span>
-                <span className="text-[11px] font-bold uppercase bg-gray-200 px-2 py-0.5 rounded text-gray-600">
-                  SẮP RA MẮT (v2.0)
-                </span>
+                  <div className="flex items-center justify-between gap-2 mb-2">
+                    <h3 className="text-lg font-black uppercase group-hover:text-accent transition-colors">
+                      {ind.name}
+                    </h3>
+                    {isCompleted && (
+                      <span className="inline-flex items-center gap-1 text-[10px] font-black text-emerald-700 bg-emerald-50 px-2 py-0.5 border border-emerald-600">
+                        <CheckCircle2 className="w-3 h-3" />
+                        ĐÃ XONG
+                      </span>
+                    )}
+                  </div>
+
+                  <p className="text-xs text-muted-gray leading-relaxed mb-5">
+                    {ind.headline}
+                  </p>
+
+                  <div className="space-y-2.5 mb-6 text-xs text-gray-800 bg-soft-gray p-3 border border-hairline">
+                    <div className="flex items-start gap-2">
+                      <Zap className="w-3.5 h-3.5 text-live-red flex-shrink-0 mt-0.5" />
+                      <span>{preview.task1}</span>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <ShieldCheck className="w-3.5 h-3.5 text-black flex-shrink-0 mt-0.5" />
+                      <span>{preview.task2}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <button
+                  onClick={() => onSelectIndustry(ind.id)}
+                  className="btn-pill-dark w-full justify-between text-xs"
+                >
+                  <span>
+                    {isPrimary
+                      ? 'VÀO PHÒNG MÔ PHỎNG TÁC VỤ'
+                      : `KHÁM PHÁ MICRO-TASK: ${ind.id}`}
+                  </span>
+                  <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                </button>
               </div>
+            );
+          })}
+        </div>
 
-              <h3 className="text-xl font-black uppercase text-gray-500 mb-2">
-                Logistics &amp; Quản Trị Chuỗi Cung Ứng
-              </h3>
-              <p className="text-xs text-gray-500 leading-relaxed mb-4">
-                Điều phối đội xe, đối soát tải trọng container và giải quyết sự cố sạt lở đường vận tải biển Cát Lái.
-              </p>
-            </div>
-
-            <button
-              disabled
-              className="btn-pill-outline w-full justify-center text-gray-400 border-gray-300 cursor-not-allowed"
-            >
-              CHƯA MỞ CHO ĐỢT THỰC NGHIỆM NÀY
-            </button>
+        {/* Upcoming Expansion Module Teaser */}
+        <div className="mt-6 card-hairline bg-soft-gray border-dashed border-gray-300 flex flex-col sm:flex-row items-center justify-between gap-4 opacity-80">
+          <div>
+            <span className="text-[11px] font-bold uppercase text-gray-500">
+              MỞ RỘNG THƯ VIỆN POST-MVP (IND_LOG_SCM &amp; IND_HEALTH)
+            </span>
+            <p className="text-xs text-muted-gray">
+              Các Micro-Task Cân bằng tải trọng Logistics và Phân luồng Y tế đang được hiệu chỉnh.
+            </p>
           </div>
+          <button disabled className="btn-pill-outline text-xs flex-shrink-0">
+            CHƯA MỞ CHO ĐỢT THỰC NGHIỆM NÀY
+          </button>
         </div>
       </div>
     </div>
@@ -150,4 +200,3 @@ export const IndustrySelector: React.FC<IndustrySelectorProps> = ({ onSelectIndu
 };
 
 export default IndustrySelector;
-

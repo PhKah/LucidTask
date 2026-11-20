@@ -1,0 +1,30 @@
+{
+  "industry_id": "IND_ECON_LAW",
+  "industry_name": "Luật Kinh Tế & Pháp Chế Doanh Nghiệp",
+  "headline": "Rà soát bẫy câu chữ hợp đồng thương mại, kiểm soát rủi ro pháp lý và đàm phán giải quyết tranh chấp doanh nghiệp.",
+  "data_sources": [
+    "Báo cáo Thị trường Nhân sự Pháp chế Việt Nam 2025 - Navigos",
+    "Thống kê Việc làm Khối Ngành Luật & Kinh tế - Bộ GD&ĐT"
+  ],
+  "market_metrics": {
+    "salary_range_0_to_2_years_vnd": { "min": 9500000, "max": 16000000, "median": 12500000 },
+    "salary_range_3_to_5_years_vnd": { "min": 20000000, "max": 42000000, "median": 28000000 },
+    "long_term_growth_projection_2030": "+16.2% mỗi năm (Bùng nổ nhu cầu Pháp chế Thương mại điện tử, M&A và Sở hữu trí tuệ)",
+    "automation_ai_risk_level": "MEDIUM",
+    "automation_risk_explanation": "AI có thể soạn thảo mẫu hợp đồng cơ bản nhưng không thể thay thế sự nhạy bén phát hiện bẫy câu chữ tinh vi và bản lĩnh đàm phán tranh chấp thực tế."
+  },
+  "academic_risk_stats": {
+    "industry_dropout_or_shift_rate": 21.0,
+    "root_cause_breakdown": {
+      "gap_between_expectation_and_reality": 55.0,
+      "peer_or_parental_pressure": 25.0,
+      "academic_struggle": 20.0
+    },
+    "estimated_wasted_cost_1year_vnd": 185000000,
+    "wasted_cost_breakdown": {
+      "tuition_lost": 45000000,
+      "living_expenses_lost": 60000000,
+      "opportunity_cost_youth_lost": 80000000
+    }
+  }
+}

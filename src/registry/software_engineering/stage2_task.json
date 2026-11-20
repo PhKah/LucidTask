@@ -1,11 +1,34 @@
 {
   "id": "TASK_SWE_STAGE2",
   "stage": 2,
-  "title": "Chặng 2: Điều Tra Sự Cố Sập Cổng Thanh Toán Flash-Sale",
-  "role_title": "Kỹ Sư Phản Ứng Sự Cố Cấp Cao (Senior Incident Engineer)",
-  "scenario_brief": "Lúc 14:02, hệ thống ghi nhận hơn 1,000 giao dịch thanh toán flash-sale bị treo đơ dồn dập. Bạn có 3.5 phút để đối soát 3 nguồn thông tin khác nhau, tìm ra nguyên nhân gốc và ra quyết định xử lý chuẩn xác nhất.",
+  "title": "Micro-Task 2: Phòng Chat Tác Chiến Cứu Sập Cổng Thanh Toán Flash-Sale",
+  "role_title": "Trưởng Ca Điều Phối Sự Cố (Incident Response Lead)",
+  "scenario_brief": "Lúc 14:02, hơn 1.000 đơn đặt trà sữa Flash-Sale bị treo thanh toán cùng lúc. Hãy click vào các dòng thông tin trong 3 Tab để Ghim Manh Mối (Pin Evidence), cân nhắc sự đánh đổi nguồn lực và ra lệnh giải cứu!",
   "time_limit_seconds": 210,
   "interaction_archetype": "MULTI_SOURCE_INVESTIGATION",
+  "work_chat_messages": [
+    {
+      "id": "CHAT_S2_1",
+      "sender": "Giám Đốc Vận Hành",
+      "role": "BOSS",
+      "text": "Khẩn cấp! Hơn 1.000 khách bị trừ tiền trà sữa mà đơn không nhảy từ lúc 14:02. Em tìm ngay xem vừa có thay đổi gì lúc 14:00 không!",
+      "urgency": "URGENT"
+    },
+    {
+      "id": "CHAT_S2_2",
+      "sender": "Tổng Đài CSKH",
+      "role": "CSKH",
+      "text": "Hotline cháy máy rồi! Cả khách Vietcombank lẫn Techcombank đều bị treo ở bước xác thực bảo mật SSL!",
+      "urgency": "URGENT"
+    },
+    {
+      "id": "CHAT_S2_3",
+      "sender": "Hùng (Thực tập sinh IT)",
+      "role": "SYSTEM",
+      "text": "Em thấy RAM bộ nhớ đệm đang ở mức 82%, hay mình tắt máy chủ khởi động lại bộ nhớ đệm hả anh?",
+      "urgency": "NORMAL"
+    }
+  ],
   "handbook_rules": [
     {
       "rule_id": "RULE_ROOT_CAUSE",
@@ -60,20 +83,34 @@
       "id": "ACTION_ROLLBACK",
       "label": "Ra lệnh khẩn cấp: ROLLBACK về bản build v1.9/v2.0 trước đó",
       "is_optimal": true,
-      "explanation": "Chính xác! Bản deploy 2.1 lúc 14:00 chứa cấu hình chứng chỉ SSL lỗi khiến toàn bộ kết nối bảo mật tới cổng ngân hàng bị từ chối từ 14:02. Rollback là phương án an toàn nhất trong giờ Flash-Sale."
+      "explanation": "Chính xác! Bản deploy 2.1 lúc 14:00 chứa cấu hình chứng chỉ SSL lỗi khiến toàn bộ kết nối bảo mật tới cổng ngân hàng bị từ chối từ 14:02. Rollback là phương án an toàn nhất trong giờ Flash-Sale.",
+      "trade_off_preview": {
+        "quality_delta": "+15% Độ ổn định hệ thống",
+        "stakeholder_delta": "+20% Hài lòng Khách & Sếp",
+        "risk_note": "Mất 30 giây chuyển đổi, nhưng khôi phục được 100% đơn hàng đang treo."
+      }
     },
     {
       "id": "ACTION_REBOOT_CACHE",
       "label": "Khởi động lại toàn bộ Redis Cache Cluster (Đang 82% RAM)",
       "is_optimal": false,
-      "explanation": "Sai! Bộ nhớ cache 82% là yếu tố gây nhiễu bình thường trong giờ cao điểm. Khởi động lại cache sẽ làm sập luôn toàn bộ giỏ hàng của người dùng mà không giải quyết được lỗi SSL."
+      "explanation": "Sai! Bộ nhớ cache 82% là yếu tố gây nhiễu bình thường trong giờ cao điểm. Khởi động lại cache sẽ làm sập luôn toàn bộ giỏ hàng của người dùng mà không giải quyết được lỗi SSL.",
+      "trade_off_preview": {
+        "quality_delta": "-25% Mất sạch giỏ hàng tạm",
+        "stakeholder_delta": "-20% Khách hàng phẫn nộ",
+        "risk_note": "Đánh nhầm vào cảnh báo giả (Red-herring), lỗi thanh toán vẫn còn nguyên."
+      }
     },
     {
       "id": "ACTION_WAIT_MONITOR",
       "label": "Tạm dừng thao tác và tiếp tục theo dõi thêm 10 phút",
       "is_optimal": false,
-      "explanation": "Sai! Mỗi phút trôi qua trong giờ Flash-Sale gây thiệt hại hàng trăm triệu đồng doanh thu và mất lòng tin của khách hàng."
+      "explanation": "Sai! Mỗi phút trôi qua trong giờ Flash-Sale gây thiệt hại hàng trăm triệu đồng doanh thu và mất lòng tin của khách hàng.",
+      "trade_off_preview": {
+        "quality_delta": "0% Không can thiệp kỹ thuật",
+        "stakeholder_delta": "-30% Thiệt hại doanh thu giờ vàng",
+        "risk_note": "Trì hoãn trong khủng hoảng làm mất toàn bộ khách hàng Flash-Sale."
+      }
     }
   ]
 }
-

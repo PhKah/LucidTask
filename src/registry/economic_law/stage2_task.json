@@ -1,0 +1,100 @@
+{
+  "id": "TASK_LAW_STAGE2",
+  "stage": 2,
+  "title": "Micro-Task 4: Phòng Chat Pháp Lý Bác Bỏ Yêu Cầu Phạt Cọc 200 Triệu",
+  "role_title": "Chuyên Viên Pháp Chế Đàm Phán Khủng Hoảng (Legal Dispute Lead)",
+  "scenario_brief": "Sát ngày tổ chức Đêm nhạc hội, đối tác sân khấu gửi công văn đòi phạt 200 triệu vì cho rằng Ban tổ chức bàn giao mặt bằng trễ 3 tiếng. Hãy đối chiếu 3 nguồn chứng cứ, ghim câu chữ mấu chốt và chọn đòn phản công pháp lý!",
+  "time_limit_seconds": 210,
+  "interaction_archetype": "MULTI_SOURCE_INVESTIGATION",
+  "work_chat_messages": [
+    {
+      "id": "CHAT_LAW_S2_1",
+      "sender": "Giám Đốc Sự Kiện",
+      "role": "BOSS",
+      "text": "Bên nhà thầu sân khấu vừa dọa dừng lắp đặt nếu mình không chuyển khoản nộp phạt 200 triệu vì giao mặt bằng lúc 11:00 thay vì 08:00! Em kiểm tra gấp hồ sơ cứu công ty!",
+      "urgency": "URGENT"
+    },
+    {
+      "id": "CHAT_LAW_S2_2",
+      "sender": "Đại Diện Nhà Thầu Sân Khấu",
+      "role": "CLIENT",
+      "text": "Theo Điều 4 Hợp đồng gốc, giao mặt bằng sau 08:00 sáng là phạt 200 triệu. Chúng tôi yêu cầu thanh toán ngay trong chiều nay!",
+      "urgency": "URGENT"
+    }
+  ],
+  "handbook_rules": [
+    {
+      "rule_id": "RULE_ADDENDUM_PRIORITY",
+      "category": "Nguyên Tắc Ưu Tiên Phụ Lục & Email Xác Nhận Sau Cùng",
+      "condition": "Mọi thỏa thuận thay đổi giờ bàn giao qua Email chính thức từ đại diện đối tác có giá trị sửa đổi Điều 4 Hợp đồng gốc.",
+      "target_action": "CHECK_EMAIL_LOG",
+      "hint": "Kiểm tra Tab 2 và Tab 3 để xem ai là người thực sự xin lùi giờ bàn giao."
+    }
+  ],
+  "investigation_sources": [
+    {
+      "id": "TAB_CONTRACT",
+      "tab_title": "1. Hợp Đồng Gốc & Điều Khoản",
+      "source_type": "USER_REPORTS",
+      "content": [
+        "[ĐIỀU 4.1] Thời gian bàn giao mặt bằng dự kiến: 08:00 sáng ngày 20/11. Bên nào chậm trễ chịu phạt tối đa 8% (tương đương 16.000.000đ, KHÔNG PHẢI 200 triệu).",
+        "[ĐIỀU 7.2 - MIỄN TRỪ TRÁCH NHIỆM] Bên A được miễn trừ hoàn toàn trách nhiệm chậm giờ nếu do Bên B chủ động đề nghị thay đổi lịch bằng văn bản/email.",
+        "[ĐIỀU 9.1] Mọi phụ lục và email xác nhận từ địa chỉ công vụ của hai bên có giá trị pháp lý ưu tiên hơn thời gian dự kiến ban đầu."
+      ]
+    },
+    {
+      "id": "TAB_EMAIL",
+      "tab_title": "2. Nhật Ký Email Đối Tác",
+      "source_type": "SERVER_LOGS",
+      "content": [
+        "[19/11 - 16:00] INFO: Ban tổ chức gửi thông báo mặt bằng đã dọn sạch, sẵn sàng đón xe tải của Nhà thầu lúc 08:00 sáng 20/11.",
+        "[19/11 - 21:45] CRITICAL: Email từ Giám đốc Nhà thầu sân khấu: 'Do xe chở giàn khung của chúng tôi bị kẹt đăng kiểm, đề nghị Ban tổ chức lùi giờ nhận mặt bằng sang 11:00 trưa 20/11.'",
+        "[19/11 - 22:00] INFO: Ban tổ chức phản hồi đồng ý hỗ trợ nhà thầu lùi giờ nhận mặt bằng sang 11:00 theo yêu cầu."
+      ]
+    },
+    {
+      "id": "TAB_GATE_LOG",
+      "tab_title": "3. Biên Bản Bảo Vệ Cổng Trường",
+      "source_type": "COMMIT_HISTORY",
+      "content": [
+        "[20/11 - 07:30] Bản ghi Camera cổng chính: Toàn bộ đội ngũ Ban tổ chức đã mở cổng chờ sẵn từ 07:30 sáng.",
+        "[20/11 - 11:15] Bản build biên bản hiện trường: Xe tải của Nhà thầu sân khấu mới tới cổng trường lúc 11:15 (trễ hơn cả giờ nhà thầu tự xin lùi)."
+      ]
+    }
+  ],
+  "resolution_actions": [
+    {
+      "id": "ACTION_ROLLBACK",
+      "label": "Ra công văn bác bỏ khoản phạt 200 triệu (ROLLBACK yêu cầu vô lý bằng Điều 7.2 & Email 21:45 của chính đối tác)",
+      "is_optimal": true,
+      "explanation": "Xuất sắc! Chính Giám đốc nhà thầu đã gửi email lúc 21:45 xin lùi giờ sang 11:00, và trần phạt hợp đồng cũng chỉ là 8% (16 triệu). Việc trích dẫn Điều 7.2 và email 21:45 khiến đối tác phải rút lại yêu cầu ngay lập tức.",
+      "trade_off_preview": {
+        "quality_delta": "+20% Bảo toàn 200 triệu ngân sách",
+        "stakeholder_delta": "+25% Sếp tuyệt đối tin tưởng",
+        "risk_note": "Căn cứ pháp lý đanh thép, đối tác buộc phải tiếp tục thi công đúng tiến độ."
+      }
+    },
+    {
+      "id": "ACTION_PAY_HALF",
+      "label": "Thỏa hiệp trả ngay 100 triệu tiền phạt để đối tác vui vẻ lắp sân khấu",
+      "is_optimal": false,
+      "explanation": "Sai lầm! Công ty hoàn toàn không có lỗi. Việc nhượng bộ trả 100 triệu vô căn cứ làm thất thoát ngân sách lớn và tạo tiền lệ bị đối tác bắt chẹt.",
+      "trade_off_preview": {
+        "quality_delta": "-30% Thất thoát 100 triệu oan uổng",
+        "stakeholder_delta": "-20% Sếp đánh giá yếu nghiệp vụ",
+        "risk_note": "Mất tiền dù mình nắm toàn bộ bằng chứng thắng cuộc trong tay."
+      }
+    },
+    {
+      "id": "ACTION_CANCEL_SHOW",
+      "label": "Đơn phương hủy bỏ ngay toàn bộ Đêm nhạc hội và khóa cổng trường",
+      "is_optimal": false,
+      "explanation": "Quá cực đoan! Hủy sự kiện sát giờ G sẽ làm thiệt hại toàn bộ vé đã bán cho học sinh trong khi chỉ cần đưa bằng chứng email là giải quyết được tranh chấp.",
+      "trade_off_preview": {
+        "quality_delta": "-25% Sập toàn bộ sự kiện trường",
+        "stakeholder_delta": "-35% Học sinh & nhà tài trợ phản ứng dữ dội",
+        "risk_note": "Phản ứng cảm tính gây thiệt hại dây chuyền không đáng có."
+      }
+    }
+  ]
+}

@@ -5,6 +5,8 @@ import CountdownTimer from './CountdownTimer';
 import HandbookDrawer from './HandbookDrawer';
 import TriageClassifier from './archetypes/TriageClassifier';
 import MultiSourceInspector from './archetypes/MultiSourceInspector';
+import TradeOffStatusBar from './TradeOffStatusBar';
+import { useTradeOffBars } from '../engine/useTradeOffBars';
 
 interface TaskWorkspaceProps {
   currentStage: 1 | 2;
@@ -36,16 +38,16 @@ export const TaskWorkspace: React.FC<TaskWorkspaceProps> = ({
 }) => {
   const [isHandbookOpen, setIsHandbookOpen] = useState<boolean>(false);
   const [isTimerRunning, setIsTimerRunning] = useState<boolean>(true);
+  const { bars, applyDecisionImpact } = useTradeOffBars();
 
   const handleTimeUp = () => {
-    // If time expires in Stage 1, treat as early exit due to timeout/incompletion
     if (currentStage === 1) {
       onEarlyExit('ERRATIC_SPEED', 0.5, 0);
     }
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       {/* 2-Stage Progression Stepper */}
       <div className="flex items-center justify-between border-b border-hairline pb-4 flex-wrap gap-3">
         <div className="flex items-center gap-3">
@@ -103,8 +105,11 @@ export const TaskWorkspace: React.FC<TaskWorkspaceProps> = ({
         </div>
       </div>
 
+      {/* Diegetic UI 3 Trade-off Bars HUD */}
+      <TradeOffStatusBar bars={bars} />
+
       {/* Task Header & Brief */}
-      <div className="card-hairline">
+      <div className="card-hairline border-2 border-black">
         <div className="flex items-center gap-2 mb-2">
           <span className="eyebrow-marker" />
           <span className="text-xs font-bold uppercase tracking-widest text-muted-gray">
@@ -124,6 +129,7 @@ export const TaskWorkspace: React.FC<TaskWorkspaceProps> = ({
       {task.interaction_archetype === 'TRIAGE_AND_CLASSIFY' && (
         <TriageClassifier
           task={task}
+          onDecisionImpact={applyDecisionImpact}
           onComplete={summary => {
             setIsTimerRunning(false);
             onStage1Complete(summary);
@@ -138,6 +144,7 @@ export const TaskWorkspace: React.FC<TaskWorkspaceProps> = ({
       {task.interaction_archetype === 'MULTI_SOURCE_INVESTIGATION' && (
         <MultiSourceInspector
           task={task}
+          onDecisionImpact={applyDecisionImpact}
           onComplete={(actionId, isOptimal, stats) => {
             setIsTimerRunning(false);
             onStage2Complete(actionId, isOptimal, stats);
@@ -156,4 +163,3 @@ export const TaskWorkspace: React.FC<TaskWorkspaceProps> = ({
 };
 
 export default TaskWorkspace;
-

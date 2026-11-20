@@ -62,14 +62,36 @@ Không bắt học sinh nhớ luật hay cú pháp. Cung cấp một bảng quy 
 
 ---
 
-## 4. Ánh Xạ Vào Động Cơ Telemetry & Scoring Engine Của LucidTask
+## 4. Ánh Xạ Vào Động Cơ Telemetry, Khung Tâm Lý Học Big Five (OCEAN) & Holland RIASEC
 
-| Thành Phần Giao Diện Mới | Sự Kiện Telemetry Tương Ứng | Trục Năng Lực Đo Lường |
+### 4.1. Vòng Lặp Gợi Ý Micro-Task Thích Ứng (Adaptive Micro-Task Loop — Mốc 5 Micro-Tasks)
+1. **Bước 1:** Người dùng chọn 1 Micro-Task trong thư viện ứng dụng (khuyến khích ưu tiên ngành nghề quan tâm nhất: *CNTT/Dữ liệu*, *Luật Kinh tế*, hoặc *Marketing Sự kiện*).
+2. **Bước 2:** Người dùng thực hiện Micro-Task trên giao diện Diegetic UI và được hệ thống đánh giá ngầm qua hành vi thực tế.
+3. **Bước 3:** Hệ thống tự động gợi ý các Micro-Task bổ sung để lấp khoảng trống dữ liệu và cải thiện độ chính xác của khuôn khổ đánh giá.
+4. **Bước 4:** Khi người dùng tích lũy đủ tối thiểu **5 Micro-Tasks** (càng nhiều càng chính xác, đạt độ tin cậy thực chứng $\ge 95\%$), hồ sơ toàn diện Big Five + RIASEC đạt độ chín tối đa để xuất Báo cáo Đồng thuận A4.
+
+### 4.2. Hai Nền Tảng Đánh Giá Khoa Học Chuẩn Quốc Tế
+1. **Tầng 1 — Big Five (OCEAN) đo "Chất" làm việc qua hành vi thực chứng:**
+   - **Tận tâm (*Conscientiousness*):** Mức độ kỷ luật, tuân thủ quy tắc SOP 3 dòng và sự tỉ mỉ khi rà soát đơn hàng/chứng từ.
+   - **Cởi mở (*Openness*):** Tư duy trừu tượng, khả năng nhận diện quy luật lỗi hệ thống, ghim đúng bằng chứng và sáng tạo giải pháp.
+   - **Hướng ngoại (*Extraversion*):** Năng lượng tương tác, tốc độ quyết đoán trong các tình huống giao tiếp khung chat và xử lý sự kiện đám đông.
+   - **Hòa đồng (*Agreeableness*):** Sự thấu cảm, khả năng lắng nghe phản hồi khách hàng và đặt lợi ích tập thể lên trên cái tôi cá nhân.
+   - **Ổn định cảm xúc (*Emotional Stability*):** Bản lĩnh giữ bình tĩnh và duy trì độ chính xác khi đồng hồ đếm ngược Giờ G ($\le 60$s) tạo áp lực lớn.
+2. **Tầng 2 — Khung Holland RIASEC đối chiếu với 6 nhóm môi trường nghề nghiệp & chương trình đại học:**
+   - **Kỹ thuật (*Realistic - R*):** Thao tác thực tế, vận hành công cụ và hệ thống kỹ thuật.
+   - **Nghiên cứu (*Investigative - I*):** Tư duy logic, phân tích dữ liệu, lập trình và điều tra nguyên nhân gốc.
+   - **Nghệ thuật (*Artistic - A*):** Sáng tạo nội dung, thiết kế chiến dịch và không gian làm việc linh hoạt.
+   - **Xã hội (*Social - S*):** Đào tạo, tư vấn, truyền thông cộng đồng và hỗ trợ con người.
+   - **Quản lý / Kinh doanh (*Enterprising - E*):** Nhạy bén với cơ hội, dẫn dắt đội nhóm, đàm phán hợp đồng và đánh đổi nguồn lực dưới áp lực.
+   - **Nghiệp vụ (*Conventional - C*):** Phát huy tối đa trong môi trường quy chuẩn, làm việc với số liệu, pháp chế và quy trình SOP rõ ràng.
+
+| Thành Phần Giao Diện Mới | Sự Kiện Telemetry Tương Ứng | Trục Năng Lực & Big Five / RIASEC Đo Lường |
 | :--- | :--- | :--- |
-| **Hóa đơn / Thẻ quẹt (Card Swipe / Stamp)** | `item_classified` `{ target_id, latency_ms }` | $S_{\text{Logic}}$ (Độ chính xác quy tắc) |
-| **Tra cứu Sổ tay 3 dòng (SOP Peek)** | `handbook_viewed` `{ duration_ms }` | $S_{\text{Patience}}$ (Tính cẩn trọng trước khi hành động) |
-| **Biến động 3 thanh Trade-off** | `pacing_stability`, `tradeoff_balance_score` | $S_{\text{Patience}}$ (Khả năng cân bằng lợi ích) |
-| **Phản ứng khi Sếp giục / Còi báo động Giờ G** | `stress_spike_entered`, `panic_click_flag` | $S_{\text{Resilience}}$ (Sức bền tâm lý dưới áp lực) |
+| **Hóa đơn / Thẻ quẹt (Card Swipe / Stamp)** | `item_classified` `{ target_id, latency_ms }` | $S_{\text{Logic}}$ $\rightarrow$ *Conscientiousness (C)* & *Conventional / Investigative* |
+| **Tra cứu Sổ tay 3 dòng (SOP Peek)** | `handbook_viewed` `{ duration_ms }` | $S_{\text{Patience}}$ $\rightarrow$ *Conscientiousness (C)* |
+| **Ghim bằng chứng & Đối chiếu 3 Tab** | `tab_switched`, `clue_pinned` | $S_{\text{Logic}}$ $\rightarrow$ *Openness (O)* & *Investigative (I)* |
+| **Biến động 3 thanh Trade-off & Khung Chat** | `tradeoff_balance_score` | *Agreeableness (A)*, *Extraversion (E)* & *Social / Enterprising* |
+| **Phản ứng khi Sếp giục / Còi báo động Giờ G** | `stress_spike_entered`, `panic_click_flag` | $S_{\text{Resilience}}$ $\rightarrow$ *Emotional Stability (ES)* |
 
 ---
 

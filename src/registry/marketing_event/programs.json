@@ -1,0 +1,80 @@
+[
+  {
+    "id": "PROG_MKT_01",
+    "match_traits": { "weight_logic": 0.45, "weight_patience": 0.30, "weight_resilience": 0.25 },
+    "anonymous_profile": {
+      "code_name": "Marketing Phân tích Dữ liệu & Chiến lược Thương hiệu",
+      "industry_cluster": "Marketing & Truyền thông",
+      "focus_headline": "Đào tạo tư duy quản trị ngân sách truyền thông dựa trên số liệu thực chứng, tối ưu chuyển đổi và xây dựng thương hiệu bền vững.",
+      "core_curriculum_pillars": [
+        "Nghiên cứu Hành vi Người tiêu dùng & Phân tích Dữ liệu Thị trường",
+        "Quản trị Chiến dịch Truyền thông Tích hợp (IMC) & Tối ưu Ngân sách",
+        "Chiến lược Định vị Thương hiệu & Quản trị Khủng hoảng"
+      ],
+      "practical_project_example": "Lập kế hoạch và vận hành thực tế chiến dịch ra mắt sản phẩm mới với ngân sách giả lập 200 triệu đồng.",
+      "career_pathway": "Chuyên viên Quản trị Thương hiệu (Brand Executive), Chuyên viên Phân tích Tăng trưởng (Growth Marketer)",
+      "estimated_grad_salary_vnd": { "min": 11000000, "max": 18000000 }
+    },
+    "revealed_profile": {
+      "institution_name": "Đại học Kinh tế TP.HCM (UEH) / ĐH Kinh tế Quốc dân (NEU)",
+      "institution_type": "PUBLIC_TOP",
+      "campus_location": "TP.HCM / Hà Nội",
+      "annual_tuition_vnd": 31000000,
+      "training_duration_years": 4.0,
+      "employment_rate_within_1yr": 96.0,
+      "admissions_benchmark_note": "Điểm chuẩn rất cao (> 26.5 điểm), chương trình mạnh về tư duy chiến lược và số liệu kinh tế."
+    }
+  },
+  {
+    "id": "PROG_MKT_02",
+    "match_traits": { "weight_logic": 0.30, "weight_patience": 0.30, "weight_resilience": 0.40 },
+    "anonymous_profile": {
+      "code_name": "Truyền thông Số Sáng tạo & Quản trị Sự kiện Quốc tế",
+      "industry_cluster": "Marketing & Truyền thông",
+      "focus_headline": "Học qua dự án 100% với doanh nghiệp đa quốc gia, phát triển năng lực sáng tạo chiến dịch viral và điều phối sự kiện quy mô lớn.",
+      "core_curriculum_pillars": [
+        "Chiến lược Sáng tạo Nội dung Đa nền tảng & Quản trị KOL/Influencer",
+        "Thiết kế Trải nghiệm Sự kiện (Event Production) & Quan hệ Công chúng",
+        "Đấu thầu Chiến dịch Thực tế (Agency Pitching) dưới áp lực khách hàng"
+      ],
+      "practical_project_example": "Trực tiếp tổ chức đêm gala âm nhạc và triển lãm sáng tạo thu hút 2.000 người tham dự.",
+      "career_pathway": "Quản lý Dự án Quảng cáo (Account Executive tại Agency), Chuyên viên Tổ chức Sự kiện & PR",
+      "estimated_grad_salary_vnd": { "min": 14000000, "max": 23000000 }
+    },
+    "revealed_profile": {
+      "institution_name": "Đại học RMIT Việt Nam",
+      "institution_type": "INTERNATIONAL_JOINT",
+      "campus_location": "TP.HCM / Hà Nội",
+      "annual_tuition_vnd": 330000000,
+      "training_duration_years": 3.0,
+      "employment_rate_within_1yr": 97.0,
+      "admissions_benchmark_note": "Yêu cầu IELTS 6.5+, không thi học kỳ lý thuyết mà chấm điểm 100% qua đồ án thực tế."
+    }
+  },
+  {
+    "id": "PROG_MKT_03",
+    "match_traits": { "weight_logic": 0.35, "weight_patience": 0.40, "weight_resilience": 0.25 },
+    "anonymous_profile": {
+      "code_name": "Digital Marketing Thực hành & Vận hành Quảng cáo Chuyển đổi",
+      "industry_cluster": "Marketing & Truyền thông",
+      "focus_headline": "Tập trung 70% thời lượng thực hành chạy chiến dịch TikTok/Facebook/Lazada, đo đếm đơn hàng thực tế và tối ưu chi phí từng đồng.",
+      "core_curriculum_pillars": [
+        "Thực chiến Quảng cáo Chuyển đổi (Performance Ads & SEO/SEM)",
+        "Sản xuất Video Ngắn, Livestream Thương mại & Chăm sóc Cộng đồng",
+        "Tổ chức Sự kiện Kích hoạt Thương hiệu (Activation) vừa và nhỏ"
+      ],
+      "practical_project_example": "Vận hành kênh TikTok Shop và sự kiện dùng thử sản phẩm đạt 500 đơn hàng thật trong 3 tuần.",
+      "career_pathway": "Chuyên viên Digital Marketing Thực chiến, Chuyên viên Vận hành Sự kiện & E-Commerce",
+      "estimated_grad_salary_vnd": { "min": 9500000, "max": 15000000 }
+    },
+    "revealed_profile": {
+      "institution_name": "Đại học Tài chính - Marketing (UFM) / CĐ FPT Polytechnic",
+      "institution_type": "PRIVATE_APPLIED",
+      "campus_location": "TP.HCM / Toàn quốc",
+      "annual_tuition_vnd": 32000000,
+      "training_duration_years": 3.5,
+      "employment_rate_within_1yr": 94.2,
+      "admissions_benchmark_note": "Phù hợp học sinh thích bắt tay vào làm việc thực tế sớm, học phí vừa tầm gia đình."
+    }
+  }
+]

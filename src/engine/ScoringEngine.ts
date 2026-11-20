@@ -1,10 +1,15 @@
 /**
- * Mathematical Scoring & Vector Space Matching Engine
- * Reference: specs/Scenario_&_Scoring_Spec.md & specs/QA_TEST_PLAN.md
+ * Mathematical Scoring, Big Five (OCEAN), Holland RIASEC & Vector Space Matching Engine
+ * Reference: specs/Scenario_&_Scoring_Spec.md & docs/roadmap/gamification_diegetic_ui_rfc.md
  */
 
 import { EducationalProgram } from '../types/program';
-import { CompetencyProfile, ProgramMatchResult } from '../types/state';
+import {
+  CompetencyProfile,
+  ProgramMatchResult,
+  BigFiveProfile,
+  RiasecProfile,
+} from '../types/state';
 
 export interface GatekeeperInput {
   totalItems: number;
@@ -115,14 +120,87 @@ export class ScoringEngine {
   }
 
   /**
-   * Compute full 3-axis profile and qualitative insights
+   * Compute Big Five (OCEAN) Personality Traits from empirical micro-task telemetry
+   */
+  public static computeBigFiveProfile(
+    logicScore: number,
+    patienceScore: number,
+    resilienceScore: number,
+    pinnedCluesCount: number = 1,
+    completedTasksCount: number = 2
+  ): BigFiveProfile {
+    const clamp = (val: number) => Math.min(100, Math.max(20, Math.round(val)));
+
+    // 1. Conscientiousness (Tận tâm): SOP discipline & patience
+    const conscientiousness = clamp(0.65 * patienceScore + 0.35 * logicScore);
+    // 2. Openness (Cởi mở): Pattern recognition & clue pinning
+    const openness = clamp(0.70 * logicScore + 0.20 * patienceScore + Math.min(10, pinnedCluesCount * 4));
+    // 3. Emotional Stability (Ổn định cảm xúc): Composure under countdown stress
+    const emotional_stability = clamp(0.80 * resilienceScore + 0.20 * patienceScore);
+    // 4. Agreeableness (Hòa đồng): Stakeholder balance & empathy
+    const agreeableness = clamp(0.50 * patienceScore + 0.30 * resilienceScore + Math.min(20, completedTasksCount * 4));
+    // 5. Extraversion (Hướng ngoại): Proactive interaction & multi-domain engagement
+    const extraversion = clamp(0.45 * resilienceScore + 0.35 * logicScore + Math.min(20, completedTasksCount * 4));
+
+    return {
+      conscientiousness,
+      openness,
+      extraversion,
+      agreeableness,
+      emotional_stability,
+    };
+  }
+
+  /**
+   * Map Big Five (OCEAN) + domain behavioral signals to Holland RIASEC 6 career dimensions
+   */
+  public static computeRiasecProfile(
+    bigFive: BigFiveProfile,
+    logicScore: number,
+    patienceScore: number,
+    resilienceScore: number
+  ): RiasecProfile {
+    const clamp = (val: number) => Math.min(100, Math.max(15, Math.round(val)));
+
+    const realistic = clamp(0.50 * logicScore + 0.50 * resilienceScore);
+    const investigative = clamp(0.60 * bigFive.openness + 0.40 * logicScore);
+    const artistic = clamp(0.65 * bigFive.openness + 0.35 * bigFive.extraversion);
+    const social = clamp(0.60 * bigFive.agreeableness + 0.40 * bigFive.extraversion);
+    const enterprising = clamp(0.55 * bigFive.extraversion + 0.45 * bigFive.emotional_stability);
+    const conventional = clamp(0.65 * bigFive.conscientiousness + 0.35 * patienceScore);
+
+    const pairs: Array<{ code: string; val: number }> = [
+      { code: 'R', val: realistic },
+      { code: 'I', val: investigative },
+      { code: 'A', val: artistic },
+      { code: 'S', val: social },
+      { code: 'E', val: enterprising },
+      { code: 'C', val: conventional },
+    ];
+    pairs.sort((a, b) => b.val - a.val);
+    const top_code = `${pairs[0].code}-${pairs[1].code}-${pairs[2].code}`;
+
+    return {
+      realistic,
+      investigative,
+      artistic,
+      social,
+      enterprising,
+      conventional,
+      top_code,
+    };
+  }
+
+  /**
+   * Compute full 3-axis profile, Big Five (OCEAN), Holland RIASEC and qualitative insights
    */
   public static generateCompetencyProfile(
     logicInput: LogicScoreInput,
     patienceInput: PatienceScoreInput,
     resilienceInput: ResilienceScoreInput,
     stage1Accuracy: number,
-    earlyExitTriggered: boolean = false
+    earlyExitTriggered: boolean = false,
+    completedMicroTasksCount: number = 2
   ): CompetencyProfile {
     const logic_score = this.calculateLogicScore(logicInput);
     const patience_score = this.calculatePatienceScore(patienceInput);
@@ -152,6 +230,24 @@ export class ScoringEngine {
       qualitative_insights.push("Tỷ lệ sai sót có dấu hiệu gia tăng khi đồng hồ báo đỏ, cần cải thiện khả năng làm chủ áp lực giờ G.");
     }
 
+    const big_five = this.computeBigFiveProfile(
+      logic_score,
+      patience_score,
+      resilience_score,
+      patienceInput.tabSwitchCount,
+      completedMicroTasksCount
+    );
+
+    const riasec = this.computeRiasecProfile(
+      big_five,
+      logic_score,
+      patience_score,
+      resilience_score
+    );
+
+    // Minimum 5 Micro-Tasks reaches 100% framework confidence
+    const confidence_level = Math.min(100, Math.round((completedMicroTasksCount / 5) * 100));
+
     return {
       logic_score,
       patience_score,
@@ -159,6 +255,10 @@ export class ScoringEngine {
       composite_score,
       qualitative_insights,
       early_exit_triggered: earlyExitTriggered,
+      big_five,
+      riasec,
+      completed_micro_tasks_count: completedMicroTasksCount,
+      confidence_level,
     };
   }
 
@@ -236,4 +336,3 @@ export class ScoringEngine {
 }
 
 export default ScoringEngine;
-

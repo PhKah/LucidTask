@@ -17,12 +17,12 @@
 
 ---
 
-## 2. Danh Sách Nhiệm Vụ (Sprint Backlog)
-* [ ] `TASK-P6-01`: Tách Headless Hooks `src/engine/useTriageEngine.ts` và `src/engine/useTradeOffBars.ts` để tái sử dụng 100% logic chấm điểm và `TelemetryBus` mà không trùng lặp code.
-* [ ] `TASK-P6-02`: Xây dựng thanh `TradeOffStatusBar.tsx` (3 thanh chỉ số: Chất lượng, Hài lòng Sếp/Khách, Thời gian/Tinh thần) biến động tức thì theo từng quyết định kèm hiệu ứng rung/đổi màu Neo-Brutalism.
-* [ ] `TASK-P6-03`: Nâng cấp Chặng 1 thành **Bàn Kiểm Duyệt Đóng Dấu & Quẹt Thẻ (`Papers, Please` & `Reigns` Style)** với Bảng quy định SOP 3 dòng ghim cố định, phím tắt phản xạ (`A`/`D` hoặc `←`/`→`) và tin nhắn Sếp nhắc nhở trực tiếp.
-* [ ] `TASK-P6-04`: Nâng cấp Chặng 2 thành **Khung Chat Công Việc Khẩn Cấp (`Zalo/Slack War Room`)** với tin nhắn đổ về dồn dập, ghim manh mối trực tiếp trên dòng dữ liệu và nút gạt khẩn cấp Rollback.
-* [ ] `TASK-P6-05`: Viết Integration Test đảm bảo toàn bộ 28 bài test hiện có và test giao diện Diegetic UI mới PASS 100%.
+## 2. Danh Sách Nhiệm Vụ (Sprint Backlog) — `COMPLETED`
+* [x] `TASK-P6-01`: Tách Headless Hooks `src/engine/useTriageEngine.ts` và `src/engine/useTradeOffBars.ts` để tái sử dụng 100% logic chấm điểm và `TelemetryBus` mà không trùng lặp code.
+* [x] `TASK-P6-02`: Xây dựng thanh `TradeOffStatusBar.tsx` (3 thanh chỉ số: Chất lượng, Hài lòng Sếp/Khách, Thời gian/Tinh thần) biến động tức thì theo từng quyết định kèm hiệu ứng rung/đổi màu Neo-Brutalism.
+* [x] `TASK-P6-03`: Nâng cấp Chặng 1 thành **Bàn Kiểm Duyệt Đóng Dấu & Quẹt Thẻ (`Papers, Please` & `Reigns` Style)** với Bảng quy định SOP 3 dòng ghim cố định, phím tắt phản xạ (`A`/`D` hoặc `←`/`→`) và tin nhắn Sếp nhắc nhở trực tiếp.
+* [x] `TASK-P6-04`: Nâng cấp Chặng 2 thành **Khung Chat Công Việc Khẩn Cấp (`Zalo/Slack War Room`)** với tin nhắn đổ về dồn dập, ghim manh mối trực tiếp trên dòng dữ liệu và nút gạt khẩn cấp Rollback.
+* [x] `TASK-P6-05`: Triển khai trọn vẹn 3 Cụm ngành đời thường (6 Micro-Tasks: CNTT/Dữ liệu, Luật Kinh tế, Marketing Sự kiện), Vòng lặp gợi ý thích ứng (mốc 5 Micro-Tasks) và Khung đánh giá Big Five (OCEAN) + Holland RIASEC, đạt 33/33 tests PASS (95.69% coverage).
 
 ---
 

@@ -1,7 +1,8 @@
 import React, { useState, useRef } from 'react';
-import { Layers, AlertTriangle, GitCommit, CheckCircle2 } from 'lucide-react';
+import { Layers, AlertTriangle, GitCommit, CheckCircle2, Pin } from 'lucide-react';
 import { TaskDefinition } from '../../types/task';
 import { telemetryBus } from '../../engine/TelemetryBus';
+import WorkChatFeed from '../WorkChatFeed';
 
 interface MultiSourceInspectorProps {
   task: TaskDefinition;
@@ -10,17 +11,20 @@ interface MultiSourceInspectorProps {
     isOptimal: boolean,
     stats: { tabSwitches: number; panicClicks: number }
   ) => void;
+  onDecisionImpact?: (params: { isCorrect: boolean; latencyMs?: number }) => void;
 }
 
 export const MultiSourceInspector: React.FC<MultiSourceInspectorProps> = ({
   task,
   onComplete,
+  onDecisionImpact,
 }) => {
   const sources = task.investigation_sources || [];
   const actions = task.resolution_actions || [];
 
   const [activeTabId, setActiveTabId] = useState<string>(sources[0]?.id || '');
   const [selectedActionId, setSelectedActionId] = useState<string | null>(null);
+  const [pinnedClues, setPinnedClues] = useState<string[]>([]);
   const [confirmed, setConfirmed] = useState<boolean>(false);
 
   const tabSwitchesRef = useRef<number>(0);
@@ -49,62 +53,71 @@ export const MultiSourceInspector: React.FC<MultiSourceInspectorProps> = ({
       telemetryBus.publish('tab_switched', {
         from_tab: activeTabId,
         to_tab: newTabId,
-        timestamp_ms: Date.now(),
       });
       setActiveTabId(newTabId);
     }
   };
 
-  const currentSource = sources.find(s => s.id === activeTabId) || sources[0];
+  const handleTogglePinClue = (line: string) => {
+    registerClick('CLUE_PIN');
+    setPinnedClues(prev =>
+      prev.includes(line) ? prev.filter(item => item !== line) : [...prev, line]
+    );
+  };
 
   const handleConfirmAction = () => {
-    if (!selectedActionId) return;
+    if (!selectedActionId || confirmed) return;
+    registerClick('CONFIRM_ACTION');
 
-    const chosenAction = actions.find(a => a.id === selectedActionId);
-    const isOptimal = chosenAction ? chosenAction.is_optimal : false;
+    const chosen = actions.find(a => a.id === selectedActionId);
+    const isOptimal = chosen ? chosen.is_optimal : false;
 
-    telemetryBus.publish('action_executed', {
-      action_id: selectedActionId,
-      is_optimal: isOptimal,
-      latency_ms: 0,
-    });
+    if (onDecisionImpact) {
+      onDecisionImpact({ isCorrect: isOptimal });
+    }
 
     setConfirmed(true);
-
     onComplete(selectedActionId, isOptimal, {
       tabSwitches: tabSwitchesRef.current,
       panicClicks: panicClicksRef.current,
     });
   };
 
+  const currentSource = sources.find(s => s.id === activeTabId) || sources[0];
+
   return (
-    <div className="space-y-6 animate-fadeIn" onClick={() => registerClick('WORKSPACE_BODY')}>
-      {/* Investigation Instructions */}
-      <div className="bg-soft-gray p-4 border border-hairline flex items-start gap-3">
-        <Layers className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" />
-        <div className="text-xs">
-          <span className="font-bold uppercase text-black block mb-0.5">
-            Quy trình Điều tra Đa Nguồn:
-          </span>
-          <span className="text-muted-gray leading-relaxed">
-            Chuyển đổi giữa 3 Tab dữ liệu độc lập để phát hiện thời điểm phát sinh sự cố và sự kiện tương quan. 
-            Cảnh giác với các thông số gây nhiễu (red-herrings) trước khi ra quyết định giải cứu.
+    <div className="space-y-6">
+      {/* Diegetic Work Chat Feed (Zalo / Slack War Room) */}
+      {task.work_chat_messages && task.work_chat_messages.length > 0 && (
+        <WorkChatFeed messages={task.work_chat_messages} />
+      )}
+
+      {/* Multi-Source Inspection Instructions */}
+      <div className="bg-soft-gray border-2 border-black p-3.5 flex items-center justify-between flex-wrap gap-2 text-xs">
+        <div className="flex items-center gap-2.5 text-muted-gray">
+          <Layers className="w-4 h-4 text-accent flex-shrink-0" />
+          <span>
+            <strong className="text-black uppercase">Bàn Điều Tra Đa Nguồn:</strong> Chuyển đổi giữa 3 Tab để đối chiếu chứng cứ. Bạn có thể click vào từng dòng thông tin để{' '}
+            <strong className="text-black">📌 Ghim Bằng Chứng</strong> trước khi chọn phương án đánh đổi bên dưới.
           </span>
         </div>
+        <span className="font-mono font-bold text-[11px] bg-white px-2.5 py-1 border border-black">
+          Bằng chứng đã ghim: {pinnedClues.length}
+        </span>
       </div>
 
       {/* Tabs Header */}
-      <div className="flex border-b border-hairline gap-2 overflow-x-auto">
+      <div className="flex border-b-2 border-black gap-2 overflow-x-auto">
         {sources.map(source => {
           const isActive = source.id === activeTabId;
           return (
             <button
               key={source.id}
               onClick={() => handleTabChange(source.id)}
-              className={`px-4 py-2.5 text-xs font-black uppercase tracking-wider transition-all border-b-2 flex items-center gap-2 flex-shrink-0 ${
+              className={`px-4 py-2.5 text-xs font-black uppercase tracking-wider transition-all border-2 border-b-0 flex items-center gap-2 flex-shrink-0 ${
                 isActive
-                  ? 'border-accent text-black bg-white -mb-[1px]'
-                  : 'border-transparent text-muted-gray hover:text-black hover:bg-neutral-50'
+                  ? 'border-black text-black bg-accent/20'
+                  : 'border-transparent text-muted-gray hover:text-black hover:bg-neutral-100'
               }`}
             >
               {source.id === 'TAB_LOGS' && <AlertTriangle className="w-3.5 h-3.5 text-live-red" />}
@@ -115,40 +128,81 @@ export const MultiSourceInspector: React.FC<MultiSourceInspectorProps> = ({
         })}
       </div>
 
-      {/* Active Tab Data Content (Console View) */}
-      <div className="card-hairline bg-night-navy text-gray-200 border-2 border-black min-h-[200px] p-4 font-mono text-xs overflow-x-auto selection:bg-accent selection:text-black">
-        <div className="text-gray-500 pb-2 mb-3 border-b border-gray-800 flex items-center justify-between text-[11px]">
+      {/* Active Tab Data Content (Interactive Clue Pinning Console) */}
+      <div className="card-hairline bg-night-navy text-gray-200 border-2 border-black shadow-[4px_4px_0px_0px_#000] min-h-[190px] p-4 font-mono text-xs overflow-x-auto selection:bg-accent selection:text-black">
+        <div className="text-gray-400 pb-2 mb-3 border-b border-gray-800 flex items-center justify-between text-[11px]">
           <span>SOURCE: {currentSource?.source_type}</span>
-          <span>DỮ LIỆU THỜI GIAN THỰC</span>
+          <span>CLICK VÀO DÒNG BẤT KỲ ĐỂ GHIM BẰNG CHỨNG 📌</span>
         </div>
 
         <div className="space-y-2">
           {currentSource?.content.map((line, idx) => {
             const isCritical = line.includes('CRITICAL') || line.includes('FATAL');
             const isWarn = line.includes('WARN');
-            const isDeploy = line.includes('Bản build');
+            const isDeploy = line.includes('Bản build') || line.includes('KỊCH BẢN');
+            const isPinned = pinnedClues.includes(line);
 
-            let textColor = 'text-gray-300';
+            let textColor = 'text-gray-200';
             if (isCritical) textColor = 'text-live-red font-bold';
             else if (isWarn) textColor = 'text-amber-400';
             else if (isDeploy) textColor = 'text-accent font-bold';
 
             return (
-              <div key={idx} className={`leading-relaxed ${textColor}`}>
-                {line}
+              <div
+                key={idx}
+                onClick={() => handleTogglePinClue(line)}
+                className={`p-2 border cursor-pointer transition-all flex items-start justify-between gap-3 ${
+                  isPinned
+                    ? 'border-accent bg-white/10'
+                    : 'border-transparent hover:border-gray-700 hover:bg-white/5'
+                }`}
+              >
+                <span className={`leading-relaxed ${textColor}`}>{line}</span>
+                <span
+                  className={`text-[10px] px-2 py-0.5 flex-shrink-0 flex items-center gap-1 border ${
+                    isPinned
+                      ? 'bg-accent text-black border-black font-black'
+                      : 'text-gray-400 border-gray-700'
+                  }`}
+                >
+                  <Pin className="w-3 h-3" />
+                  {isPinned ? 'ĐÃ GHIM' : 'GHIM'}
+                </span>
               </div>
             );
           })}
         </div>
       </div>
 
-      {/* Resolution Decisions Section */}
-      <div className="card-hairline bg-white border border-hairline p-6 space-y-4">
-        <div className="flex items-center gap-2">
-          <span className="w-2.5 h-2.5 bg-accent" />
-          <h3 className="text-sm font-black uppercase tracking-wide">
-            Lựa Chọn Quyết Định Khắc Phục Sự Cố Khẩn Cấp
-          </h3>
+      {/* Pinned Evidence Board */}
+      {pinnedClues.length > 0 && (
+        <div className="bg-amber-50 border-2 border-black p-3.5 space-y-2">
+          <div className="text-xs font-black uppercase text-black flex items-center gap-1.5">
+            <Pin className="w-3.5 h-3.5 text-accent" />
+            <span>BẢNG BẰNG CHỨNG ĐÃ GHIM ({pinnedClues.length}):</span>
+          </div>
+          <ul className="space-y-1 text-xs font-mono text-neutral-800">
+            {pinnedClues.map((clue, idx) => (
+              <li key={idx} className="truncate">
+                • {clue}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {/* Decision Matrix with Trade-off Impact Previews */}
+      <div className="bg-white border-2 border-black p-5 shadow-[4px_4px_0px_0px_#000] space-y-4">
+        <div className="flex items-center justify-between flex-wrap gap-2">
+          <div className="flex items-center gap-2">
+            <span className="eyebrow-marker" />
+            <h3 className="text-sm font-black uppercase tracking-wider text-black">
+              Phán Quyết &amp; Đánh Đổi Nguồn Lực (Resolution &amp; Trade-off Action)
+            </h3>
+          </div>
+          <span className="text-[11px] font-mono text-muted-gray">
+            Cân nhắc kỹ hệ quả đánh đổi của từng quyết định
+          </span>
         </div>
 
         <div className="space-y-3">
@@ -157,25 +211,31 @@ export const MultiSourceInspector: React.FC<MultiSourceInspectorProps> = ({
             return (
               <label
                 key={action.id}
-                onClick={() => registerClick('ACTION_RADIO')}
-                className={`flex items-start gap-3 p-3.5 border cursor-pointer transition-all ${
+                className={`p-3.5 border-2 cursor-pointer transition-all flex items-start gap-3 ${
                   isSelected
-                    ? 'border-black bg-neutral-50 shadow-sm'
-                    : 'border-hairline hover:border-gray-400 bg-white'
+                    ? 'border-black bg-accent/15 shadow-[3px_3px_0px_0px_#000]'
+                    : 'border-hairline hover:border-black bg-white'
                 }`}
               >
                 <input
                   type="radio"
-                  name="incident_action"
+                  name="resolution_action"
                   value={action.id}
                   checked={isSelected}
                   onChange={() => setSelectedActionId(action.id)}
                   className="mt-0.5 accent-black w-4 h-4"
                 />
-                <div className="text-xs">
-                  <span className={`font-bold block ${isSelected ? 'text-black' : 'text-gray-800'}`}>
+                <div className="text-xs flex-1 space-y-1.5">
+                  <span className="font-bold block text-black">
                     {action.label}
                   </span>
+                  {action.trade_off_preview && (
+                    <div className="flex flex-wrap items-center gap-2 pt-1 text-[11px]">
+                      <span className="font-mono bg-neutral-100 px-2 py-0.5 border border-hairline text-muted-gray">
+                        Hệ quả: {action.trade_off_preview.risk_note}
+                      </span>
+                    </div>
+                  )}
                 </div>
               </label>
             );
@@ -201,4 +261,3 @@ export const MultiSourceInspector: React.FC<MultiSourceInspectorProps> = ({
 };
 
 export default MultiSourceInspector;
-

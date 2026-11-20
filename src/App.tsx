@@ -14,6 +14,9 @@ import { ScoringEngine } from './engine/ScoringEngine';
 export const App: React.FC = () => {
   const [workflowState, setWorkflowState] = useState<TaskWorkflowState>('IDLE');
   const [selectedIndustryId, setSelectedIndustryId] = useState<string>('IND_TECH_SW');
+  const [completedIndustryIds, setCompletedIndustryIds] = useState<string[]>([]);
+  const [completedMicroTasksCount, setCompletedMicroTasksCount] = useState<number>(0);
+
   const [earlyExitData, setEarlyExitData] = useState<{
     reason: 'LOW_ACCURACY' | 'ERRATIC_SPEED';
     accuracy: number;
@@ -58,6 +61,7 @@ export const App: React.FC = () => {
     durationSeconds: number;
   }) => {
     setStage1Summary(summary);
+    setCompletedMicroTasksCount(prev => prev + 1);
     telemetryBus.publish('task_completed', {
       stage: 1,
       total_duration_sec: summary.durationSeconds,
@@ -86,12 +90,20 @@ export const App: React.FC = () => {
     stats: { tabSwitches: number; panicClicks: number }
   ) => {
     setStage2Result({ actionId, isOptimal, stats });
+    const newMicroTasksTotal = completedMicroTasksCount + 1;
+    setCompletedMicroTasksCount(newMicroTasksTotal);
+
+    const updatedCompletedIndustries = completedIndustryIds.includes(selectedIndustryId)
+      ? completedIndustryIds
+      : [...completedIndustryIds, selectedIndustryId];
+    setCompletedIndustryIds(updatedCompletedIndustries);
+
     telemetryBus.publish('task_completed', {
       stage: 2,
       total_duration_sec: 180,
     });
 
-    // Compute profile and rank programs
+    // Compute profile (including Big Five & Holland RIASEC) and rank programs for selected industry
     const profile = ScoringEngine.generateCompetencyProfile(
       {
         accuracy: stage1Summary ? stage1Summary.accuracy : 0.8,
@@ -107,11 +119,13 @@ export const App: React.FC = () => {
         errorRateStress: isOptimal ? 0.15 : 0.45,
         panicClicksCount: stats.panicClicks,
       },
-      stage1Summary ? stage1Summary.accuracy : 0.8
+      stage1Summary ? stage1Summary.accuracy : 0.8,
+      false,
+      newMicroTasksTotal
     );
 
-    const allPrograms = IndustryRegistry.getAllPrograms();
-    const ranked = ScoringEngine.rankPrograms(profile, allPrograms);
+    const industryPrograms = IndustryRegistry.getPrograms(selectedIndustryId);
+    const ranked = ScoringEngine.rankPrograms(profile, industryPrograms);
 
     setCompetencyProfile(profile);
     setMatchedPrograms(ranked);
@@ -132,6 +146,13 @@ export const App: React.FC = () => {
     setWorkflowState('IDLE');
   };
 
+  // Adaptive Micro-Task Recommender: Pick an industry not yet completed
+  const allIndustries = IndustryRegistry.getAllIndustries();
+  const recommendedNextIndustry =
+    allIndustries.find(ind => !completedIndustryIds.includes(ind.id)) ||
+    allIndustries.find(ind => ind.id !== selectedIndustryId) ||
+    null;
+
   return (
     <AppShell
       industryName={workflowState !== 'IDLE' ? currentIndustry?.name : undefined}
@@ -139,7 +160,11 @@ export const App: React.FC = () => {
       hasHandbook={workflowState === 'STAGE1_TASK' || workflowState === 'STAGE2_TASK'}
     >
       {workflowState === 'IDLE' && (
-        <IndustrySelector onSelectIndustry={handleSelectIndustry} />
+        <IndustrySelector
+          onSelectIndustry={handleSelectIndustry}
+          completedIndustryIds={completedIndustryIds}
+          completedMicroTasksCount={completedMicroTasksCount}
+        />
       )}
 
       {workflowState === 'STAGE1_TASK' && stage1Task && (
@@ -177,7 +202,11 @@ export const App: React.FC = () => {
 
       {workflowState === 'BLIND_MATCHING' && competencyProfile && (
         <div className="space-y-10 animate-fadeIn">
-          <CompetencyRadar profile={competencyProfile} />
+          <CompetencyRadar
+            profile={competencyProfile}
+            recommendedNextIndustry={recommendedNextIndustry}
+            onStartRecommendedIndustry={handleSelectIndustry}
+          />
           <BlindMatchingCards
             matchedPrograms={matchedPrograms}
             selectedProgramId={selectedProgramId}
