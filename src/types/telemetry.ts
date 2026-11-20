@@ -1,31 +1,37 @@
 /**
- * Telemetry Event System & Payloads
- * Reference: specs/Scenario_&_Scoring_Spec.md (Section 2)
+ * Telemetry Event System & Payloads — LucidTask v2.0
+ * Captures active manipulation, passive self-verification, and AI Co-pilot critical thinking.
  */
 
+import { MissionId } from './mission';
+
 export type TelemetryEventType =
-  | 'task_started'
-  | 'handbook_viewed'
-  | 'item_classified'
-  | 'decision_switched'
+  | 'mission_started'
+  | 'allocation_updated'
+  | 'data_cell_flagged'
+  | 'flow_node_flagged'
   | 'tab_switched'
+  | 'ai_copilot_triggered'
+  | 'ai_copilot_overridden'
+  | 'ai_copilot_accepted'
+  | 'plan_note_updated'
   | 'stress_spike_entered'
   | 'panic_click_flag'
-  | 'early_exit_fired'
-  | 'action_executed'
-  | 'task_completed';
+  | 'mission_submitted';
 
 export interface TelemetryPayloadMap {
-  task_started: { stage: 1 | 2; time_limit_sec: number };
-  handbook_viewed: { duration_ms: number; view_count: number };
-  item_classified: { item_id: string; target_id: string; is_correct: boolean; latency_ms: number };
-  decision_switched: { item_id: string; from_id: string; to_id: string; latency_ms: number };
-  tab_switched: { from_tab: string; to_tab: string; timestamp_ms?: number };
-  stress_spike_entered: { remaining_sec: number; pending_tasks: number };
+  mission_started: { mission_id: MissionId; time_limit_sec: number };
+  allocation_updated: { lot_id: string; resource_id: string; tons: number };
+  data_cell_flagged: { order_id: string; defect_category: string | null };
+  flow_node_flagged: { node_id: string; reason_id: string | null };
+  tab_switched: { from_tab: string; to_tab: string };
+  ai_copilot_triggered: { mission_id: MissionId };
+  ai_copilot_overridden: { mission_id: MissionId; method: 'EXPLICIT_BUTTON' | 'MANUAL_FIX' };
+  ai_copilot_accepted: { mission_id: MissionId };
+  plan_note_updated: { char_count: number };
+  stress_spike_entered: { remaining_sec: number };
   panic_click_flag: { click_rate_per_sec: number; area: string };
-  early_exit_fired: { reason: 'LOW_ACCURACY' | 'ERRATIC_SPEED'; final_accuracy: number; speed_sec_per_item: number };
-  action_executed: { action_id: string; is_optimal: boolean; latency_ms: number };
-  task_completed: { stage: 1 | 2; total_duration_sec: number };
+  mission_submitted: { mission_id: MissionId; elapsed_sec: number; composite_score: number };
 }
 
 export interface TelemetryEvent<K extends TelemetryEventType = TelemetryEventType> {
@@ -34,4 +40,3 @@ export interface TelemetryEvent<K extends TelemetryEventType = TelemetryEventTyp
   timestamp_ms: number;
   payload: TelemetryPayloadMap[K];
 }
-

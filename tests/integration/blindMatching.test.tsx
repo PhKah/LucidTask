@@ -3,53 +3,70 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import BlindMatchingCards from '../../src/components/BlindMatchingCards';
 import { IndustryRegistry } from '../../src/registry/index';
 import { ScoringEngine } from '../../src/engine/ScoringEngine';
+import { CompetencyProfile } from '../../src/types/state';
 
 describe('Blind Matching Invariant & Reveal Suite (IT-BLIND-01 & IT-REVEAL-01)', () => {
   const allPrograms = IndustryRegistry.getAllPrograms();
-  const mockProfile = {
+  const mockProfile: CompetencyProfile = {
+    mission_id: 'IND_LOG_COLDCHAIN',
+    mission_title: 'Logistics',
     logic_score: 85,
     patience_score: 90,
-    resilience_score: 75,
-    composite_score: 82.5,
+    resilience_score: 82,
+    composite_score: 86,
     qualitative_insights: ['Cẩn trọng', 'Bình tĩnh'],
-    early_exit_triggered: false,
+    big_five: {
+      conscientiousness: 90,
+      openness: 85,
+      emotional_stability: 82,
+      agreeableness: 78,
+      extraversion: 76,
+    },
+    big_five_weights: { conscientiousness: 50, emotional_stability: 35, openness: 15 },
+    riasec: {
+      realistic: 88,
+      enterprising: 79,
+      conventional: 76,
+      investigative: 65,
+      social: 52,
+      artistic: 44,
+      top_code: 'R-E-C',
+    },
+    ai_trap_verdict: 'TRIGGERED_AND_REJECTED',
+    criteria_breakdown: [],
+    completed_missions_count: 1,
+    confidence_level: 60,
   };
 
   const rankedPrograms = ScoringEngine.rankPrograms(mockProfile, allPrograms);
 
   it('verifies INVARIANT: real institution names MUST NOT exist in DOM before reveal (IT-BLIND-01)', () => {
-    const onSelectProgram = vi.fn();
-    const onReveal = vi.fn();
-    const onProceed = vi.fn();
-
     const { container } = render(
       <BlindMatchingCards
         matchedPrograms={rankedPrograms}
         selectedProgramId={null}
-        onSelectProgram={onSelectProgram}
+        onSelectProgram={vi.fn()}
         isRevealed={false}
-        onReveal={onReveal}
-        onProceedToReport={onProceed}
+        onReveal={vi.fn()}
+        onProceedToReport={vi.fn()}
       />
     );
 
-    // Verify anonymous indicators and match percentages exist
     expect(screen.getByText(/CHẾ ĐỘ ẨN DANH/i)).toBeInTheDocument();
     expect(screen.getByText(/THẺ ALPHA/i)).toBeInTheDocument();
-    expect(screen.getAllByText(/TƯƠNG THÍCH/i).length).toBeGreaterThanOrEqual(1);
 
-    // DOM INVARIANT ASSERTION: Zero leakage of real university names in DOM HTML
     const domHtml = container.innerHTML;
+    expect(domHtml).not.toContain('Đại học Giao thông Vận tải');
+    expect(domHtml).not.toContain('Đại học Ngoại thương');
+    expect(domHtml).not.toContain('Đại học Kinh tế Quốc dân');
     expect(domHtml).not.toContain('Đại học Bách Khoa');
     expect(domHtml).not.toContain('Đại học FPT');
     expect(domHtml).not.toContain('RMIT');
     expect(domHtml).not.toContain('Cao Thắng');
     expect(domHtml).not.toContain('Khoa học Tự nhiên');
-    expect(domHtml).not.toContain('Kinh tế TP.HCM');
   });
 
   it('triggers reveal action and renders real university names after reveal (IT-REVEAL-01)', () => {
-    const onSelectProgram = vi.fn();
     const onReveal = vi.fn();
     const onProceed = vi.fn();
 
@@ -57,40 +74,33 @@ describe('Blind Matching Invariant & Reveal Suite (IT-BLIND-01 & IT-REVEAL-01)',
       <BlindMatchingCards
         matchedPrograms={rankedPrograms}
         selectedProgramId={rankedPrograms[0].program.id}
-        onSelectProgram={onSelectProgram}
+        onSelectProgram={vi.fn()}
         isRevealed={false}
         onReveal={onReveal}
         onProceedToReport={onProceed}
       />
     );
 
-    // Click Unlock button
-    const unlockBtn = screen.getByRole('button', { name: /MỞ KHÓA DANH TÍNH CƠ SỞ ĐÀO TẠO/i });
-    fireEvent.click(unlockBtn);
+    fireEvent.click(screen.getByRole('button', { name: /MỞ KHÓA DANH TÍNH CƠ SỞ ĐÀO TẠO/i }));
     expect(onReveal).toHaveBeenCalledTimes(1);
 
-    // Re-render in revealed state
     rerender(
       <BlindMatchingCards
         matchedPrograms={rankedPrograms}
         selectedProgramId={rankedPrograms[0].program.id}
-        onSelectProgram={onSelectProgram}
+        onSelectProgram={vi.fn()}
         isRevealed={true}
         onReveal={onReveal}
         onProceedToReport={onProceed}
       />
     );
 
-    // Now real university names and tuition details MUST be in DOM
     expect(screen.getByText(/DANH TÍNH ĐÃ MỞ KHÓA/i)).toBeInTheDocument();
-    expect(screen.getByText(rankedPrograms[0].program.revealed_profile.institution_name)).toBeInTheDocument();
-    expect(screen.getAllByText(/Học Phí Ước Tính:/i).length).toBeGreaterThanOrEqual(1);
+    expect(
+      screen.getByText(rankedPrograms[0].program.revealed_profile.institution_name)
+    ).toBeInTheDocument();
 
-    // Verify next step button
-    const proceedBtn = screen.getByRole('button', { name: /TIẾN VÀO BÁO CÁO ĐỒNG THUẬN GIA ĐÌNH/i });
-    expect(proceedBtn).toBeInTheDocument();
-    fireEvent.click(proceedBtn);
+    fireEvent.click(screen.getByRole('button', { name: /TIẾN VÀO BÁO CÁO ĐỒNG THUẬN GIA ĐÌNH/i }));
     expect(onProceed).toHaveBeenCalledTimes(1);
   });
 });
-

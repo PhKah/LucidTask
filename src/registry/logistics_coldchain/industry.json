@@ -1,0 +1,31 @@
+{
+  "industry_id": "IND_LOG_COLDCHAIN",
+  "industry_name": "Logistics & Quản trị Chuỗi Cung Ứng",
+  "headline": "Điều phối vận tải đa phương thức, kiểm soát chuỗi lạnh và tối ưu hóa thiệt hại sự cố dưới áp lực nguồn lực khan hiếm.",
+  "data_sources": [
+    "Báo cáo Logistics Việt Nam 2024 - Bộ Công Thương",
+    "Khảo sát Lương Nhân sự Chuỗi cung ứng - Adecco & Navigos",
+    "Thống kê Việc làm Sinh viên Bộ Giáo dục & Đào tạo"
+  ],
+  "market_metrics": {
+    "salary_range_0_to_2_years_vnd": { "min": 9500000, "max": 16000000, "median": 12500000 },
+    "salary_range_3_to_5_years_vnd": { "min": 20000000, "max": 38000000, "median": 27000000 },
+    "long_term_growth_projection_2030": "+15.2% mỗi năm (Bùng nổ cảng nước sâu, xuất khẩu nông sản lạnh và thương mại điện tử xuyên biên giới)",
+    "automation_ai_risk_level": "LOW",
+    "automation_risk_explanation": "AI có thể gợi ý tuyến đường và lịch xe cơ bản, nhưng không thể tự chịu trách nhiệm pháp lý hay xử lý các biến cố vật lý phức tạp ngoài hiện trường (bão cảng, quá tải xe, đánh đổi SLA). Chuyên viên điều phối biết phản biện lại đề xuất sai của AI cực kỳ khan hiếm."
+  },
+  "academic_risk_stats": {
+    "industry_dropout_or_shift_rate": 19.6,
+    "root_cause_breakdown": {
+      "gap_between_expectation_and_reality": 54.0,
+      "peer_or_parental_pressure": 28.0,
+      "academic_struggle": 18.0
+    },
+    "estimated_wasted_cost_1year_vnd": 185000000,
+    "wasted_cost_breakdown": {
+      "tuition_lost": 45000000,
+      "living_expenses_lost": 60000000,
+      "opportunity_cost_youth_lost": 80000000
+    }
+  }
+}

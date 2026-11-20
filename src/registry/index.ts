@@ -1,91 +1,92 @@
-import { TaskDefinition } from '../types/task';
 import { EducationalProgram, IndustryMarketIntelligence } from '../types/program';
+import { LogisticsScenario, MissionId, QaDataScenario } from '../types/mission';
 
-import sweStage1 from './software_engineering/stage1_task.json';
-import sweStage2 from './software_engineering/stage2_task.json';
-import swePrograms from './software_engineering/programs.json';
-import sweIndustry from './software_engineering/industry.json';
+import { LOGISTICS_COLDCHAIN_SCENARIO } from './logistics_coldchain/scenario';
+import logIndustry from './logistics_coldchain/industry.json';
+import logPrograms from './logistics_coldchain/programs.json';
 
-import lawStage1 from './economic_law/stage1_task.json';
-import lawStage2 from './economic_law/stage2_task.json';
-import lawPrograms from './economic_law/programs.json';
-import lawIndustry from './economic_law/industry.json';
+import { QA_DATA_CLEANING_SCENARIO } from './qa_data_cleaning/scenario';
+import qaIndustry from './qa_data_cleaning/industry.json';
+import qaPrograms from './qa_data_cleaning/programs.json';
 
-import mktStage1 from './marketing_event/stage1_task.json';
-import mktStage2 from './marketing_event/stage2_task.json';
-import mktPrograms from './marketing_event/programs.json';
-import mktIndustry from './marketing_event/industry.json';
-
-export interface IndustryModule {
-  id: string;
+export interface MissionIndustryModule {
+  id: MissionId;
   name: string;
+  shortTag: string;
   headline: string;
-  stage1Task: TaskDefinition;
-  stage2Task: TaskDefinition;
+  durationLabel: string;
+  riasecFocusLabel: string;
+  keyHighlights: string[];
+  scenario: LogisticsScenario | QaDataScenario;
   programs: EducationalProgram[];
   marketIntelligence: IndustryMarketIntelligence;
 }
 
-export const registry: Record<string, IndustryModule> = {
-  IND_TECH_SW: {
-    id: sweIndustry.industry_id,
-    name: sweIndustry.industry_name,
-    headline: sweIndustry.headline,
-    stage1Task: sweStage1 as unknown as TaskDefinition,
-    stage2Task: sweStage2 as unknown as TaskDefinition,
-    programs: swePrograms as unknown as EducationalProgram[],
-    marketIntelligence: sweIndustry as unknown as IndustryMarketIntelligence,
+export const registry: Record<MissionId, MissionIndustryModule> = {
+  IND_LOG_COLDCHAIN: {
+    id: 'IND_LOG_COLDCHAIN',
+    name: logIndustry.industry_name,
+    shortTag: 'LOGISTICS & CHUỖI LẠNH',
+    headline: logIndustry.headline,
+    durationLabel: '10–15 phút',
+    riasecFocusLabel: 'Realistic (45%) • Enterprising (30%) • Conventional (25%)',
+    keyHighlights: [
+      'Bảng điều phối 3 cột thực chiến với Bảng thống kê thụ động (tự kiểm soát tải trọng 15t / 5t)',
+      'Bài toán đánh đổi thiệt hại tài chính (72tr phạt SLA vs 160tr hỏng trái cây)',
+      'Cạm bẫy AI Co-pilot & Bản giải trình gửi Giám đốc Vận hành',
+    ],
+    scenario: LOGISTICS_COLDCHAIN_SCENARIO,
+    programs: logPrograms as unknown as EducationalProgram[],
+    marketIntelligence: logIndustry as unknown as IndustryMarketIntelligence,
   },
-  IND_ECON_LAW: {
-    id: lawIndustry.industry_id,
-    name: lawIndustry.industry_name,
-    headline: lawIndustry.headline,
-    stage1Task: lawStage1 as unknown as TaskDefinition,
-    stage2Task: lawStage2 as unknown as TaskDefinition,
-    programs: lawPrograms as unknown as EducationalProgram[],
-    marketIntelligence: lawIndustry as unknown as IndustryMarketIntelligence,
-  },
-  IND_MARKETING: {
-    id: mktIndustry.industry_id,
-    name: mktIndustry.industry_name,
-    headline: mktIndustry.headline,
-    stage1Task: mktStage1 as unknown as TaskDefinition,
-    stage2Task: mktStage2 as unknown as TaskDefinition,
-    programs: mktPrograms as unknown as EducationalProgram[],
-    marketIntelligence: mktIndustry as unknown as IndustryMarketIntelligence,
+  IND_QA_DATA: {
+    id: 'IND_QA_DATA',
+    name: qaIndustry.industry_name,
+    shortTag: 'QA & LÀM SẠCH DỮ LIỆU (THAY LẬP TRÌNH)',
+    headline: qaIndustry.headline,
+    durationLabel: '10–15 phút',
+    riasecFocusLabel: 'Investigative (50%) • Conventional (35%) • Realistic (15%)',
+    keyHighlights: [
+      'Săn lỗi trực tiếp trên Bảng 15 đơn hàng (sai ngày, giá âm, sai tổng, trùng khách, thiếu SĐT)',
+      'Kiểm thử Sơ đồ Luồng Thanh toán 100% bằng Tiếng Việt — 0 dòng code',
+      'Cạm bẫy AI Auto-QA & Quyết định Chặn/Duyệt Release 20:00',
+    ],
+    scenario: QA_DATA_CLEANING_SCENARIO,
+    programs: qaPrograms as unknown as EducationalProgram[],
+    marketIntelligence: qaIndustry as unknown as IndustryMarketIntelligence,
   },
 };
 
 export const IndustryRegistry = {
-  getIndustry(id: string): IndustryModule | undefined {
+  getIndustry(id: MissionId): MissionIndustryModule {
     return registry[id];
   },
 
-  getAllIndustries(): Array<{ id: string; name: string; headline: string }> {
-    return Object.values(registry).map(ind => ({
-      id: ind.id,
-      name: ind.name,
-      headline: ind.headline,
-    }));
+  getAllIndustries(): MissionIndustryModule[] {
+    return [registry.IND_LOG_COLDCHAIN, registry.IND_QA_DATA];
   },
 
-  getStageTask(industryId: string, stage: 1 | 2): TaskDefinition | undefined {
-    const ind = registry[industryId];
-    if (!ind) return undefined;
-    return stage === 1 ? ind.stage1Task : ind.stage2Task;
+  getLogisticsScenario(): LogisticsScenario {
+    return LOGISTICS_COLDCHAIN_SCENARIO;
   },
 
-  getPrograms(industryId: string): EducationalProgram[] {
-    const ind = registry[industryId];
-    return ind ? ind.programs : (swePrograms as unknown as EducationalProgram[]);
+  getQaScenario(): QaDataScenario {
+    return QA_DATA_CLEANING_SCENARIO;
+  },
+
+  getPrograms(id: MissionId): EducationalProgram[] {
+    return registry[id].programs;
   },
 
   getAllPrograms(): EducationalProgram[] {
-    return swePrograms as unknown as EducationalProgram[];
+    return [
+      ...(logPrograms as unknown as EducationalProgram[]),
+      ...(qaPrograms as unknown as EducationalProgram[]),
+    ];
   },
 
-  getMarketIntelligence(industryId: string): IndustryMarketIntelligence | undefined {
-    return registry[industryId]?.marketIntelligence;
+  getMarketIntelligence(id: MissionId): IndustryMarketIntelligence {
+    return registry[id].marketIntelligence;
   },
 };
 

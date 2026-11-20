@@ -2,31 +2,26 @@ import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import App from '../../src/App';
 
-describe('Sanity & Design Tokens Test Suite', () => {
-  it('renders the console header and logo block correctly', () => {
+describe('LucidTask v2.0 Landing & 2-Mission Registry Sanity Suite', () => {
+  it('renders the console header and active telemetry indicator', () => {
     render(<App />);
     expect(screen.getByRole('banner')).toHaveTextContent(/LUCIDTASK/i);
     expect(screen.getByText(/TELEMETRY: ACTIVE/i)).toBeInTheDocument();
   });
 
-  it('renders the editorial hard-news pill buttons and badges', () => {
+  it('renders strictly the 2 flagship MVP missions: Logistics Cold-Chain and QA / Data Cleaning', () => {
     render(<App />);
-    const primaryBtn = screen.getByRole('button', { name: /VÀO PHÒNG MÔ PHỎNG TÁC VỤ/i });
-    expect(primaryBtn).toBeInTheDocument();
-    expect(primaryBtn).toHaveClass('btn-pill-dark');
 
-    const outlineBtn = screen.getByRole('button', { name: /CHƯA MỞ CHO ĐỢT THỰC NGHIỆM NÀY/i });
-    expect(outlineBtn).toBeInTheDocument();
-    expect(outlineBtn).toHaveClass('btn-pill-outline');
+    const logBtn = screen.getByRole('button', { name: /VÀO BẢNG ĐIỀU PHỐI LOGISTICS/i });
+    const qaBtn = screen.getByRole('button', { name: /VÀO TRẠM SĂN LỖI QA & DỮ LIỆU/i });
 
-    const liveBadge = screen.getByText(/BỘ LỌC SÀNG LỌC/i);
-    expect(liveBadge).toBeInTheDocument();
-    expect(liveBadge).toHaveClass('badge-live-red');
-  });
+    expect(logBtn).toBeInTheDocument();
+    expect(qaBtn).toBeInTheDocument();
+    expect(logBtn).toHaveClass('btn-pill-dark');
+    expect(qaBtn).toHaveClass('btn-pill-dark');
 
-  it('renders the 2 progressive stages overview', () => {
-    render(<App />);
-    expect(screen.getByText(/Chặng 1: Sơ Tuyển Ma Sát/i)).toBeInTheDocument();
-    expect(screen.getByText(/Chặng 2: Năng Lực Cốt Lõi/i)).toBeInTheDocument();
+    // Old obsolete industries must not appear
+    expect(screen.queryByText(/Luật Kinh tế/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Marketing & Tổ chức Sự kiện/i)).not.toBeInTheDocument();
   });
 });

@@ -46,7 +46,6 @@ export const CountdownTimer: React.FC<CountdownTimerProps> = ({
           stressFiredRef.current = true;
           telemetryBus.publish('stress_spike_entered', {
             remaining_sec: next,
-            pending_tasks: pendingTasksCount,
           });
         }
 

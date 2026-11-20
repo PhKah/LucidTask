@@ -132,6 +132,31 @@ Các kỹ thuật cụ thể đúc kết từ các game thành công (như *Nợ
 
 ---
 
-## 6. Kết Luận
+## 6. Lộ Trình Chọn Ngành Dễ Game Hóa Cho MVP & Mở Rộng Tương Lai (Future Career Pipeline)
+
+### 6.1. Ba Tiêu Chí Chọn Ngành Dễ Game Hóa Cho MVP
+Để tối ưu tốc độ xây dựng (web/mobile 2D) và đảm bảo độ cuốn hút ngay từ bản MVP, các ngành được ưu tiên triển khai cần thỏa mãn:
+1. **Có luật đúng/sai hoặc ràng buộc định lượng rõ ràng** (cân bằng số liệu, giới hạn tải trọng, giới hạn ngân sách, quy tắc SOP).
+2. **Thao tác 2D trực quan** (chạm bắt lỗi, kéo-thả, kéo thanh trượt, cộp dấu) — không đòi hỏi đồ họa 3D hay engine vật lý nặng.
+3. **Dễ bình dân hóa cho học sinh THPT** trong 3–5 phút mà vẫn giữ đúng cấu trúc tư duy nghề nghiệp, đồng thời phủ đều phổ **Holland (RIASEC)** cho vòng lặp 5 Micro-Tasks.
+
+### 6.2. Danh Sách 6 Nhóm Ngành Ưu Tiên Triển Khai
+
+| STT | Nhóm Ngành Nghề | Nhóm Phản Hồi | Holland RIASEC | Cơ Chế Game Chủ Động Đề Xuất (Phi Trắc Nghiệm) | Trạng Thái Hiện Tại |
+| :---: | :--- | :--- | :---: | :--- | :---: |
+| **1** | **CNTT – Dữ liệu – Kiểm thử QA** | Luật cứng (Deterministic) | `I` | Săn lỗi dữ liệu/log trên bảng đơn hàng; điều tra đa nguồn & ghim manh mối tìm nguyên nhân sập hệ thống. | ✅ Đã có trong MVP (`software_engineering`) |
+| **2** | **Luật Kinh tế – Pháp chế** | Luật cứng (Deterministic) | `E` / `C` | Cầm "bút đỏ" chạm trực tiếp cụm từ gài bẫy trong hợp đồng ngắn theo SOP 3 dòng; ghép bằng chứng phản tố. | ✅ Đã có trong MVP (`economic_law`) |
+| **3** | **Marketing – Tổ chức Sự kiện** | Cân bằng chỉ số (Trade-off) | `E` / `A` | Kéo thanh trượt phân bổ ngân sách hữu hạn giữa các kênh để cân 3 thanh (*Ngân sách – Lượng khách – Hình ảnh*), xử lý khủng hoảng phút chót. | ✅ Đã có trong MVP (`marketing_event`) |
+| **4** | **Kế toán – Kiểm toán – Tài chính** | Luật cứng (Deterministic) | `C` | Soi chứng từ thật (chạm dòng sai thuế, lệch tổng, thiếu chữ ký) và cân bằng 2 vế Thu/Chi hoặc Nợ/Có về `Lệch = 0`. | 📋 Kế hoạch tương lai |
+| **5** | **Logistics – Chuỗi cung ứng** | Luật cứng (Deterministic) | `R` / `C` | Kéo-thả kiện hàng vào xe tải/container không vượt tải trọng tối đa, không đặt hàng nặng lên hàng dễ vỡ; đổi tuyến khi kẹt xe/sạt lở. | 📋 Kế hoạch tương lai |
+| **6** | **Y tế – Điều dưỡng / Dịch vụ KH** | Cân bằng chỉ số (Trade-off) | `S` | Phân luồng cấp cứu (*Triage*) dựa trên 3 chỉ số sinh tồn đơn giản (*Nhịp tim, Nhiệt độ, Triệu chứng*) để xếp ưu tiên trước khi thanh nguy kịch/kiên nhẫn cạn dần. | 📋 Kế hoạch tương lai |
+
+### 6.3. Chiến Lược Mở Rộng & Nhóm Ngành Cần Tránh Ở Giai Đoạn Đầu
+- **Phủ đủ 6 trục RIASEC:** Khi mở rộng từ 3 ngành MVP hiện tại (`I`, `E/C`, `E/A`) lên 5–6 ngành, ưu tiên bổ sung **Logistics (`R`)** và **Điều dưỡng/Triage (`S`)** (cùng **Kế toán (`C`)**) để hệ thống 5 Micro-Tasks đo lường cân bằng cả 6 trục Holland.
+- **Nhóm ngành nên tránh ở giai đoạn MVP:** Các ngành thiên về sáng tác tự do không có khung chấm điểm (Mỹ thuật thuần túy, Văn học), nghiên cứu hàn lâm dài hạn (Triết học, Vật lý lý thuyết) hoặc đòi hỏi giao tiếp mở kéo dài (Tâm lý trị liệu, Sư phạm thuần túy) — do khó tạo vòng lặp phản hồi tức thì trong 3–5 phút nếu chưa tích hợp AI hội thoại sâu.
+
+---
+
+## 7. Kết Luận
 Bản RFC này định hình **Triết lý Cốt lõi Tinh túy** cho LucidTask: giữ vững 5 nguyên lý tâm lý học hành vi ở tầng nền tảng, đồng thời trao toàn quyền linh hoạt cho từng ngành nghề tự chọn giao diện và cơ chế tương tác phản ánh đúng nhất "hơi thở" riêng của nghề đó.
 

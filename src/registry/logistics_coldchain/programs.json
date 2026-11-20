@@ -1,0 +1,132 @@
+[
+  {
+    "id": "PROG_LOG_01",
+    "match_traits": { "weight_logic": 0.40, "weight_patience": 0.35, "weight_resilience": 0.25 },
+    "anonymous_profile": {
+      "code_name": "Quản trị Chuỗi Cung Ứng & Vận Tải Đa Phương Thức",
+      "industry_cluster": "Logistics & Chuỗi Cung Ứng",
+      "focus_headline": "Đào tạo chuyên sâu về quy hoạch mạng lưới vận tải, tối ưu hóa tải trọng đội xe, khai thác cảng biển và điều hành chuỗi lạnh.",
+      "core_curriculum_pillars": [
+        "Quy hoạch Mạng lưới Vận tải & Tối ưu Hóa Chi phí Đội xe",
+        "Khai thác Cảng biển, Container lạnh & Luật Hàng hải Quốc tế",
+        "Mô hình Toán ứng dụng trong Quản trị Tồn kho & Dự báo Nhu cầu"
+      ],
+      "practical_project_example": "Đồ án tối ưu giải phóng container lạnh tồn bãi và lập kế hoạch điều độ xe cứu trợ khi cảng Hải Phòng gặp bão.",
+      "career_pathway": "Chuyên viên Điều phối Chuỗi cung ứng (Supply Chain Coordinator), Quản lý Vận tải (Transport Manager)",
+      "estimated_grad_salary_vnd": { "min": 10500000, "max": 17000000 }
+    },
+    "revealed_profile": {
+      "institution_name": "Đại học Giao thông Vận tải",
+      "institution_type": "PUBLIC_TOP",
+      "campus_location": "Hà Nội / TP.HCM",
+      "annual_tuition_vnd": 24000000,
+      "training_duration_years": 4.0,
+      "employment_rate_within_1yr": 93.8,
+      "admissions_benchmark_note": "Điểm chuẩn THPT khá - cao (23.5 - 26.0 điểm), truyền thống đào tạo kỹ thuật vận tải hàng đầu."
+    }
+  },
+  {
+    "id": "PROG_LOG_02",
+    "match_traits": { "weight_logic": 0.35, "weight_patience": 0.30, "weight_resilience": 0.35 },
+    "anonymous_profile": {
+      "code_name": "Logistics & Kinh Doanh Xuất Nhập Khẩu Quốc Tế",
+      "industry_cluster": "Logistics & Chuỗi Cung Ứng",
+      "focus_headline": "Kết hợp tư duy thương lượng hợp đồng ngoại thương, điều khoản phạt SLA quốc tế (Incoterms) và quản trị rủi ro chuỗi cung ứng.",
+      "core_curriculum_pillars": [
+        "Nghiệp vụ Ngoại thương, Incoterms & Hợp đồng Giao nhận Quốc tế",
+        "Quản trị Rủi ro Chuỗi cung ứng & Đàm phán Phạt chậm tiến độ (SLA)",
+        "Tài chính Thương mại & Hải quan Điện tử Xuyên biên giới"
+      ],
+      "practical_project_example": "Mô phỏng đàm phán phương án chia sẻ thiệt hại và điều phối lô nông sản xuất khẩu sang thị trường EU.",
+      "career_pathway": "Chuyên viên Xuất Nhập khẩu, Quản lý Chuỗi cung ứng Quốc tế, Chuyên viên Mua hàng Toàn cầu",
+      "estimated_grad_salary_vnd": { "min": 12000000, "max": 19000000 }
+    },
+    "revealed_profile": {
+      "institution_name": "Đại học Ngoại thương (FTU)",
+      "institution_type": "PUBLIC_TOP",
+      "campus_location": "Hà Nội / TP.HCM",
+      "annual_tuition_vnd": 28000000,
+      "training_duration_years": 4.0,
+      "employment_rate_within_1yr": 97.2,
+      "admissions_benchmark_note": "Điểm chuẩn rất cao (> 27.0 điểm), ưu thế vượt trội về ngoại ngữ và năng lực đàm phán thương mại."
+    }
+  },
+  {
+    "id": "PROG_LOG_03",
+    "match_traits": { "weight_logic": 0.45, "weight_patience": 0.35, "weight_resilience": 0.20 },
+    "anonymous_profile": {
+      "code_name": "Kinh Tế Logistics & Phân Tích Dữ Liệu Chuỗi Cung Ứng",
+      "industry_cluster": "Logistics & Chuỗi Cung Ứng",
+      "focus_headline": "Tập trung vào mô hình định lượng, tính toán bài toán đánh đổi chi phí — thiệt hại và quản trị hệ thống phân phối bán lẻ quy mô lớn.",
+      "core_curriculum_pillars": [
+        "Kinh tế lượng & Phân tích Dữ liệu Vận hành Chuỗi cung ứng",
+        "Quản trị Kho vận Thông minh (WMS) & Chuỗi cung ứng Lạnh",
+        "Hoạch định Nguồn lực Doanh nghiệp (ERP) trong Logistics"
+      ],
+      "practical_project_example": "Xây dựng bảng mô phỏng tối thiểu hóa chi phí lưu kho và phạt trễ cho hệ thống 120 siêu thị khu vực phía Bắc.",
+      "career_pathway": "Chuyên viên Hoạch định Chuỗi cung ứng (Supply Planner), Chuyên viên Phân tích Vận hành (Ops Analyst)",
+      "estimated_grad_salary_vnd": { "min": 11000000, "max": 18000000 }
+    },
+    "revealed_profile": {
+      "institution_name": "Đại học Kinh tế Quốc dân (NEU)",
+      "institution_type": "PUBLIC_TOP",
+      "campus_location": "Hà Nội",
+      "annual_tuition_vnd": 26000000,
+      "training_duration_years": 4.0,
+      "employment_rate_within_1yr": 96.4,
+      "admissions_benchmark_note": "Điểm chuẩn cao (26.5 - 27.8 điểm), mạng lưới doanh nghiệp bán lẻ và logistics đối tác rất mạnh."
+    }
+  },
+  {
+    "id": "PROG_LOG_04",
+    "match_traits": { "weight_logic": 0.30, "weight_patience": 0.40, "weight_resilience": 0.30 },
+    "anonymous_profile": {
+      "code_name": "Quản Trị Kho Bãi & Điều Độ Hiện Trường Thực Hành",
+      "industry_cluster": "Logistics & Chuỗi Cung Ứng",
+      "focus_headline": "70% thời lượng thực hành chứng từ giao nhận, kiểm soát tải trọng xếp dỡ, nhiệt độ container và vận hành phần mềm hiện trường.",
+      "core_curriculum_pillars": [
+        "Kỹ thuật Xếp dỡ, Kiểm soát Tải trọng & An toàn Hàng hóa Lạnh",
+        "Chứng từ Giao nhận & Thực hành Khai báo Hải quan Điện tử",
+        "Điều độ Đội xe & Quản lý Kho Trung chuyển Thực tế"
+      ],
+      "practical_project_example": "Thực hành lập lệnh điều phối đội xe, kiểm đếm container lạnh và giải phóng hàng tồn kho trực tiếp tại doanh nghiệp.",
+      "career_pathway": "Nhân viên Hiện trường Logistics (Ops Fieldman), Điều phối Đội xe, Quản lý Kho lạnh",
+      "estimated_grad_salary_vnd": { "min": 9000000, "max": 14000000 }
+    },
+    "revealed_profile": {
+      "institution_name": "Cao đẳng Thực hành FPT Polytechnic",
+      "institution_type": "VOCATIONAL_PRACTICAL",
+      "campus_location": "Toàn quốc",
+      "annual_tuition_vnd": 36000000,
+      "training_duration_years": 2.5,
+      "employment_rate_within_1yr": 94.0,
+      "admissions_benchmark_note": "Xét tuyển tốt nghiệp THPT, học nhanh 2.5 năm đi làm sớm, chú trọng kỹ năng hiện trường."
+    }
+  },
+  {
+    "id": "PROG_LOG_05",
+    "match_traits": { "weight_logic": 0.35, "weight_patience": 0.30, "weight_resilience": 0.35 },
+    "anonymous_profile": {
+      "code_name": "Quản Trị Chuỗi Cung Ứng Toàn Cầu Chuẩn Quốc Tế",
+      "industry_cluster": "Logistics & Chuỗi Cung Ứng",
+      "focus_headline": "Đào tạo 100% bằng tiếng Anh theo khung chuẩn quốc tế, mô phỏng các tình huống khủng hoảng chuỗi cung ứng xuyên lục địa.",
+      "core_curriculum_pillars": [
+        "Global Supply Chain Strategy & Crisis Resilience",
+        "Digital Twins & Logistics Analytics Dashboard",
+        "Dự án Capstone xử lý khủng hoảng chuỗi cung ứng cùng tập đoàn đa quốc gia"
+      ],
+      "practical_project_example": "Thiết kế kịch bản ứng phó gián đoạn cảng biển cho tập đoàn bán lẻ thực phẩm toàn cầu.",
+      "career_pathway": "Global Supply Chain Specialist, Operations Consultant tại tập đoàn đa quốc gia",
+      "estimated_grad_salary_vnd": { "min": 16000000, "max": 25000000 }
+    },
+    "revealed_profile": {
+      "institution_name": "Đại học Quốc tế RMIT Việt Nam",
+      "institution_type": "INTERNATIONAL_JOINT",
+      "campus_location": "Hà Nội / TP.HCM",
+      "annual_tuition_vnd": 335000000,
+      "training_duration_years": 3.0,
+      "employment_rate_within_1yr": 96.5,
+      "admissions_benchmark_note": "Xét học bạ + tiếng Anh IELTS >= 6.5, học phí cao nhưng cơ hội làm việc toàn cầu rộng mở."
+    }
+  }
+]

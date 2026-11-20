@@ -1,48 +1,58 @@
 /**
- * Finite State Machine (FSM) & User Session State
- * Reference: specs/SOFTWARE_DESIGN_DOCUMENT.md & docs/roadmap/gamification_diegetic_ui_rfc.md
+ * Finite State Machine (FSM) & User Session State — LucidTask v2.0
+ * Focused on 2 Deep Practical Missions: Logistics Cold-Chain & QA/Data Cleaning
  */
 
 import { EducationalProgram } from './program';
+import { AiTrapVerdict, MissionCriterionAudit, MissionId } from './mission';
 
 export type TaskWorkflowState =
-  | 'IDLE'                  // Chọn ngành ban đầu
-  | 'STAGE1_TASK'           // Đang thực hiện Chặng 1 (90s)
-  | 'EARLY_EXIT_SCREEN'     // Bị kích hoạt Sàng lọc sớm (Click ẩu / Thiếu kiên nhẫn)
-  | 'STAGE2_TASK'           // Đang thực hiện Chặng 2 (3.5m)
-  | 'SCORING_CALCULATING'   // Đang tính toán điểm 3 trục
-  | 'BLIND_MATCHING'        // Xem thẻ trường ẩn danh
-  | 'REVEALED_REPORT';      // Đã mở khóa tên trường & Xem báo cáo đồng thuận 2 cột
+  | 'IDLE'              // Chọn 1 trong 2 nhiệm vụ (Logistics / QA-Data)
+  | 'MISSION_BRIEFING'  // Dẫn nhập 30s (Vai trò, bối cảnh, mục tiêu)
+  | 'MISSION_ACTIVE'    // Bàn làm việc mô phỏng thực chiến (10-15p)
+  | 'MISSION_DEBRIEF'   // Biên bản đối soát & Giải tỏa (Closure & Catharsis)
+  | 'BLIND_MATCHING'    // Hồ sơ Big Five / RIASEC & Thẻ trường ẩn danh (IT-BLIND-01)
+  | 'REVEALED_REPORT';  // Mở khóa danh tính trường & Báo cáo Đồng thuận A4
 
 export interface BigFiveProfile {
   conscientiousness: number;   // Tận tâm (0 - 100)
-  openness: number;            // Cởi mở (0 - 100)
+  openness: number;            // Cởi mở & Tư duy phản biện (0 - 100)
   extraversion: number;        // Hướng ngoại (0 - 100)
   agreeableness: number;       // Hòa đồng (0 - 100)
   emotional_stability: number; // Ổn định cảm xúc (0 - 100)
 }
 
 export interface RiasecProfile {
-  realistic: number;           // Kỹ thuật (0 - 100)
-  investigative: number;       // Nghiên cứu (0 - 100)
+  realistic: number;           // Kỹ thuật / Vận hành thực tế (0 - 100)
+  investigative: number;       // Nghiên cứu / Điều tra phân tích (0 - 100)
   artistic: number;            // Nghệ thuật (0 - 100)
   social: number;              // Xã hội (0 - 100)
   enterprising: number;        // Quản lý / Kinh doanh (0 - 100)
-  conventional: number;        // Nghiệp vụ (0 - 100)
-  top_code: string;            // Mã Holland 3 chữ cái cao nhất (VD: "I-C-E")
+  conventional: number;        // Nghiệp vụ / Quy chuẩn (0 - 100)
+  top_code: string;            // Mã Holland 3 chữ cái cao nhất (VD: "R-E-C" hoặc "I-C-R")
+}
+
+export interface BigFiveWeights {
+  conscientiousness: number;
+  emotional_stability: number;
+  openness: number;
 }
 
 export interface CompetencyProfile {
-  logic_score: number;       // S_Logic (0 - 100)
-  patience_score: number;    // S_Patience (0 - 100)
-  resilience_score: number;  // S_Resilience (0 - 100)
-  composite_score: number;   // S_Total (0.30 * S1 + 0.70 * S2)
+  mission_id: MissionId;
+  mission_title: string;
+  logic_score: number;       // Trục 1: Tư duy Hệ thống / Phân tích & Toán tối ưu (0 - 100)
+  patience_score: number;    // Trục 2: Kỷ luật Tự kiểm soát & Tỉ mỉ chi tiết (0 - 100)
+  resilience_score: number;  // Trục 3: Bản lĩnh Áp lực & Phản biện độc lập (0 - 100)
+  composite_score: number;   // Điểm tổng hợp có trọng số theo đặc thù ngành (0 - 100)
   qualitative_insights: string[];
-  early_exit_triggered: boolean;
-  big_five?: BigFiveProfile;
-  riasec?: RiasecProfile;
-  completed_micro_tasks_count?: number;
-  confidence_level?: number; // % Độ tin cậy hồ sơ (tối đa 100% khi hoàn thành >= 5 Micro-Tasks)
+  big_five: BigFiveProfile;
+  big_five_weights: BigFiveWeights;
+  riasec: RiasecProfile;
+  ai_trap_verdict: AiTrapVerdict;
+  criteria_breakdown: MissionCriterionAudit[];
+  completed_missions_count: number;
+  confidence_level: number;  // 60% khi hoàn thành 1/2 nhiệm vụ, 100% khi hoàn thành 2/2
 }
 
 export interface ProgramMatchResult {
@@ -54,7 +64,7 @@ export interface ProgramMatchResult {
 
 export interface UserSessionState {
   session_id: string;
-  selected_industry_id: string | null;
+  selected_mission_id: MissionId | null;
   workflow_state: TaskWorkflowState;
   competency_profile: CompetencyProfile | null;
   matched_programs: ProgramMatchResult[];

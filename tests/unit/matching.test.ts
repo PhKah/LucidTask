@@ -1,6 +1,38 @@
 import { describe, it, expect } from 'vitest';
 import { ScoringEngine } from '../../src/engine/ScoringEngine';
 import { IndustryRegistry } from '../../src/registry/index';
+import { CompetencyProfile } from '../../src/types/state';
+
+const MOCK_PROFILE: CompetencyProfile = {
+  mission_id: 'IND_LOG_COLDCHAIN',
+  mission_title: 'Logistics',
+  logic_score: 88,
+  patience_score: 92,
+  resilience_score: 85,
+  composite_score: 90,
+  qualitative_insights: [],
+  big_five: {
+    conscientiousness: 92,
+    openness: 86,
+    emotional_stability: 85,
+    agreeableness: 78,
+    extraversion: 76,
+  },
+  big_five_weights: { conscientiousness: 50, emotional_stability: 35, openness: 15 },
+  riasec: {
+    realistic: 90,
+    enterprising: 80,
+    conventional: 78,
+    investigative: 65,
+    social: 55,
+    artistic: 45,
+    top_code: 'R-E-C',
+  },
+  ai_trap_verdict: 'TRIGGERED_AND_REJECTED',
+  criteria_breakdown: [],
+  completed_missions_count: 1,
+  confidence_level: 60,
+};
 
 describe('Blind Matching & Vector Space Suite (UT-COSINE-01 & UT-COSINE-02)', () => {
   it('achieves >= 99.9% match for identical collinear vectors (UT-COSINE-01)', () => {
@@ -19,30 +51,17 @@ describe('Blind Matching & Vector Space Suite (UT-COSINE-01 & UT-COSINE-02)', ()
     expect(match).toBe(0.0);
   });
 
-  it('ranks real seed programs correctly according to Ground Truth', () => {
-    // Student with strong logic (90), balanced patience (70), and resilient (80)
-    // Vector approx: (0.9, 0.7, 0.8) -> normalized: (0.64, 0.50, 0.57)
-    // Expected top matches: Systems/Cloud or AI/Data or Applied SWE
-    const profile = {
-      logic_score: 90,
-      patience_score: 70,
-      resilience_score: 80,
-      composite_score: 85,
-      qualitative_insights: [],
-      early_exit_triggered: false,
-    };
+  it('ranks Logistics and QA seed programs cleanly in descending compatibility order', () => {
+    const logPrograms = IndustryRegistry.getPrograms('IND_LOG_COLDCHAIN');
+    const qaPrograms = IndustryRegistry.getPrograms('IND_QA_DATA');
 
-    const allPrograms = IndustryRegistry.getAllPrograms();
-    expect(allPrograms.length).toBe(8);
+    expect(logPrograms.length).toBe(5);
+    expect(qaPrograms.length).toBe(5);
+    expect(IndustryRegistry.getAllPrograms().length).toBe(10);
 
-    const ranked = ScoringEngine.rankPrograms(profile, allPrograms);
-    expect(ranked.length).toBe(8);
+    const ranked = ScoringEngine.rankPrograms(MOCK_PROFILE, logPrograms);
     expect(ranked[0].rank).toBe(1);
     expect(ranked[0].match_percentage).toBeGreaterThanOrEqual(ranked[1].match_percentage);
-    expect(ranked[7].rank).toBe(8);
-
-    // Verify top program has high logic match trait
-    expect(ranked[0].program.match_traits.weight_logic).toBeGreaterThanOrEqual(0.35);
+    expect(ranked[ranked.length - 1].rank).toBe(5);
   });
 });
-

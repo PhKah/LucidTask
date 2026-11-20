@@ -1,0 +1,132 @@
+[
+  {
+    "id": "PROG_QA_01",
+    "match_traits": { "weight_logic": 0.45, "weight_patience": 0.35, "weight_resilience": 0.20 },
+    "anonymous_profile": {
+      "code_name": "Khoa Học Dữ Liệu & Kiểm Định Chất Lượng Hệ Thống",
+      "industry_cluster": "CNTT — Dữ Liệu & QA",
+      "focus_headline": "Tập trung vào tư duy phân tích dữ liệu sạch, thống kê ứng dụng và kiểm định tính toàn vẹn của các hệ thống số quy mô lớn.",
+      "core_curriculum_pillars": [
+        "Tiền xử lý, Làm sạch Dữ liệu & Khai phá Bất thường (Data Cleaning)",
+        "Xác suất Thống kê Ứng dụng & Trực quan hóa Dữ liệu (BI Analytics)",
+        "Kiểm định Mô hình & Độ tin cậy Hệ thống Dữ liệu lớn"
+      ],
+      "practical_project_example": "Xây dựng bộ quy tắc phát hiện gian lận đơn hàng trùng lặp và sai lệch thanh toán cho sàn thương mại điện tử 1 triệu giao dịch/ngày.",
+      "career_pathway": "Chuyên viên Phân tích Dữ liệu (Data Analyst), Chuyên viên Chất lượng Dữ liệu (Data Quality Engineer)",
+      "estimated_grad_salary_vnd": { "min": 13000000, "max": 21000000 }
+    },
+    "revealed_profile": {
+      "institution_name": "Đại học Khoa học Tự nhiên (ĐHQG)",
+      "institution_type": "PUBLIC_TOP",
+      "campus_location": "TP.HCM / Hà Nội",
+      "annual_tuition_vnd": 28000000,
+      "training_duration_years": 4.0,
+      "employment_rate_within_1yr": 95.8,
+      "admissions_benchmark_note": "Điểm chuẩn khối A00/A01 top đầu, nền tảng toán và tư duy phân tích dữ liệu rất chắc."
+    }
+  },
+  {
+    "id": "PROG_QA_02",
+    "match_traits": { "weight_logic": 0.40, "weight_patience": 0.40, "weight_resilience": 0.20 },
+    "anonymous_profile": {
+      "code_name": "Kỹ Thuật Phần Mềm & Đảm Bảo Chất Lượng (QA / DevOps)",
+      "industry_cluster": "CNTT — Dữ Liệu & QA",
+      "focus_headline": "Đào tạo kỹ sư nắm vững kiến trúc luồng nghiệp vụ, thiết kế kịch bản kiểm thử lỗ hổng và vận hành hệ thống phần mềm ổn định.",
+      "core_curriculum_pillars": [
+        "Phân tích Luồng Nghiệp vụ & Đặc tả Hệ thống (System Analysis)",
+        "Đảm bảo Chất lượng Phần mềm & Tự động hóa Kiểm thử (QA Automation)",
+        "Kiến trúc Phần mềm Chịu tải cao & Quản trị Sự cố (SRE)"
+      ],
+      "practical_project_example": "Thiết kế bộ kiểm thử phát hiện lỗ hổng thanh toán và kiểm chứng khả năng chịu tải mùa Flash-Sale.",
+      "career_pathway": "Kỹ sư Đảm bảo Chất lượng (QA Engineer), Chuyên viên Phân tích Nghiệp vụ (Business Analyst)",
+      "estimated_grad_salary_vnd": { "min": 13000000, "max": 20000000 }
+    },
+    "revealed_profile": {
+      "institution_name": "Đại học Bách Khoa (ĐHQG)",
+      "institution_type": "PUBLIC_TOP",
+      "campus_location": "TP.HCM / Hà Nội",
+      "annual_tuition_vnd": 32000000,
+      "training_duration_years": 4.5,
+      "employment_rate_within_1yr": 96.5,
+      "admissions_benchmark_note": "Điểm chuẩn THPT rất cao (> 26.5 điểm), uy tín kỹ thuật hàng đầu cả nước."
+    }
+  },
+  {
+    "id": "PROG_QA_03",
+    "match_traits": { "weight_logic": 0.35, "weight_patience": 0.40, "weight_resilience": 0.25 },
+    "anonymous_profile": {
+      "code_name": "Công Nghệ Phần Mềm Thực Chiến & Kiểm Thử Doanh Nghiệp",
+      "industry_cluster": "CNTT — Dữ Liệu & QA",
+      "focus_headline": "Học qua dự án thật từ học kỳ 3, rèn quy trình Agile/Scrum, kiểm thử ứng dụng và kỳ thực tập doanh nghiệp OJT 6 tháng.",
+      "core_curriculum_pillars": [
+        "Quy trình Kiểm thử Phần mềm Chuẩn Doanh nghiệp (ISTQB / Agile QA)",
+        "Phân tích Yêu cầu & Kiểm chứng Luồng Người dùng (BA & UX Testing)",
+        "Kỳ Thực tập Doanh nghiệp (OJT) 6 tháng cọ xát dự án thật"
+      ],
+      "practical_project_example": "Tham gia đội QA kiểm thử toàn bộ quy trình đặt hàng, mã giảm giá và ví điện tử cho đối tác bán lẻ.",
+      "career_pathway": "Software QA / Tester, Business Analyst (BA), Product Quality Lead",
+      "estimated_grad_salary_vnd": { "min": 11000000, "max": 18000000 }
+    },
+    "revealed_profile": {
+      "institution_name": "Đại học FPT",
+      "institution_type": "PRIVATE_APPLIED",
+      "campus_location": "Hà Nội / Đà Nẵng / TP.HCM / Cần Thơ",
+      "annual_tuition_vnd": 88000000,
+      "training_duration_years": 4.0,
+      "employment_rate_within_1yr": 95.0,
+      "admissions_benchmark_note": "Xét tuyển học bạ + Đánh giá năng lực, giáo trình cập nhật theo doanh nghiệp phần mềm."
+    }
+  },
+  {
+    "id": "PROG_QA_04",
+    "match_traits": { "weight_logic": 0.30, "weight_patience": 0.45, "weight_resilience": 0.25 },
+    "anonymous_profile": {
+      "code_name": "Kiểm Thử Phần Mềm Thực Hành & Vận Hành Dữ Liệu",
+      "industry_cluster": "CNTT — Dữ Liệu & QA",
+      "focus_headline": "Lược bỏ toán hàn lâm nặng, 70% thực hành săn bug, kiểm thử thủ công & công cụ tự động, ra trường đi làm sớm sau 2.5 năm.",
+      "core_curriculum_pillars": [
+        "Thực hành Viết Test Case & Săn Bug Trên Web/Mobile App",
+        "Công cụ Kiểm thử Tự động & Kiểm tra Dữ liệu API (Postman / SQL cơ bản)",
+        "Làm sạch Dữ liệu Bảng tính & Báo cáo Lỗi Chuẩn Doanh nghiệp"
+      ],
+      "practical_project_example": "Lập bộ kiểm thử 100 kịch bản lỗi thanh toán và báo cáo QA hoàn chỉnh cho website bán hàng.",
+      "career_pathway": "Chuyên viên Kiểm thử Phần mềm (Software Tester), Nhân viên Quản trị Dữ liệu",
+      "estimated_grad_salary_vnd": { "min": 9000000, "max": 14500000 }
+    },
+    "revealed_profile": {
+      "institution_name": "Cao đẳng Kỹ thuật Cao Thắng",
+      "institution_type": "VOCATIONAL_PRACTICAL",
+      "campus_location": "TP.HCM",
+      "annual_tuition_vnd": 20000000,
+      "training_duration_years": 2.5,
+      "employment_rate_within_1yr": 94.2,
+      "admissions_benchmark_note": "Học phí tiết kiệm, thời gian đào tạo ngắn 2.5 năm, uy tín thực hành cao."
+    }
+  },
+  {
+    "id": "PROG_QA_05",
+    "match_traits": { "weight_logic": 0.35, "weight_patience": 0.35, "weight_resilience": 0.30 },
+    "anonymous_profile": {
+      "code_name": "Quản Trị Sản Phẩm Số & Phân Tích Hệ Thống Quốc Tế",
+      "industry_cluster": "CNTT — Dữ Liệu & QA",
+      "focus_headline": "Đào tạo 100% tiếng Anh về phân tích hệ thống số, kiểm soát chất lượng sản phẩm công nghệ và dữ liệu doanh nghiệp.",
+      "core_curriculum_pillars": [
+        "Product Quality Assurance & Digital Risk Governance",
+        "Data Analytics & Business Process Modeling",
+        "Dự án Capstone kiểm định sản phẩm công nghệ cùng doanh nghiệp quốc tế"
+      ],
+      "practical_project_example": "Kiểm toán quy trình thanh toán và đề xuất tái thiết kế luồng chống gian lận cho ví điện tử quốc tế.",
+      "career_pathway": "Product Owner, Technical Business Analyst, QA Lead tại công ty đa quốc gia",
+      "estimated_grad_salary_vnd": { "min": 16000000, "max": 25000000 }
+    },
+    "revealed_profile": {
+      "institution_name": "Đại học Quốc tế RMIT Việt Nam",
+      "institution_type": "INTERNATIONAL_JOINT",
+      "campus_location": "Hà Nội / TP.HCM",
+      "annual_tuition_vnd": 340000000,
+      "training_duration_years": 3.0,
+      "employment_rate_within_1yr": 96.5,
+      "admissions_benchmark_note": "Xét tuyển bằng cấp tiếng Anh (IELTS >= 6.5) và học bạ, môi trường chuẩn toàn cầu."
+    }
+  }
+]
