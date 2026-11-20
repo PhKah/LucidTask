@@ -113,7 +113,7 @@ npm test
 | Thời gian | Người/Agent | Hành động thực hiện | Kết quả / Ghi chú | Commit Hash |
 | :---: | :---: | :--- | :--- | :---: |
 | 2026-11-20 16:22 | Antigravity | Soạn thảo Task Spec dựa trên Giai đoạn 0 | Sẵn sàng chờ phê duyệt thực thi | `c3e13a1` |
-| 2026-11-20 16:47 | Antigravity | Tạo toàn bộ file config, design tokens, App shell | Cài đặt package & tạo file | `working` |
-| 2026-11-20 16:48 | Antigravity | Sửa test selector ambiguity cho header brand | Pass 3/3 tests, build dist/ thành công | `pending` |
+| 2026-11-20 16:47 | Antigravity | Tạo toàn bộ file config, design tokens, App shell | Cài đặt package & tạo file | `e4f3ed1` |
+| 2026-11-20 16:48 | Antigravity | Sửa test selector ambiguity cho header brand | Pass 3/3 tests, build dist/ thành công | `e4f3ed1` |
 
 
