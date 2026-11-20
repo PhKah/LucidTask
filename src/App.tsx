@@ -1,99 +1,164 @@
-import React from 'react';
-import { Activity, ShieldCheck, ArrowRight } from 'lucide-react';
+import React, { useState } from 'react';
+import { TaskWorkflowState } from './types/state';
+import { IndustryRegistry } from './registry/index';
+import AppShell from './components/AppShell';
+import IndustrySelector from './components/IndustrySelector';
+import TaskWorkspace from './components/TaskWorkspace';
+import EarlyExitScreen from './components/EarlyExitScreen';
+import { telemetryBus } from './engine/TelemetryBus';
+import { ScoringEngine } from './engine/ScoringEngine';
 
 export const App: React.FC = () => {
+  const [workflowState, setWorkflowState] = useState<TaskWorkflowState>('IDLE');
+  const [selectedIndustryId, setSelectedIndustryId] = useState<string>('IND_TECH_SW');
+  const [earlyExitData, setEarlyExitData] = useState<{
+    reason: 'LOW_ACCURACY' | 'ERRATIC_SPEED';
+    accuracy: number;
+    speedSecondsPerItem: number;
+  } | null>(null);
+
+  const [stage1Summary, setStage1Summary] = useState<{
+    accuracy: number;
+    totalItems: number;
+    correctCount: number;
+    durationSeconds: number;
+  } | null>(null);
+
+  const [_stage2Result, setStage2Result] = useState<{
+    actionId: string;
+    isOptimal: boolean;
+    stats: { tabSwitches: number; panicClicks: number };
+  } | null>(null);
+
+  const currentIndustry = IndustryRegistry.getIndustry(selectedIndustryId);
+  const stage1Task = IndustryRegistry.getStageTask(selectedIndustryId, 1);
+  const stage2Task = IndustryRegistry.getStageTask(selectedIndustryId, 2);
+
+  const handleSelectIndustry = (industryId: string) => {
+    setSelectedIndustryId(industryId);
+    telemetryBus.publish('task_started', {
+      stage: 1,
+      time_limit_sec: 90,
+    });
+    setWorkflowState('STAGE1_TASK');
+  };
+
+  const handleStage1Complete = (summary: {
+    accuracy: number;
+    totalItems: number;
+    correctCount: number;
+    durationSeconds: number;
+  }) => {
+    setStage1Summary(summary);
+    telemetryBus.publish('task_completed', {
+      stage: 1,
+      total_duration_sec: summary.durationSeconds,
+    });
+
+    // Advance to Stage 2
+    telemetryBus.publish('task_started', {
+      stage: 2,
+      time_limit_sec: 210,
+    });
+    setWorkflowState('STAGE2_TASK');
+  };
+
+  const handleEarlyExit = (
+    reason: 'LOW_ACCURACY' | 'ERRATIC_SPEED',
+    accuracy: number,
+    speedSecondsPerItem: number
+  ) => {
+    setEarlyExitData({ reason, accuracy, speedSecondsPerItem });
+    setWorkflowState('EARLY_EXIT_SCREEN');
+  };
+
+  const handleStage2Complete = (
+    actionId: string,
+    isOptimal: boolean,
+    stats: { tabSwitches: number; panicClicks: number }
+  ) => {
+    setStage2Result({ actionId, isOptimal, stats });
+    telemetryBus.publish('task_completed', {
+      stage: 2,
+      total_duration_sec: 180,
+    });
+
+    // Compute profile for preview
+    const profile = ScoringEngine.generateCompetencyProfile(
+      {
+        accuracy: stage1Summary ? stage1Summary.accuracy : 0.8,
+        rootCauseIsolated: isOptimal,
+        optimalPathTaken: isOptimal,
+      },
+      {
+        handbookReadingMs: 16000,
+        tabSwitchCount: stats.tabSwitches,
+      },
+      {
+        errorRateNormal: 0.1,
+        errorRateStress: isOptimal ? 0.15 : 0.45,
+        panicClicksCount: stats.panicClicks,
+      },
+      stage1Summary ? stage1Summary.accuracy : 0.8
+    );
+
+    console.log('Competency Profile Generated:', profile);
+    // In Sprint 3, this transitions to BLIND_MATCHING
+    alert(`Hoàn thành xuất sắc 2 Chặng Tác Vụ!\nĐiểm tổng hợp: ${profile.composite_score}/100\nS_Logic: ${profile.logic_score} | S_Patience: ${profile.patience_score} | S_Resilience: ${profile.resilience_score}`);
+  };
+
+  const handleResetSession = () => {
+    telemetryBus.clear();
+    setStage1Summary(null);
+    setStage2Result(null);
+    setEarlyExitData(null);
+    setWorkflowState('IDLE');
+  };
+
   return (
-    <div className="min-h-screen bg-white text-black flex flex-col font-roboto">
-      {/* Al Jazeera Hard-News Top Console Bar */}
-      <header className="bg-night-navy text-white px-6 py-3 border-b border-black flex items-center justify-between no-print">
-        <div className="flex items-center gap-3">
-          <div className="w-4 h-4 bg-accent flex-shrink-0" />
-          <span className="font-black text-lg tracking-wider uppercase font-roboto">
-            LUCIDTASK <span className="text-accent text-xs font-normal">v1.0 MVP</span>
-          </span>
-        </div>
-        <div className="flex items-center gap-4 text-xs">
-          <div className="flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-live-red animate-pulse" />
-            <span className="text-gray-300 font-mono">TELEMETRY: ACTIVE (&lt;50ms)</span>
-          </div>
-          <span className="text-gray-500">|</span>
-          <span className="text-gray-400">ĐỀ TÀI ĐMST 2026</span>
-        </div>
-      </header>
+    <AppShell
+      industryName={workflowState !== 'IDLE' ? currentIndustry?.name : undefined}
+      onResetSession={workflowState !== 'IDLE' ? handleResetSession : undefined}
+      hasHandbook={workflowState === 'STAGE1_TASK' || workflowState === 'STAGE2_TASK'}
+    >
+      {workflowState === 'IDLE' && (
+        <IndustrySelector onSelectIndustry={handleSelectIndustry} />
+      )}
 
-      {/* Main Container */}
-      <main className="flex-1 max-w-5xl mx-auto w-full px-6 py-12">
-        <div className="card-hairline mb-8">
-          <div className="flex items-center gap-2 mb-3">
-            <span className="eyebrow-marker" />
-            <span className="text-xs font-bold uppercase tracking-widest text-muted-gray">
-              NỀN TẢNG HƯỚNG NGHIỆP THỰC CHỨNG
-            </span>
-          </div>
-          <h1 className="text-3xl font-black mb-4 uppercase tracking-tight">
-            Trải Nghiệm Tác Vụ Thực Tế &amp; Ghép Nối Chương Trình Đào Tạo Ẩn Danh
-          </h1>
-          <p className="text-muted-gray leading-relaxed mb-6 max-w-3xl">
-            Thay thế các bài trắc nghiệm tính cách cảm tính bằng chuỗi vi tác vụ kỹ thuật thực tế. 
-            Đo lường độ kiên nhẫn, tư duy logic và sức bền dưới áp lực thời gian để đối soát khách quan với thị trường lao động.
-          </p>
+      {workflowState === 'STAGE1_TASK' && stage1Task && (
+        <TaskWorkspace
+          currentStage={1}
+          task={stage1Task}
+          onStage1Complete={handleStage1Complete}
+          onStage2Complete={handleStage2Complete}
+          onEarlyExit={handleEarlyExit}
+        />
+      )}
 
-          <div className="flex flex-wrap gap-4 items-center">
-            <button className="btn-pill-dark group">
-              <span>BẮT ĐẦU TRẢI NGHIỆM</span>
-              <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-            </button>
-            <button className="btn-pill-outline">
-              XEM BẢN ĐẶC TẢ
-            </button>
-            <div className="badge-live-red ml-auto">
-              CHẾ ĐỘ SƠ TUYỂN MA SÁT (90S)
-            </div>
-          </div>
-        </div>
+      {workflowState === 'EARLY_EXIT_SCREEN' && earlyExitData && (
+        <EarlyExitScreen
+          reason={earlyExitData.reason}
+          accuracy={earlyExitData.accuracy}
+          speedSecondsPerItem={earlyExitData.speedSecondsPerItem}
+          onRetry={() => {
+            telemetryBus.clear();
+            setWorkflowState('STAGE1_TASK');
+          }}
+          onChooseOtherIndustry={handleResetSession}
+        />
+      )}
 
-        {/* 3 Core Pillars Preview */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="card-hairline">
-            <div className="flex items-center gap-2 mb-2 font-black text-sm uppercase text-accent">
-              <Activity className="w-4 h-4" />
-              <span>Chặng 1: Ma Sát (90s)</span>
-            </div>
-            <p className="text-xs text-muted-gray leading-relaxed">
-              Bộ lọc sàng lọc sớm Gatekeeper. Phát hiện thao tác click ẩu và thiếu kiên nhẫn để kích hoạt dừng sớm.
-            </p>
-          </div>
-
-          <div className="card-hairline">
-            <div className="flex items-center gap-2 mb-2 font-black text-sm uppercase text-accent">
-              <ShieldCheck className="w-4 h-4" />
-              <span>Chặng 2: Năng Lực (3.5m)</span>
-            </div>
-            <p className="text-xs text-muted-gray leading-relaxed">
-              Thách thức giải quyết sự cố đa biến số. Đối soát 3 tab nhật ký hệ thống dưới áp lực đếm ngược.
-            </p>
-          </div>
-
-          <div className="card-hairline">
-            <div className="flex items-center gap-2 mb-2 font-black text-sm uppercase text-accent">
-              <span className="w-2.5 h-2.5 bg-black" />
-              <span>Blind Matching</span>
-            </div>
-            <p className="text-xs text-muted-gray leading-relaxed">
-              Che toàn bộ thương hiệu trường đại học. Ghép nối dựa trên % tương thích và mở khóa sau khi chọn.
-            </p>
-          </div>
-        </div>
-      </main>
-
-      {/* Footer */}
-      <footer className="border-t border-hairline py-4 px-6 text-center text-xs text-muted-gray no-print">
-        LucidTask — Nền tảng Hướng nghiệp Thực chứng © 2026. Kiến trúc theo chuẩn IEEE 830 &amp; IEEE 1016.
-      </footer>
-    </div>
+      {workflowState === 'STAGE2_TASK' && stage2Task && (
+        <TaskWorkspace
+          currentStage={2}
+          task={stage2Task}
+          onStage1Complete={handleStage1Complete}
+          onStage2Complete={handleStage2Complete}
+          onEarlyExit={handleEarlyExit}
+        />
+      )}
+    </AppShell>
   );
 };
 
 export default App;
-
