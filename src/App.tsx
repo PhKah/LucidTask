@@ -7,6 +7,7 @@ import TaskWorkspace from './components/TaskWorkspace';
 import EarlyExitScreen from './components/EarlyExitScreen';
 import CompetencyRadar from './components/CompetencyRadar';
 import BlindMatchingCards from './components/BlindMatchingCards';
+import ParentAlignmentKit from './components/ParentAlignmentKit';
 import { telemetryBus } from './engine/TelemetryBus';
 import { ScoringEngine } from './engine/ScoringEngine';
 
@@ -26,7 +27,7 @@ export const App: React.FC = () => {
     durationSeconds: number;
   } | null>(null);
 
-  const [_stage2Result, setStage2Result] = useState<{
+  const [stage2Result, setStage2Result] = useState<{
     actionId: string;
     isOptimal: boolean;
     stats: { tabSwitches: number; panicClicks: number };
@@ -189,26 +190,16 @@ export const App: React.FC = () => {
       )}
 
       {workflowState === 'REVEALED_REPORT' && competencyProfile && (
-        <div className="card-hairline text-center py-12 space-y-4 animate-fadeIn">
-          <div className="flex items-center justify-center gap-2 mb-2">
-            <span className="eyebrow-marker" />
-            <span className="text-xs font-bold uppercase tracking-widest text-muted-gray">
-              BÁO CÁO ĐỒNG THUẬN GIA ĐÌNH (SPRINT 4)
-            </span>
-          </div>
-          <h2 className="text-2xl font-black uppercase text-black">
-            Báo Cáo 2 Cột Đối Chiếu Đang Được Chuẩn Bị
-          </h2>
-          <p className="text-xs text-muted-gray max-w-md mx-auto">
-            Chức năng Báo cáo Đối chiếu Phụ huynh và Xuất file in A4 PDF sẽ được kích hoạt ở Sprint 4.
-          </p>
-          <button
-            onClick={() => setWorkflowState('BLIND_MATCHING')}
-            className="btn-pill-dark text-xs"
-          >
-            QUAY LẠI BẢNG GHÉP NỐI
-          </button>
-        </div>
+        <ParentAlignmentKit
+          profile={competencyProfile}
+          matchedPrograms={matchedPrograms}
+          selectedProgramId={selectedProgramId}
+          marketIntelligence={currentIndustry?.marketIntelligence}
+          stage1Summary={stage1Summary}
+          stage2Result={stage2Result}
+          onBackToBlindMatching={() => setWorkflowState('BLIND_MATCHING')}
+          onResetSession={handleResetSession}
+        />
       )}
     </AppShell>
   );
