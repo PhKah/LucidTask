@@ -26,7 +26,8 @@ TẦNG 3: KIỂM CHỨNG & ĐÁNH GIÁ (Eval & Quality Gates)
   ├── AI_DLC_Eval_&_Data_Feasibility_Spec.md ── KHUNG CRAFT & GROUND TRUTH
   ├── Scenario_&_Scoring_Spec.md             ── TOÁN HỌC & THANG ĐIỂM HÀNH VI
   ├── QA_TEST_PLAN.md                        ── KẾ HOẠCH QA, UNIT/INTEGRATION TEST MATRIX & DoD
-  └── Validation_Plan.md                     ── KỊCH BẢN THỬ NGHIỆM UAT & THỰC ĐỊA
+  ├── Validation_Plan.md                     ── KỊCH BẢN THỬ NGHIỆM UAT & THỰC ĐỊA
+  └── PHASED_IMPLEMENTATION_PLAN.md          ── KẾ HOẠCH TRIỂN KHAI 5 GIAI ĐOẠN & MA TRẬN IN/OUT
 ```
 
 ---
