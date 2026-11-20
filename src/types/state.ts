@@ -38,3 +38,4 @@ export interface UserSessionState {
   matched_programs: ProgramMatchResult[];
   selected_program_id: string | null;
 }
+

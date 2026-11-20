@@ -65,3 +65,4 @@ describe('Competency Profile Scoring Suite (UT-SCORE-01 & UT-SCORE-02)', () => {
     expect(profile.early_exit_triggered).toBe(false);
   });
 });
+

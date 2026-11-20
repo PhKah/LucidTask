@@ -52,3 +52,4 @@ describe('Gatekeeper Early Exit Suite (UT-GATE-01 .. UT-GATE-03)', () => {
     expect(result.shouldExit).toBe(false);
   });
 });
+

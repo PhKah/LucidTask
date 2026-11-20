@@ -72,3 +72,4 @@ describe('UT-BUS-01: TelemetryBus Pub/Sub & Latency Suite', () => {
     expect(bus.getEventCount()).toBe(0);
   });
 });
+

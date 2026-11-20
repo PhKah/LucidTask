@@ -34,3 +34,4 @@ export interface TelemetryEvent<K extends TelemetryEventType = TelemetryEventTyp
   timestamp_ms: number;
   payload: TelemetryPayloadMap[K];
 }
+

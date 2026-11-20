@@ -62,3 +62,4 @@ export const IndustryRegistry = {
 };
 
 export default IndustryRegistry;
+

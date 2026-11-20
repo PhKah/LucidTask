@@ -58,3 +58,4 @@ export interface TaskDefinition {
     max_error_stress_ratio?: number;
   };
 }
+
