@@ -74,3 +74,4 @@ Báo cáo này tổng hợp kết quả thực nghiệm thực địa với **25
 1. **Khẳng định tính đúng đắn của giả thuyết cốt lõi:** Phương pháp "Hướng nghiệp qua Tác vụ Thực chứng" vượt trội hơn hẳn mô hình trắc nghiệm tĩnh trong việc cung cấp bằng chứng khách quan về năng lực nghề nghiệp.
 2. **Giải quyết bài toán xung đột thế hệ:** Vùng Đồng thuận Gia đình và 3 câu hỏi bàn ăn là cầu nối khoa học, biến cuộc trò chuyện chọn ngành từ "áp đặt cảm tính" thành "đối thoại dựa trên dữ liệu thực tế".
 3. **Tiềm năng thương mại hóa & Mở rộng:** Nền tảng sẵn sàng mở rộng từ ngành Kỹ thuật Phần mềm sang Logistics, Truyền thông Đa phương tiện, và Y Dược thông qua cơ chế Data Registry dạng module độc lập.
+

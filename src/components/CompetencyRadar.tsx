@@ -147,3 +147,4 @@ export const CompetencyRadar: React.FC<CompetencyRadarProps> = ({ profile }) => 
 };
 
 export default CompetencyRadar;
+

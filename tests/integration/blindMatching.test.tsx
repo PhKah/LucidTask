@@ -93,3 +93,4 @@ describe('Blind Matching Invariant & Reveal Suite (IT-BLIND-01 & IT-REVEAL-01)',
     expect(onProceed).toHaveBeenCalledTimes(1);
   });
 });
+
