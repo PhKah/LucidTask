@@ -48,3 +48,4 @@ docs/
 1. **`specs/` (Chân lý kỹ thuật - SSOT):** Không bao giờ thay đổi theo từng sprint. Đây là nơi chứa bản vẽ thiết kế, hợp đồng dữ liệu, công thức toán học và tiêu chuẩn chất lượng của toàn bộ hệ thống.
 2. **`docs/` (Điều phối tiến trình & Tương lai):** Tổ chức việc đọc và chia nhỏ mục tiêu theo từng Sprint ngắn hạn (MVP) và vạch ra lộ trình mở rộng dài hạn (Post-MVP).
 3. **`task/` (Nhật ký thực thi tại trận):** Nơi lưu trữ mã nguồn các task chi tiết, checklist kiểm thử và commit hash lịch sử của mỗi lập trình viên / AI Agent.
+

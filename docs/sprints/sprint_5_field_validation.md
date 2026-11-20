@@ -31,3 +31,4 @@
   - $H_1$: $\ge 40\%$ học sinh chọn trường ngoài danh sách định kiến ban đầu sau khi mở khóa.
   - $H_2$: $\ge 80\%$ người tham gia tin tưởng điểm số đo bằng tác vụ hơn trắc nghiệm.
   - $H_3$: $\ge 70\%$ phụ huynh thay đổi góc nhìn về chọn ngành/trường cho con sau khi đọc báo cáo.
+

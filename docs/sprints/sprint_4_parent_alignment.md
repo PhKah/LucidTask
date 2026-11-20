@@ -28,3 +28,4 @@
 npm test && npm run build
 ```
 - **Tiêu chí:** Toàn bộ test suite PASS 100%, in thử nghiệm trên trình duyệt ra file PDF gọn trong 1 trang A4 portrait không bị vỡ layout hay nhảy dòng chữ.
+

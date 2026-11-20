@@ -66,3 +66,4 @@ flowchart TD
 - Thay vì chỉ in file PDF, phụ huynh và học sinh có thể:
   - Tạo link chia sẻ báo cáo bảo mật qua Zalo/Email cho người thân.
   - Đặt lịch hẹn cố vấn 1-1 trực tiếp với các cựu sinh viên đang làm nghề hoặc chuyên gia tuyển sinh của trường đại học được ghép nối.
+

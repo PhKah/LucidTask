@@ -89,3 +89,4 @@
 - [ ] Thỏa mãn tiêu chí $H_1$ (Chọn trường ngoài định kiến ban đầu)
 - [ ] Thỏa mãn tiêu chí $H_2$ (Hiểu bản chất nghề qua trải nghiệm thực chứng)
 - [ ] Thỏa mãn tiêu chí $H_3$ (Phụ huynh đồng thuận và thay đổi góc nhìn)
+

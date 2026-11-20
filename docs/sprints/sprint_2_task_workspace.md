@@ -32,3 +32,4 @@
 npm test tests/integration/workspace.test.tsx
 ```
 - **Tiêu chí:** Thao tác click ẩu (< 1.2s hoặc độ chính xác < 60%) tự động kích hoạt `EarlyExitScreen` trước mốc 90s; thao tác chuẩn chuyển tiếp mượt mà sang Chặng 2 trong $\le 1$ giây.
+

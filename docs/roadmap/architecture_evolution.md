@@ -80,3 +80,4 @@ flowchart TD
 - Xây dựng bản **Progressive Web App (PWA)**:
   - Cho phép phụ huynh đọc Báo cáo Đồng thuận mượt mà trên iPhone/Android.
   - Cho phép học sinh nhận thông báo đẩy (Push Notifications) khi các trường đại học công bố học bổng hoặc mở ngày hội trải nghiệm (Open Day).
+

@@ -29,3 +29,4 @@
 npm test tests/integration/blindMatching.test.tsx
 ```
 - **Tiêu chí:** Test `IT-BLIND-01` PASS 100% (quét `document.body.innerHTML` không chứa từ khóa "Bách Khoa", "FPT", "RMIT"... trước khi Reveal); sau khi mở khóa, thông tin hiển thị chính xác.
+

@@ -35,3 +35,4 @@ npm test
 npm run build
 ```
 - **Tiêu chí:** 0 lỗi TypeScript, build bundle sinh ra `dist/` thành công, Vitest chạy thông suốt.
+

@@ -32,3 +32,4 @@
 npm test && npm run test:coverage
 ```
 - **Tiêu chí:** 100% unit tests pass, Line Coverage của `src/engine/` đạt $\ge 80\%$ (kỳ vọng $\ge 95\%$), thuật toán Cosine xếp hạng đúng Ground Truth.
+
