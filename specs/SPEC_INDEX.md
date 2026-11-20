@@ -15,8 +15,9 @@ TẦNG 1: ĐỊNH HƯỚNG & PHẠM VI (Business & Scope)
   ├── PRD_MVP.md                  ── Trả lời TẠI SAO (Why) & CHO AI (Who)
   └── bare_minimum.md             ── BẢNG CẮT BỎ CỨNG (Non-negotiable Cut-off Checklist)
 
-TẦNG 2: ĐẶC TẢ KỸ THUẬT (System & Implementation Specs)
+TẦNG 2: ĐẶC TẢ KỸ THUẬT & THIẾT KẾ (System & Implementation Specs)
   ├── SRS.md                      ── Trả lời HỆ THỐNG LÀM GÌ (What: FR & NFR)
+  ├── SOFTWARE_DESIGN_DOCUMENT.md ── BẢN VẼ THIẾT KẾ HỆ THỐNG (How: HLD, LLD & Diagrams)
   ├── Task_Engine_Architecture.md ── KIẾN TRÚC ĐỘNG CƠ (How Engine: 4 Archetypes)
   ├── Data_Schema_&_Seed_Data.md  ── HỢP ĐỒNG DỮ LIỆU (TypeScript & JSON Seed)
   └── UI_UX_Wireframe_Spec.md     ── GIAO DIỆN & DESIGN TOKENS (How UI)
@@ -24,6 +25,7 @@ TẦNG 2: ĐẶC TẢ KỸ THUẬT (System & Implementation Specs)
 TẦNG 3: KIỂM CHỨNG & ĐÁNH GIÁ (Eval & Quality Gates)
   ├── AI_DLC_Eval_&_Data_Feasibility_Spec.md ── KHUNG CRAFT & GROUND TRUTH
   ├── Scenario_&_Scoring_Spec.md             ── TOÁN HỌC & THANG ĐIỂM HÀNH VI
+  ├── QA_TEST_PLAN.md                        ── KẾ HOẠCH QA, UNIT/INTEGRATION TEST MATRIX & DoD
   └── Validation_Plan.md                     ── KỊCH BẢN THỬ NGHIỆM UAT & THỰC ĐỊA
 ```
 
@@ -36,12 +38,14 @@ TẦNG 3: KIỂM CHỨNG & ĐÁNH GIÁ (Eval & Quality Gates)
 | **Tầng 1** | [PRD_MVP.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/specs/PRD_MVP.md) | **Why & Who** | Bối cảnh 3 đứt gãy, mục tiêu kiểm chứng, đối tượng người dùng (học sinh & phụ huynh), và phân cấp tính năng MoSCoW. | 1 |
 | **Tầng 1** | [bare_minimum.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/specs/bare_minimum.md) | **Cut-offs** | Bảng tiêu chuẩn cốt lõi không thể cắt giảm, 6 nguyên lý kiểm duyệt và ranh giới định vị (LÀ GÌ / KHÔNG PHẢI LÀ GÌ). | 2 |
 | **Tầng 2** | [SRS.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/specs/SRS.md) | **What** | Danh mục yêu cầu chức năng (`FR-01` $\rightarrow$ `FR-09`), yêu cầu phi chức năng (`NFR-01` $\rightarrow$ `NFR-06`) và ma trận truy xuất nguồn gốc RTM. | 3 |
-| **Tầng 2** | [Task_Engine_Architecture.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/specs/Task_Engine_Architecture.md) | **How Engine** | Kiến trúc Schema-driven, 4 nguyên tử tương tác (`TRIAGE`, `ALLOCATION`, `INVESTIGATION`, `TRADEOFF`) và cấu trúc cắm rút module. | 4 |
+| **Tầng 2** | [SOFTWARE_DESIGN_DOCUMENT.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/specs/SOFTWARE_DESIGN_DOCUMENT.md) | **How System** | Bản vẽ kỹ thuật HLD/LLD: 5 tầng kiến trúc, ERD, Class Diagram, 2 Sequence Diagrams và Desk Check walkthrough. | 4 |
+| **Tầng 2** | [Task_Engine_Architecture.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/specs/Task_Engine_Architecture.md) | **How Engine** | Kiến trúc Schema-driven, 4 nguyên tử tương tác (`TRIAGE`, `ALLOCATION`, `INVESTIGATION`, `TRADEOFF`) và cấu trúc cắm rút module. | 5 |
 | **Tầng 2** | [Data_Schema_&_Seed_Data.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/specs/Data_Schema_&_Seed_Data.md) | **Data** | Khóa cứng cấu trúc dữ liệu TypeScript và bộ dữ liệu mồi 8 chương trình đào tạo & thị trường lao động. | 5 |
 | **Tầng 2** | [UI_UX_Wireframe_Spec.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/specs/UI_UX_Wireframe_Spec.md) | **How UI** | Bố cục wireframe 3 màn hình, tích hợp Design Tokens từ [.AGENTS/DESIGN.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/.AGENTS/DESIGN.md) và CSS in ấn khổ A4. | 6 |
 | **Tầng 3** | [AI_DLC_Eval_&_Data_Feasibility_Spec.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/specs/AI_DLC_Eval_&_Data_Feasibility_Spec.md) | **AI Eval** | Khung CRAFT cho AI Agent, định nghĩa Ground Truth, tiêu chuẩn chấp nhận kỹ thuật và chiến lược khử 4 tầng thiên vị (Bias). | 7 |
 | **Tầng 3** | [Scenario_&_Scoring_Spec.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/specs/Scenario_&_Scoring_Spec.md) | **Math & Logic** | Kịch bản chi tiết 2 ngành mẫu (IT & Logistics), từ điển Telemetry và công thức toán học tính 3 trục năng lực & Cosine matching. | 8 |
-| **Tầng 3** | [Validation_Plan.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/specs/Validation_Plan.md) | **UAT & DoD** | Kế hoạch thực nghiệm với 20-30 cặp học sinh/phụ huynh, kịch bản phỏng vấn sâu và phiếu quan sát thực địa. | 9 |
+| **Tầng 3** | [QA_TEST_PLAN.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/specs/QA_TEST_PLAN.md) | **QA & DoD** | Chiến lược kiểm thử, ma trận Unit/Integration test cases và 7 điều kiện Tiêu chuẩn Hoàn thành (DoD). | 9 |
+| **Tầng 3** | [Validation_Plan.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/specs/Validation_Plan.md) | **UAT & Pilot** | Kế hoạch thực nghiệm với 20-30 cặp học sinh/phụ huynh, kịch bản phỏng vấn sâu và phiếu quan sát thực địa. | 10 |
 
 ---
 
