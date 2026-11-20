@@ -1,0 +1,64 @@
+name: LucidTask CI Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality-gate:
+    name: Lint, Typecheck & Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 1. Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 2. Setup Node.js environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: 3. Install dependencies
+        run: npm ci || npm install
+
+      - name: 4. Code Style & Lint Check
+        run: |
+          if npm run | grep -q "lint"; then
+            npm run lint
+          else
+            echo "No lint script defined yet. Skipping."
+          fi
+
+      - name: 5. TypeScript Static Typecheck
+        run: |
+          if npm run | grep -q "type-check"; then
+            npm run type-check
+          elif [ -f tsconfig.json ]; then
+            npx tsc --noEmit
+          else
+            echo "No tsconfig.json found yet. Skipping."
+          fi
+
+      - name: 6. Run Automated Unit & Integration Tests
+        run: |
+          if npm run | grep -q "test"; then
+            npm test -- --coverage
+          else
+            echo "No test script configured yet. Skipping."
+          fi
+
+      - name: 7. Build Production Bundle
+        run: |
+          if npm run | grep -q "build"; then
+            npm run build
+          else
+            echo "No build script configured yet. Skipping."
+          fi
+
