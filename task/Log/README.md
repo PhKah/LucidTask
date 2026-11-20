@@ -43,7 +43,7 @@ Mỗi file log lưu trữ phải đảm bảo:
 | Ngày | Mã Task | Giai đoạn | Tên Nhiệm Vụ | Trạng Thái | Commit Hash | File Nhật Ký Chi Tiết |
 | :---: | :---: | :---: | :--- | :---: | :---: | :--- |
 | 2026-11-20 | `TASK-P0-01` | GĐ 0 | Khởi tạo Scaffolding & Design Tokens | COMPLETED | `e4f3ed1` | [20261120_TASK-P0-01_scaffolding-design-tokens.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/task/Log/20261120_TASK-P0-01_scaffolding-design-tokens.md) |
-| 2026-11-20 | `TASK-P1-01` | GĐ 1 | Type Contracts & Seed Data Registry | COMPLETED | `pending` | [20261120_TASK-P1-01_types-contracts-and-registry.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/task/Log/20261120_TASK-P1-01_types-contracts-and-registry.md) |
-| 2026-11-20 | `TASK-P1-02` | GĐ 1 | Event-Driven Telemetry Bus (< 50ms) | COMPLETED | `pending` | [20261120_TASK-P1-02_telemetry-bus.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/task/Log/20261120_TASK-P1-02_telemetry-bus.md) |
-| 2026-11-20 | `TASK-P1-03` | GĐ 1 | Scoring Engine, Gatekeeper & Cosine Matching | COMPLETED | `pending` | [20261120_TASK-P1-03_scoring-engine-and-unit-tests.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/task/Log/20261120_TASK-P1-03_scoring-engine-and-unit-tests.md) |
+| 2026-11-20 | `TASK-P1-01` | GĐ 1 | Type Contracts & Seed Data Registry | COMPLETED | `5e83c7a` | [20261120_TASK-P1-01_types-contracts-and-registry.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/task/Log/20261120_TASK-P1-01_types-contracts-and-registry.md) |
+| 2026-11-20 | `TASK-P1-02` | GĐ 1 | Event-Driven Telemetry Bus (< 50ms) | COMPLETED | `5e83c7a` | [20261120_TASK-P1-02_telemetry-bus.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/task/Log/20261120_TASK-P1-02_telemetry-bus.md) |
+| 2026-11-20 | `TASK-P1-03` | GĐ 1 | Scoring Engine, Gatekeeper & Cosine Matching | COMPLETED | `5e83c7a` | [20261120_TASK-P1-03_scoring-engine-and-unit-tests.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/task/Log/20261120_TASK-P1-03_scoring-engine-and-unit-tests.md) |
 
