@@ -26,7 +26,8 @@ docs/
 │
 └── roadmap/                           # LỘ TRÌNH MỞ RỘNG TƯƠNG LAI (POST-MVP & COMMERCIAL)
     ├── post_mvp_features.md           # Kế hoạch mở rộng 20+ cụm ngành nghề, Task CMS & B2B Portal
-    └── architecture_evolution.md      # Lộ trình nâng cấp: Backend PostgreSQL, Cloud Sync, Mobile PWA
+    ├── architecture_evolution.md      # Lộ trình nâng cấp: Backend PostgreSQL, Cloud Sync, Mobile PWA
+    └── gamification_diegetic_ui_rfc.md # ĐẶC TẢ ĐỘT PHÁ: Giao diện Diegetic UI, Quẹt thẻ & Game hóa Lao động
 ```
 
 ---
