@@ -155,4 +155,60 @@ describe('Sprint 6: Diegetic UI, 3 Specific Careers (6 Micro-Tasks), Big Five & 
       screen.getByText(/Micro-Task 3: Bàn Kiểm Duyệt Bẫy Hợp Đồng/i)
     ).toBeInTheDocument();
   });
+
+  it('IT-DIEGETIC-06: supports Nợ Có Ơi style NPC queue, spot-the-flaw clickable rows, and Stage 2 balance tray closure', () => {
+    const lawStage1 = IndustryRegistry.getStageTask('IND_ECON_LAW', 1)!;
+
+    const { unmount } = render(
+      <TaskWorkspace
+        currentStage={1}
+        task={lawStage1}
+        onStage1Complete={vi.fn()}
+        onStage2Complete={vi.fn()}
+        onEarlyExit={vi.fn()}
+      />
+    );
+
+    // Assert NPC Coworker queue and Uy tín / Thiện cảm badges
+    expect(screen.getByText(/HÀNG ĐỢI ĐỒNG NGHIỆP TRÌNH HỒ SƠ/i)).toBeInTheDocument();
+    expect(screen.getByText('Bé Mít')).toBeInTheDocument();
+    expect(screen.getByText('Anh Tài')).toBeInTheDocument();
+    expect(screen.getByText(/Uy tín: 4\.5\/5/i)).toBeInTheDocument();
+    expect(screen.getByText(/Thiện cảm: 85%/i)).toBeInTheDocument();
+
+    // Assert progress starts at 1 / 8 and click directly on clickable document row 3 to catch flaw
+    expect(screen.getAllByText('1 / 8').length).toBeGreaterThanOrEqual(1);
+    const flawedRow = screen.getByTestId('doc-row-3');
+    fireEvent.click(flawedRow);
+    expect(screen.getAllByText('2 / 8').length).toBeGreaterThanOrEqual(1);
+
+    unmount();
+
+    // Verify Stage 2 Balance Tray ("NỢ / CÓ" constructive matching & Catharsis closure)
+    const sweStage2 = IndustryRegistry.getStageTask('IND_TECH_SW', 2)!;
+    render(
+      <TaskWorkspace
+        currentStage={2}
+        task={sweStage2}
+        onStage1Complete={vi.fn()}
+        onStage2Complete={vi.fn()}
+        onEarlyExit={vi.fn()}
+      />
+    );
+
+    expect(screen.getByText(/ĐANG LỆCH HỒ SƠ/i)).toBeInTheDocument();
+
+    // Switch to Server Logs tab and pin an evidence line from the console
+    const serverTab = screen.getByRole('button', { name: /2\. Nhật Ký Server/i });
+    fireEvent.click(serverTab);
+
+    const sslEvidence = screen.getByText(/Handshake failure on SSL\/TLS layer/i);
+    fireEvent.click(sslEvidence);
+
+    // Select an action radio button
+    const rollbackRadio = screen.getByRole('radio', { name: /ROLLBACK/i });
+    fireEvent.click(rollbackRadio);
+
+    expect(screen.getByText(/ĐÃ CÂN SỔ & KHỚP CHỨNG CỨ 100%/i)).toBeInTheDocument();
+  });
 });

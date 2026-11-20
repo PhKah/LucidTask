@@ -34,6 +34,12 @@ export interface WorkChatMessageItem {
   urgency?: 'NORMAL' | 'URGENT';
 }
 
+export interface DocumentLineItem {
+  label: string;
+  value: string;
+  is_flawed?: boolean; // True if tapping this row catches the flaw (maps to leftTargetId / CONN_ERR)
+}
+
 export interface WorkItem {
   id: string;
   content: string;
@@ -41,6 +47,10 @@ export interface WorkItem {
   order_title?: string;
   everyday_note?: string;
   boss_feedback_on_error?: string;
+  npc_name?: string;
+  npc_quote?: string;
+  document_type_badge?: string;
+  document_rows?: DocumentLineItem[];
   metadata?: Record<string, unknown>;
 }
 

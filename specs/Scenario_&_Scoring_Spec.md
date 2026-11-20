@@ -8,7 +8,13 @@
 
 ## 1. Kịch bản Tác vụ Chi tiết & Nguyên Tắc Game Hóa Lao Động (Diegetic Workplace Scenarios)
 
-> **Nguyên tắc Vàng (Non-Academic Labor Principle):** Học sinh THPT chưa học đại học, do đó kịch bản tuyệt đối **loại bỏ kiến thức hàn lâm** (không bắt viết SQL, không sửa cú pháp C++/Python, không đọc điều luật phức tạp), nhưng **giữ nguyên 100% cấu trúc tư duy, sự lặp lại, quy trình SOP 3 dòng và áp lực đánh đổi nguồn lực (3 Trade-off Bars)** của nghề nghiệp thực tế.
+> **Nguyên tắc Vàng & Khung Chuẩn Hóa 5+5 (Workplace-to-Game Conversion Standard):**  
+> Mọi kịch bản nghề nghiệp trong LucidTask (hiện tại và các ngành mở rộng sau này) bắt buộc tuân thủ **5 yếu tố tâm lý hành vi & 5 điều kiện chuyển đổi từ hình mẫu "Nợ Có Ơi"** (chi tiết tại [docs/roadmap/gamification_diegetic_ui_rfc.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/docs/roadmap/gamification_diegetic_ui_rfc.md#L98-L185)):
+> 1. **Vòng lặp phản hồi khép kín theo 2 thái cực ngành:** Ngành luật cứng (Kế toán, Pháp chế, Dữ liệu, Logistics) chấm khớp số học/quy tắc tức thì (báo đỏ `Lệch ...` khi chưa cân); Ngành kết quả mở (Marketing, Truyền thông, Quản trị) lượng hóa thành các chỉ số xung đột trực tiếp (*Ngân sách – Lượng khách – Uy tín*).
+> 2. **Nén thời gian (*Time Compression*):** Thu gọn cả tuần/tháng làm việc vào 3–5 phút, cắt bỏ hoàn toàn thời gian chết.
+> 3. **Thao tác kiến tạo chủ động (*Active Construction* — Không trắc nghiệm A/B hay Radio):** Tự soi chứng từ đa dòng và chạm đúng dòng có bẫy (`is_flawed: true`) hoặc bấm `Hợp lệ ✓` nếu chứng từ sạch; tự lắp thẻ và số liệu/bằng chứng vào khay đối ứng cho hết số `Lệch đỏ`.
+> 4. **Điểm cân bằng trừu tượng hóa (*Abstraction Sweet Spot*) & Dẫn nhập bình dân (*Micro-scaffolding*):** Loại bỏ kiến thức hàn lâm, dùng hình ảnh đời thường gần gũi (như *"Kế toán vỉa hè"*) nhưng bảo toàn 100% cấu trúc tư duy của nghề.
+> 5. **Đời sống công sở (`🛡️ Uy tín` vs `❤️ Thiện cảm`, `Sai sót ẩn`) & Điểm chốt giải tỏa (*Closure & Catharsis*):** Tái hiện mâu thuẫn giữa giữ nguyên tắc (`+Uy tín / -Thiện cảm`) và nể nang đồng nghiệp (`+Thiện cảm` nhưng tích tụ `Sai sót ẩn` bị khui lúc cuối kỳ), kết thúc bằng nghi thức **Khóa sổ / Chốt bảng cân đối khớp từng đồng (`A = B ✓`)**.
 
 ### Cụm ngành 1: Kỹ thuật Phần mềm & Khoa học Dữ liệu (Software & Data Operations)
 

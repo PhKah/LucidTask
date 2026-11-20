@@ -191,6 +191,64 @@ export const MultiSourceInspector: React.FC<MultiSourceInspectorProps> = ({
         </div>
       )}
 
+      {/* Constructive Balance Tray ("Nợ Có Ơi" 2-Tray Matching + Catharsis Closure) */}
+      <div className="bg-[#FAF5E8] border-2 border-black p-4 shadow-[4px_4px_0px_0px_#000] space-y-3">
+        <div className="flex items-center justify-between flex-wrap gap-2 border-b border-[#D8CFAF] pb-2">
+          <span className="text-xs font-black uppercase text-black">
+            ⚖️ KHAY ĐỐI CHIẾU &amp; CÂN BẰNG HỒ SƠ (2 · ĐỊNH KHOẢN &amp; KHỚP CHỨNG CỨ)
+          </span>
+          {pinnedClues.length > 0 && selectedActionId ? (
+            <span className="text-[11px] font-black bg-emerald-700 text-white px-2.5 py-0.5 border border-black">
+              ✓ ĐÃ CÂN SỔ &amp; KHỚP CHỨNG CỨ 100% — SẴN SÀNG KHÓA CA
+            </span>
+          ) : (
+            <span className="text-[11px] font-black bg-[#c31833] text-white px-2.5 py-0.5 border border-black">
+              ⚠️ ĐANG LỆCH HỒ SƠ (Chưa gắp đủ bằng chứng &amp; phương án đối ứng)
+            </span>
+          )}
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+          {/* Tray 1: NỢ / HIỆN TRẠNG SỰ CỐ */}
+          <div className="bg-[#EBF2FA] border-2 border-black p-3 space-y-1.5">
+            <div className="font-black text-[#2B5B84] uppercase flex items-center justify-between">
+              <span>NỢ / HIỆN TRẠNG &amp; BẰNG CHỨNG</span>
+              <span className="font-mono">{pinnedClues.length} chứng cứ</span>
+            </div>
+            {pinnedClues.length > 0 ? (
+              <ul className="space-y-1 text-[11px] font-mono text-black">
+                {pinnedClues.map((clue, idx) => (
+                  <li key={idx} className="truncate bg-white px-2 py-1 border border-[#2B5B84]/40">
+                    📌 {clue}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-[11px] text-[#2B5B84]/80 italic">
+                Chưa gắp bằng chứng nào. Hãy click nút GHIM ở 3 Tab phía trên.
+              </p>
+            )}
+          </div>
+
+          {/* Tray 2: CÓ / BẰNG CHỨNG & GIẢI PHÁP ĐỐI ỨNG */}
+          <div className="bg-[#FBECE9] border-2 border-black p-3 space-y-1.5">
+            <div className="font-black text-[#8C3B2B] uppercase flex items-center justify-between">
+              <span>CÓ / GIẢI PHÁP ĐỐI ỨNG</span>
+              <span className="font-mono">{selectedActionId ? '1 phương án' : '0 phương án'}</span>
+            </div>
+            {selectedActionId ? (
+              <div className="text-[11px] font-bold text-black bg-white px-2 py-1.5 border border-[#8C3B2B]/40">
+                ✓ {actions.find(a => a.id === selectedActionId)?.label}
+              </div>
+            ) : (
+              <p className="text-[11px] text-[#8C3B2B]/80 italic">
+                Hãy chọn 1 phương án xử lý bên dưới để cân bằng hồ sơ.
+              </p>
+            )}
+          </div>
+        </div>
+      </div>
+
       {/* Decision Matrix with Trade-off Impact Previews */}
       <div className="bg-white border-2 border-black p-5 shadow-[4px_4px_0px_0px_#000] space-y-4">
         <div className="flex items-center justify-between flex-wrap gap-2">
