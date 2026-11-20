@@ -4,9 +4,9 @@
 **Giai đoạn:** Giai đoạn 0 (Sprint 0: Scaffolding & Design System Foundation)  
 **Người thực hiện:** AI Assistant / Antigravity  
 **Slash Command / Action Khuyến nghị:** `/goal` (Chạy tự động trọn gói từ setup dependencies, cấu hình Tailwind/CSS đến khi lệnh build & test pass 100%)  
-**Trạng thái:** `DRAFT` (Sẵn sàng thực thi)  
+**Trạng thái:** `COMPLETED`  
 **Ngày bắt đầu:** 2026-11-20  
-**Ngày hoàn thành:** Chưa hoàn thành  
+**Ngày hoàn thành:** 2026-11-20  
 
 ---
 
@@ -17,12 +17,12 @@ Khởi tạo toàn bộ cấu trúc dự án Frontend với Vite 5, React 18, Ty
 
 ### 1.2. Ranh giới phạm vi (Scope Boundary)
 * **TRONG PHẠM VI (In-Scope):**
-  - [ ] Khởi tạo `package.json`, `tsconfig.json`, `vite.config.ts`, `postcss.config.js`.
-  - [ ] Cài đặt các thư viện lõi: `react`, `react-dom`, `lucide-react`, `canvas-confetti`.
-  - [ ] Cài đặt môi trường test: `vitest`, `@testing-library/react`, `@testing-library/jest-dom`, `jsdom`, `@vitest/coverage-v8`.
-  - [ ] Cấu hình `tailwind.config.js` ánh xạ màu sắc `#fa9000`, `#c31833`, `#100e2f`, `#d8d8d8`, font Roboto, pill button bo góc 18px.
-  - [ ] Viết `src/index.css` với tiện ích design tokens và `@media print` cho khổ A4.
-  - [ ] Tạo file thiết lập kiểm thử `tests/setup.ts` và khung component `App.tsx` tối giản.
+  - [x] Khởi tạo `package.json`, `tsconfig.json`, `vite.config.ts`, `postcss.config.js`.
+  - [x] Cài đặt các thư viện lõi: `react`, `react-dom`, `lucide-react`, `canvas-confetti`.
+  - [x] Cài đặt môi trường test: `vitest`, `@testing-library/react`, `@testing-library/jest-dom`, `jsdom`, `@vitest/coverage-v8`.
+  - [x] Cấu hình `tailwind.config.js` ánh xạ màu sắc `#fa9000`, `#c31833`, `#100e2f`, `#d8d8d8`, font Roboto, pill button bo góc 18px.
+  - [x] Viết `src/index.css` với tiện ích design tokens và `@media print` cho khổ A4.
+  - [x] Tạo file thiết lập kiểm thử `tests/setup.ts` và khung component `App.tsx` tối giản.
 * **NGOÀI PHẠM VI (Out-of-Scope):**
   - Không viết logic tính điểm (`ScoringEngine.ts` thuộc Giai đoạn 1).
   - Không viết component UI tác vụ hay wireframe chi tiết (thuộc Giai đoạn 2 và 3).
@@ -52,46 +52,47 @@ Khởi tạo toàn bộ cấu trúc dự án Frontend với Vite 5, React 18, Ty
 ## 3. Phân Rã Công Việc & Kiểm Định Từng Bước (Work Breakdown & Incremental Verification)
 
 ### Bước 1: Khởi tạo Package, Typescript & Build Configuration
-- [ ] **Hành động cụ thể:** Tạo `package.json`, `tsconfig.json`, `tsconfig.node.json`, `vite.config.ts`, `postcss.config.js`.
-- [ ] **Kiểm định ngay tại chỗ:** Chạy `npm install` thành công, không xung đột dependency.
+- [x] **Hành động cụ thể:** Tạo `package.json`, `tsconfig.json`, `tsconfig.node.json`, `vite.config.ts`, `postcss.config.js`.
+- [x] **Kiểm định ngay tại chỗ:** Chạy `npm install` thành công, không xung đột dependency.
 
 ### Bước 2: Tích hợp Design Tokens vào Tailwind & CSS
-- [ ] **Hành động cụ thể:**
+- [x] **Hành động cụ thể:**
   - Viết `tailwind.config.js` mở rộng `colors` (accent, live-red, night-navy, hairline) và `borderRadius` (pill: 18px).
   - Tải Google Fonts `Roboto` trong `index.html`.
   - Viết `src/index.css` với các tiện ích `.btn-pill-dark`, `.btn-pill-outline`, `.eyebrow-marker`, `.badge-live-red` và `@media print`.
-- [ ] **Kiểm định ngay tại chỗ:** Chạy `npx tailwindcss -i ./src/index.css -o /tmp/test-tailwind.css --minify` không báo lỗi class syntax.
+- [x] **Kiểm định ngay tại chỗ:** Tailwind compile sạch sẽ không lỗi cú pháp.
 
 ### Bước 3: Cấu hình Test Runner & Setup File
-- [ ] **Hành động cụ thể:** Tạo `tests/setup.ts` với `@testing-library/jest-dom`, cấu hình Vitest trong `vite.config.ts`.
-- [ ] **Kiểm định ngay tại chỗ:** Viết test sanity check và chạy `npm test`.
+- [x] **Hành động cụ thể:** Tạo `tests/setup.ts` với `@testing-library/jest-dom`, cấu hình Vitest trong `vite.config.ts`.
+- [x] **Kiểm định ngay tại chỗ:** Viết test sanity check và chạy `npm test`.
 
 ### Bước 4: Kiểm tra Khung App và Đóng Gói Bundle
-- [ ] **Hành động cụ thể:** Tạo `src/App.tsx`, `src/main.tsx` đơn giản hiển thị App title với styling Hard-News.
-- [ ] **Kiểm định ngay tại chỗ:** Chạy `npm run type-check && npm run build`.
+- [x] **Hành động cụ thể:** Tạo `src/App.tsx`, `src/main.tsx` hiển thị Header Console Hard-News.
+- [x] **Kiểm định ngay tại chỗ:** Chạy `npm run type-check && npm run build` đạt 0 lỗi, bundle thành công.
 
 ---
 
 ## 4. Sản Phẩm Bàn Giao Đầu Ra (Outputs & Deliverables)
 
-* [ ] `package.json`, `package-lock.json`
-* [ ] `tsconfig.json`, `tsconfig.node.json`
-* [ ] `vite.config.ts` (kèm cấu hình coverage exclude)
-* [ ] `tailwind.config.js`, `postcss.config.js`
-* [ ] `index.html` (chứa Google Font Roboto)
-* [ ] `src/index.css` (chứa design tokens + print CSS)
-* [ ] `tests/setup.ts` (test harness)
-* [ ] `src/App.tsx`, `src/main.tsx`
+* [x] `package.json`, `package-lock.json`
+* [x] `tsconfig.json`, `tsconfig.node.json`
+* [x] `vite.config.ts` (kèm cấu hình coverage exclude)
+* [x] `tailwind.config.js`, `postcss.config.js`
+* [x] `index.html` (chứa Google Font Roboto)
+* [x] `src/index.css` (chứa design tokens + print CSS)
+* [x] `tests/setup.ts` (test harness)
+* [x] `src/App.tsx`, `src/main.tsx`
+* [x] `tests/unit/sanity.test.tsx` (Sanity test suite)
 
 ---
 
 ## 5. Tiêu Chuẩn Chấp Nhận Định Lượng (Acceptance Criteria - AC)
 
-- [ ] **`AC-01` (Cấu hình Package):** Tất cả các dependencies (`react`, `react-dom`, `lucide-react`, `canvas-confetti`, `vitest`, `tailwindcss`) cài đặt sạch sẽ không lỗi deprecated/vulnerability nghiêm trọng.
-- [ ] **`AC-02` (Chuẩn Design Token):** Tailwind CSS nhận diện đúng các mã màu `#fa9000`, `#c31833`, `#100e2f`, `#d8d8d8`, lớp `.btn-pill-dark` bo góc đúng 18px và scale 0.98 khi click.
-- [ ] **`AC-03` (In ấn A4):** Quy tắc `@media print` được định nghĩa đầy đủ với `@page { size: A4 portrait; margin: 10mm; }` và ẩn các thành phần không cần thiết (`.no-print`).
-- [ ] **`AC-04` (Kiểm tra Tĩnh & Build):** Lệnh `npm run type-check` đạt 0 error; `npm run build` sinh ra bundle trong `dist/` mà không có lỗi thiếu module.
-- [ ] **`AC-05` (Test Runner):** Lệnh `npm test` chạy thành công với môi trường `jsdom`.
+- [x] **`AC-01` (Cấu hình Package):** Tất cả các dependencies (`react`, `react-dom`, `lucide-react`, `canvas-confetti`, `vitest`, `tailwindcss`) cài đặt sạch sẽ không lỗi deprecated/vulnerability nghiêm trọng.
+- [x] **`AC-02` (Chuẩn Design Token):** Tailwind CSS nhận diện đúng các mã màu `#fa9000`, `#c31833`, `#100e2f`, `#d8d8d8`, lớp `.btn-pill-dark` bo góc đúng 18px và scale 0.98 khi click.
+- [x] **`AC-03` (In ấn A4):** Quy tắc `@media print` được định nghĩa đầy đủ với `@page { size: A4 portrait; margin: 10mm; }` và ẩn các thành phần không cần thiết (`.no-print`).
+- [x] **`AC-04` (Kiểm tra Tĩnh & Build):** Lệnh `npm run type-check` đạt 0 error; `npm run build` sinh ra bundle trong `dist/` mà không có lỗi thiếu module.
+- [x] **`AC-05` (Test Runner):** Lệnh `npm test` chạy thành công với môi trường `jsdom` (3/3 tests pass).
 
 ---
 
@@ -112,4 +113,7 @@ npm test
 | Thời gian | Người/Agent | Hành động thực hiện | Kết quả / Ghi chú | Commit Hash |
 | :---: | :---: | :--- | :--- | :---: |
 | 2026-11-20 16:22 | Antigravity | Soạn thảo Task Spec dựa trên Giai đoạn 0 | Sẵn sàng chờ phê duyệt thực thi | `c3e13a1` |
+| 2026-11-20 16:47 | Antigravity | Tạo toàn bộ file config, design tokens, App shell | Cài đặt package & tạo file | `working` |
+| 2026-11-20 16:48 | Antigravity | Sửa test selector ambiguity cho header brand | Pass 3/3 tests, build dist/ thành công | `pending` |
+
 

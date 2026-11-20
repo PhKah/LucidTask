@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  /* Al Jazeera Editorial Pill Buttons */
+  .btn-pill-dark {
+    @apply inline-flex items-center justify-center bg-black text-white font-bold px-6 py-2.5 rounded-[18px] transition-transform active:scale-[0.98] border border-black hover:bg-neutral-800 disabled:opacity-50 disabled:pointer-events-none;
+  }
+
+  .btn-pill-outline {
+    @apply inline-flex items-center justify-center bg-white text-black font-bold px-6 py-2.5 rounded-[18px] transition-transform active:scale-[0.98] border border-black hover:bg-neutral-50 disabled:opacity-50 disabled:pointer-events-none;
+  }
+
+  .btn-pill-accent {
+    @apply inline-flex items-center justify-center bg-accent text-black font-bold px-6 py-2.5 rounded-[18px] transition-transform active:scale-[0.98] border border-accent hover:brightness-105 disabled:opacity-50 disabled:pointer-events-none;
+  }
+
+  /* Identity Eyebrow Marker */
+  .eyebrow-marker {
+    @apply inline-block w-2.5 h-2.5 bg-accent mr-2 align-middle;
+  }
+
+  /* Hard-News Live Urgent Badge */
+  .badge-live-red {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded text-xs font-black bg-live-red text-white tracking-wider uppercase;
+  }
+
+  /* Clean Hairline Card (Zero Elevation) */
+  .card-hairline {
+    @apply bg-white border border-hairline rounded-none p-6;
+  }
+}
+
+/* A4 Print Specification */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 10mm;
+  }
+
+  body {
+    background: white !important;
+    color: black !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .print-only {
+    display: block !important;
+  }
+
+  .page-break-inside-avoid {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}
