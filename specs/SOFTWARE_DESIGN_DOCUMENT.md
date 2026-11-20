@@ -62,6 +62,59 @@ flowchart TD
 
 ---
 
+### 1.3. Biện Giải & Lựa Chọn Ngăn Xếp Công Nghệ (Technology Stack & Architectural Trade-offs — ADR)
+
+Nhằm đảm bảo tính khả thi cao nhất cho phiên bản MVP phục vụ đề tài Đổi Mới Sáng Tạo (ĐMST), việc lựa chọn kỹ thuật và công nghệ được cân nhắc kỹ lưỡng giữa **Hiệu năng thực thi**, **Tốc độ phát triển**, **Độ tin cậy toán học** và **Chi phí vận hành**:
+
+#### 1.3.1. Phân Tích & Biện Giải 5 Loại Kỹ Thuật Lõi (Architectural Paradigms)
+
+```mermaid
+flowchart LR
+    subgraph Paradigms["5 NGUYÊN TẮC KỸ THUẬT LÕI"]
+        P1["1. Local-First Engine<br>(Xử lý cục bộ < 50ms)"]
+        P2["2. Schema-Driven Engine<br>(4 Archetypes cắm rút)"]
+        P3["3. Event-Driven Bus<br>(Pub/Sub phi khóa 60fps)"]
+        P4["4. Finite State Machine<br>(Chống nhảy trạng thái lỗi)"]
+        P5["5. Vector Space Math<br>(Ghép nối tất định minh bạch)"]
+    end
+```
+
+1. **Kỹ thuật Xử lý Cục bộ (Client-Side Heavy / Local-First Architecture):**
+   - *Quyết định:* Toàn bộ quá trình thu thập micro-events chuột, tính toán điểm 3 trục và chạy thuật toán xếp hạng Cosine được thực thi 100% trong bộ nhớ trình duyệt (In-Memory).
+   - *Biện giải:* Việc đo lường vi thao tác (phát hiện click ẩu $< 1.2$s) đòi hỏi độ trễ cực thấp ($< 50$ms). Nếu gửi request qua mạng về backend, độ trễ mạng (Network Latency) và jitter sẽ làm sai lệch timestamp thực tế của học sinh. Kiến trúc Local-First loại bỏ 100% rủi ro phụ thuộc hạ tầng server khi thực nghiệm tại các trường THPT có wifi chập chờn.
+
+2. **Kỹ thuật Động cơ Hướng Lược đồ (Schema-Driven Task Engine):**
+   - *Quyết định:* Không hard-code giao diện từng ngành nghề. Phân rã mọi tình huống nghiệp vụ thành 4 Archetypes tương tác chuẩn (`Triage`, `Allocation`, `Inspection`, `Trade-off`). Toàn bộ dữ liệu đề bài, ticket lỗi, rulebook được nạp từ các file cấu hình `task.config.json`.
+   - *Biện giải:* Đạt chuẩn Open/Closed Principle (OCP). Khi cần mở rộng từ ngành CNTT sang Logistics, Y tế, Tài chính, hệ thống chỉ cần thêm file JSON mà không phải viết lại code UI hay đụng chạm vào logic động cơ lõi.
+
+3. **Kỹ thuật Trục Sự Kiện Phi Khóa (Event-Driven Non-blocking Telemetry Bus):**
+   - *Quyết định:* Sử dụng cơ chế Pub/Sub Publisher-Subscriber ghi nhận vi thao tác theo mô hình fire-and-forget.
+   - *Biện giải:* Đảm bảo giao diện người dùng luôn duy trì 60fps mượt mà, không bị khựng (jank) ngay cả khi đồng hồ đang đếm ngược và học sinh tương tác liên tục ở chặng căng thẳng (giờ G).
+
+4. **Kỹ thuật Máy Trạng Thái Hữu Hạn (Deterministic Finite State Machine - FSM):**
+   - *Quyết định:* Vòng đời phiên làm việc được mô hình hóa bằng FSM toán học nghiêm ngặt: `IDLE` $\rightarrow$ `STAGE1` $\rightarrow$ `EARLY_EXIT` (nếu vi phạm ngưỡng) hoặc `STAGE2` $\rightarrow$ `SCORING` $\rightarrow$ `BLIND_MATCHING` $\rightarrow$ `ALIGNMENT_REPORT`.
+   - *Biện giải:* Loại bỏ triệt để lỗi hiển thị sai lệch trạng thái (invalid state transitions), bảo toàn tính bất biến sống còn `IT-BLIND-01` (ngăn chặn tuyệt đối việc người dùng vào xem Báo cáo khi chưa hoàn thành tác vụ).
+
+5. **Kỹ thuật Thuật toán Không Gian Véc-tơ Tất Định (Deterministic Vector Space Matching):**
+   - *Quyết định:* Sử dụng độ tương đồng Cosine kết hợp hàm phạt lệch trục $\alpha$ để ghép nối hồ sơ năng lực 3 chiều của học sinh với véc-tơ chuẩn của 8 chương trình đào tạo.
+   - *Biện giải:* Khác với các hệ thống AI "hộp đen" (Black-box LLM) mang tính xác suất và khó giải thích, thuật toán véc-tơ Cosine cho kết quả minh bạch 100%, có thể giải trình chi tiết từng điểm số cho phụ huynh và học sinh thấy rõ lý do tại sao họ phù hợp với chương trình này.
+
+---
+
+#### 1.3.2. Bảng So Sánh & Biện Giải Lựa Chọn Ngăn Xếp Công Nghệ (Tech Stack ADR Matrix)
+
+| Lớp Công Nghệ | Công Nghệ Lựa Chọn | Các Phương Án Thay Thế Cân Nhắc | Lý Do Lựa Chọn & Biện Giải Kỹ Thuật (Trade-off Analysis) |
+| :--- | :--- | :--- | :--- |
+| **Frontend Framework** | **React 18** | Vue 3, Svelte, Plain HTML/JS, Angular | • Khả năng kiểm soát render vi mô với Virtual DOM và cơ chế reconciliation hiệu quả.<br>• Hệ sinh thái component phong phú, thư viện biểu đồ và icon dồi dào.<br>• Phù hợp hoàn hảo để xây dựng FSM tùy biến thông qua React Custom Hooks. |
+| **Ngôn Ngữ Lập Trình** | **TypeScript 5.x** | JavaScript (ES6+), Dart | • Cung cấp hệ thống Static Typing mạnh mẽ, khóa cứng các hợp đồng dữ liệu (`ITaskDefinition`, `ITelemetryEvent`, `IProgramSchema`).<br>• Phát hiện 100% lỗi sai lệch thuộc tính ngay tại compile-time, loại bỏ lỗi runtime `undefined` khi học sinh đang làm bài thi. |
+| **Công Cụ Build & Dev Server** | **Vite 5.x** | Webpack 5, Next.js, Create-React-App | • Tốc độ khởi động máy chủ phát triển siêu tốc nhờ Native ESM (dưới 300ms).<br>• Hot Module Replacement (HMR) tức thì giúp tinh chỉnh giao diện nhanh chóng.<br>• Rollup bundler tối ưu hóa cây mã nguồn (tree-shaking), kích thước file xuất xưởng nhỏ gọn. |
+| **Hệ Thống Thiết Kế & Styling** | **TailwindCSS 3.x** | CSS Modules, Styled-Components, Sass | • Utility-first giúp khóa cứng toàn bộ bảng màu Al Jazeera Editorial (`#fa9000`, `#c31833`, `#100e2f`) trực tiếp trong file cấu hình.<br>• Zero runtime overhead (không làm chậm trình duyệt như CSS-in-JS).<br>• Tích hợp sẵn bộ tiền xử lý in ấn `@media print` cực kỳ thuận tiện để căn khổ giấy A4. |
+| **Quản Lý Trạng Thái (State Mgmt)** | **FSM Hook + Custom TelemetryBus** | Redux Toolkit, MobX, Zustand | • Loại bỏ sự cồng kềnh (boilerplate code) của Redux khi ứng dụng chạy theo luồng tác vụ tuyến tính.<br>• TelemetryBus in-memory thuần túy cho phép pub/sub vi thao tác chuột với chi phí bộ nhớ tối thiểu. |
+| **Thư Viện Kiểm Thử Tự Động** | **Vitest + React Testing Library** | Jest, Mocha, Cypress | • Tương thích 100% với cấu hình Vite và TypeScript mà không cần cấu hình Babel phức tạp.<br>• Tốc độ chạy test nhanh gấp 5–10 lần so với Jest nhờ xử lý song song đa luồng.<br>• Hỗ trợ sinh báo cáo độ bao phủ mã nguồn (Coverage v8) chuẩn xác. |
+| **Hiệu Ứng Mở Khóa (Animation)** | **canvas-confetti** | Lottie, Framer Motion, CSS Keyframes | • Gói thư viện siêu nhẹ (~6KB), chạy trực tiếp trên HTML5 Canvas độc lập.<br>• Không tạo thêm DOM node, không gây tụt khung hình khi kích hoạt mở khóa trường học. |
+
+---
+
 ## 2. Thiết Kế Dữ Liệu & Lược Đồ Bộ Nhớ (Database & Data Design)
 
 Vì LucidTask vận hành theo mô hình Client-side Tinh gọn cho MVP, cơ sở dữ liệu được thiết kế dưới dạng **Cơ sở Dữ liệu Tài liệu Cục bộ (Normalized Document Store in LocalStorage / SessionState)**:
