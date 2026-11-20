@@ -117,3 +117,4 @@ export const EarlyExitScreen: React.FC<EarlyExitScreenProps> = ({
 };
 
 export default EarlyExitScreen;
+

@@ -150,3 +150,4 @@ export const IndustrySelector: React.FC<IndustrySelectorProps> = ({ onSelectIndu
 };
 
 export default IndustrySelector;
+

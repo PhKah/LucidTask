@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { TaskWorkflowState } from './types/state';
+import { TaskWorkflowState, CompetencyProfile, ProgramMatchResult } from './types/state';
 import { IndustryRegistry } from './registry/index';
 import AppShell from './components/AppShell';
 import IndustrySelector from './components/IndustrySelector';
 import TaskWorkspace from './components/TaskWorkspace';
 import EarlyExitScreen from './components/EarlyExitScreen';
+import CompetencyRadar from './components/CompetencyRadar';
+import BlindMatchingCards from './components/BlindMatchingCards';
 import { telemetryBus } from './engine/TelemetryBus';
 import { ScoringEngine } from './engine/ScoringEngine';
 
@@ -29,6 +31,11 @@ export const App: React.FC = () => {
     isOptimal: boolean;
     stats: { tabSwitches: number; panicClicks: number };
   } | null>(null);
+
+  const [competencyProfile, setCompetencyProfile] = useState<CompetencyProfile | null>(null);
+  const [matchedPrograms, setMatchedPrograms] = useState<ProgramMatchResult[]>([]);
+  const [selectedProgramId, setSelectedProgramId] = useState<string | null>(null);
+  const [isRevealed, setIsRevealed] = useState<boolean>(false);
 
   const currentIndustry = IndustryRegistry.getIndustry(selectedIndustryId);
   const stage1Task = IndustryRegistry.getStageTask(selectedIndustryId, 1);
@@ -83,7 +90,7 @@ export const App: React.FC = () => {
       total_duration_sec: 180,
     });
 
-    // Compute profile for preview
+    // Compute profile and rank programs
     const profile = ScoringEngine.generateCompetencyProfile(
       {
         accuracy: stage1Summary ? stage1Summary.accuracy : 0.8,
@@ -102,9 +109,14 @@ export const App: React.FC = () => {
       stage1Summary ? stage1Summary.accuracy : 0.8
     );
 
-    console.log('Competency Profile Generated:', profile);
-    // In Sprint 3, this transitions to BLIND_MATCHING
-    alert(`Hoàn thành xuất sắc 2 Chặng Tác Vụ!\nĐiểm tổng hợp: ${profile.composite_score}/100\nS_Logic: ${profile.logic_score} | S_Patience: ${profile.patience_score} | S_Resilience: ${profile.resilience_score}`);
+    const allPrograms = IndustryRegistry.getAllPrograms();
+    const ranked = ScoringEngine.rankPrograms(profile, allPrograms);
+
+    setCompetencyProfile(profile);
+    setMatchedPrograms(ranked);
+    setSelectedProgramId(ranked[0]?.program.id || null);
+    setIsRevealed(false);
+    setWorkflowState('BLIND_MATCHING');
   };
 
   const handleResetSession = () => {
@@ -112,6 +124,10 @@ export const App: React.FC = () => {
     setStage1Summary(null);
     setStage2Result(null);
     setEarlyExitData(null);
+    setCompetencyProfile(null);
+    setMatchedPrograms([]);
+    setSelectedProgramId(null);
+    setIsRevealed(false);
     setWorkflowState('IDLE');
   };
 
@@ -156,6 +172,43 @@ export const App: React.FC = () => {
           onStage2Complete={handleStage2Complete}
           onEarlyExit={handleEarlyExit}
         />
+      )}
+
+      {workflowState === 'BLIND_MATCHING' && competencyProfile && (
+        <div className="space-y-10 animate-fadeIn">
+          <CompetencyRadar profile={competencyProfile} />
+          <BlindMatchingCards
+            matchedPrograms={matchedPrograms}
+            selectedProgramId={selectedProgramId}
+            onSelectProgram={setSelectedProgramId}
+            isRevealed={isRevealed}
+            onReveal={() => setIsRevealed(true)}
+            onProceedToReport={() => setWorkflowState('REVEALED_REPORT')}
+          />
+        </div>
+      )}
+
+      {workflowState === 'REVEALED_REPORT' && competencyProfile && (
+        <div className="card-hairline text-center py-12 space-y-4 animate-fadeIn">
+          <div className="flex items-center justify-center gap-2 mb-2">
+            <span className="eyebrow-marker" />
+            <span className="text-xs font-bold uppercase tracking-widest text-muted-gray">
+              BÁO CÁO ĐỒNG THUẬN GIA ĐÌNH (SPRINT 4)
+            </span>
+          </div>
+          <h2 className="text-2xl font-black uppercase text-black">
+            Báo Cáo 2 Cột Đối Chiếu Đang Được Chuẩn Bị
+          </h2>
+          <p className="text-xs text-muted-gray max-w-md mx-auto">
+            Chức năng Báo cáo Đối chiếu Phụ huynh và Xuất file in A4 PDF sẽ được kích hoạt ở Sprint 4.
+          </p>
+          <button
+            onClick={() => setWorkflowState('BLIND_MATCHING')}
+            className="btn-pill-dark text-xs"
+          >
+            QUAY LẠI BẢNG GHÉP NỐI
+          </button>
+        </div>
       )}
     </AppShell>
   );

@@ -214,3 +214,4 @@ export const TriageClassifier: React.FC<TriageClassifierProps> = ({
 };
 
 export default TriageClassifier;
+
