@@ -64,6 +64,19 @@ flowchart TD
 
 ---
 
+### 2.5. Kiến Trúc Tách Rời "Headless Engine Hook" & "Diegetic UI Skins" (Chống Phình To & Trùng Lặp Mã)
+
+Để nâng cấp giao diện sang phong cách **Game Hóa Nhập Vai (Diegetic UI)** theo [docs/roadmap/gamification_diegetic_ui_rfc.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/docs/roadmap/gamification_diegetic_ui_rfc.md) mà **không làm trùng lặp mã nguồn hoặc phá vỡ các bài kiểm thử hiện có**, hệ thống áp dụng mẫu thiết kế **Headless Hook + Pluggable View Skins**:
+
+1. **Tầng Headless Logic (`useTriageEngine`, `useTradeOffBars`):**
+   - Quản lý toàn bộ vòng đời câu hỏi, bộ đếm thời gian, độ trễ từng thao tác (`latency_ms`), trạng thái 3 thanh chỉ số đánh đổi (Chất lượng, Hài lòng Sếp/Khách, Tinh thần Giờ G) và phát sự kiện chuẩn vào `TelemetryBus`.
+2. **Tầng Giao Diện Cắm Rút (Diegetic UI Skins):**
+   - **`PAPERS_PLEASE_DOCKET`:** Giao diện bàn kiểm duyệt hồ sơ/đơn hàng kèm bảng quy định SOP 3 dòng ghim cố định và 2 con dấu đóng trực tiếp (hoặc phím tắt `A`/`D`).
+   - **`REIGNS_CARD_SWIPE`:** Giao diện thẻ quyết định quẹt trái/phải làm biến động tức thì 3 thanh chỉ số Trade-off Bars trên đỉnh màn hình.
+   - **`WORK_CHAT_WAR_ROOM`:** Giao diện khung chat công việc (kiểu Zalo/Slack) nơi tin nhắn từ Sếp và Khách hàng nhảy liên tục theo thời gian thực kết hợp bảng đối soát dữ liệu.
+
+---
+
 ## 3. Hợp đồng Định nghĩa Tác vụ Chuẩn (Task Configuration Schema)
 
 Mỗi ngành nghề mới chỉ cần tạo một file JSON tuân theo schema dưới đây:

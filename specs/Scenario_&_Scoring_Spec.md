@@ -6,27 +6,34 @@
 
 ---
 
-## 1. Kịch bản Tác vụ Chi tiết cho 2 Cụm Ngành Thử nghiệm
+## 1. Kịch bản Tác vụ Chi tiết & Nguyên Tắc Game Hóa Lao Động (Diegetic Workplace Scenarios)
 
-### Cụm ngành 1: Kỹ thuật Phần mềm & Đảm bảo Chất lượng (Software Engineering & QA)
+> **Nguyên tắc Vàng (Non-Academic Labor Principle):** Học sinh THPT chưa học đại học, do đó kịch bản tuyệt đối **loại bỏ kiến thức hàn lâm** (không bắt viết SQL, không sửa cú pháp C++/Python, không đọc điều luật phức tạp), nhưng **giữ nguyên 100% cấu trúc tư duy, sự lặp lại, quy trình SOP 3 dòng và áp lực đánh đổi nguồn lực (3 Trade-off Bars)** của nghề nghiệp thực tế.
 
-#### ◈ Chặng 1 (Sơ tuyển - 90 giây): "Bộ lọc Tỉ mỉ & So khớp Mã Log"
-- **Vai trò:** Nhân viên trực ban tiếp nhận báo cáo lỗi đơn hàng.
-- **Sổ tay quy tắc (15s):**
-  - Chứa `TIMEOUT`, `CONNECTION_REFUSED`, `UNREACHABLE` $\rightarrow$ Thùng `Lỗi Kết nối`.
-  - Chứa `NULL_POINTER`, `INVALID_FORMAT`, `OUT_OF_BOUNDS` $\rightarrow$ Thùng `Lỗi Dữ liệu`.
-- **Dữ liệu thực thi:** 8 thẻ mã log xuất hiện lần lượt.
+### Cụm ngành 1: Kỹ thuật Phần mềm & Khoa học Dữ liệu (Software & Data Operations)
+
+#### ◈ Chặng 1 (Sơ tuyển - 90 giây): "Bàn Kiểm Duyệt Dữ Liệu Đơn Hàng Trà Sữa / Sàn Thương Mại" (*Papers, Please* Docket Style)
+- **Vai trò:** Nhân viên Quản trị Dữ liệu & Trực ban Vận hành (Data & Incident Triage).
+- **Bảng Quy định SOP 3 Dòng (Ghim cố định trên góc màn hình):**
+  1. **Quy tắc Kết nối / Hệ thống (`CONN_ERR`):** Đơn hàng bị treo cổng thanh toán (`TIMEOUT`, `MẤT KẾT NỐI`, `UNREACHABLE`) $\rightarrow$ Đóng dấu **[CHẶN LỖI KẾT NỐI]**.
+  2. **Quy tắc Dữ liệu / Nhập liệu (`DATA_ERR`):** Đơn hàng bị lỗi dữ liệu (giá tiền âm, sai định dạng ngày tháng, trùng mã khách hàng `NULL_POINTER / INVALID_FORMAT`) $\rightarrow$ Đóng dấu **[CHẶN LỖI DỮ LIỆU]**.
+  3. **Áp lực:** Mỗi quyết định làm biến động trực tiếp thanh **Chất lượng Dữ liệu** và **Hài lòng của Sếp**.
+- **Dữ liệu thực thi:** 8 phiếu đơn hàng/log xuất hiện liên tiếp dạng hồ sơ trên bàn làm việc; hỗ trợ đóng dấu hoặc phím tắt phản xạ.
 - **Tiêu chí sàng lọc sớm (Early Exit):** Tỷ lệ chính xác $< 60\%$ hoặc tốc độ thao tác $< 1.2$s/thẻ $\rightarrow$ Ngắt bài test, chuyển sang màn hình phân tích xu hướng.
 
-#### ◈ Chặng 2 (Năng lực Cốt lõi - 3.5 phút): "Điều tra Nguyên nhân Gốc Sập Cổng Thanh toán Flash-Sale"
-- **Vai trò:** Kỹ sư phân tích sự cố (Incident Response Engineer).
-- **Tình huống:** 1000 giao dịch thanh toán bị treo trong đợt sale.
-- **3 Tab dữ liệu đối soát:**
-  - *Tab 1 (Báo cáo người dùng):* Khách thẻ ngân hàng Techcombank và Vietcombank đều bị treo đơn.
-  - *Tab 2 (Server Logs):* Ghi nhận lỗi `Handshake failure on SSL layer` từ thời điểm 14:02.
-  - *Tab 3 (Lịch sử Cập nhật Mã):* Ghi nhận bản cập nhật phiên bản 2.1 được deploy lúc 14:00 có thay đổi chứng chỉ SSL.
-- **Yếu tố gây nhiễu (Red-herring):** Một số log báo lỗi bộ nhớ cache (thông tin không liên quan).
-- **Hành động khắc phục:** Học sinh phải xâu chuỗi thông tin để chỉ ra nguyên nhân gốc là do bản deploy 2.1 và bấm nút `[Ra lệnh Rollback về bản 2.0]`.
+#### ◈ Chặng 2 (Năng lực Cốt lõi - 3.5 phút): "Phòng Chat Tác Chiến Cứu Sập Cổng Thanh Toán Flash-Sale" (*Simulacra / Slack War Room*)
+- **Vai trò:** Kỹ sư Phân tích & Điều phối Sự cố (Incident Response Lead).
+- **Tình huống & Khung Chat Công Việc (Zalo/Slack):** 1.000 đơn hàng trà sữa/thương mại điện tử bị treo lúc 14:02 giữa giờ vàng khuyến mãi. Tin nhắn từ Sếp và CSKH đổ về dồn dập kèm hiệu ứng âm báo.
+- **Hệ thống 3 Thanh Chỉ Số Đánh Đổi (Trade-off Bars):**
+  - 🟢 **Chất lượng Hệ thống (Quality / Accuracy)**
+  - 🟡 **Sự hài lòng Sếp / Khách (Stakeholder Trust)**
+  - 🔴 **Thời gian / Tinh thần Giờ G (Time / Sanity)**
+- **3 Tab dữ liệu đối soát thực chứng:**
+  - *Tab 1 (Tin nhắn Phàn nàn Khách hàng):* Khách dùng thẻ ngân hàng đều bị trừ tiền nhưng đơn báo lỗi kết nối.
+  - *Tab 2 (Bảng Theo dõi Trạng thái Máy chủ):* Ghi nhận lỗi đứt kết nối bảo mật (`SSL Handshake Failure`) bắt đầu đúng 14:02.
+  - *Tab 3 (Nhật ký Cập nhật Phiên bản):* Ghi nhận bản cập nhật `v2.1` vừa được đẩy lên lúc 14:00 có thay đổi cấu hình bảo mật SSL.
+- **Yếu tố gây nhiễu (Red-herring):** Cảnh báo đầy bộ nhớ tạm (Cache) lúc 13:45 (thông tin không liên quan).
+- **Hành động khắc phục & Đánh đổi:** Học sinh đối chiếu 3 nguồn để bác bỏ phương án "Tắt bảo mật" (nhanh nhưng rủi ro mất tiền) và chọn đúng **[Ra lệnh Khôi phục (Rollback) về bản v2.0]**.
 
 ---
 
@@ -34,15 +41,24 @@
 
 #### ◈ Chặng 1 (Sơ tuyển - 90 giây): "Bộ lọc Cân bằng Tải trọng Xe tải"
 - **Vai trò:** Nhân viên điều độ kho bãi.
-- **Sổ tay quy tắc (15s):** Xe A tải trọng tối đa 1.5 tấn; Xe B tải trọng 2.0 tấn. Kiện hàng dán nhãn `Dễ vỡ` phải xếp trên cùng.
-- **Dữ liệu thực thi:** 6 kiện hàng có khối lượng và ký hiệu khác nhau cần kéo thả lên 2 thùng xe.
+- **Bảng Quy định SOP 3 Dòng:** Xe A tải trọng tối đa 1.5 tấn; Xe B tải trọng 2.0 tấn; Kiện hàng dán nhãn `Dễ vỡ` bắt buộc xếp trên cùng.
+- **Dữ liệu thực thi:** 6 kiện hàng có khối lượng và ký hiệu khác nhau cần phân bổ nhanh lên 2 thùng xe.
 - **Tiêu chí sàng lọc sớm:** Làm sập tải xe $> 2$ lần do không kiểm tra thông số tải trọng $\rightarrow$ Kích hoạt Early Exit.
 
 #### ◈ Chặng 2 (Năng lực Cốt lõi - 3.5 phút): "Điều phối Đa điểm khi Xảy ra Sạt lở Cầu Vận tải"
 - **Vai trò:** Chuyên viên điều phối mạng lưới giao hàng cứu trợ.
 - **Ràng buộc nghiệp vụ:** Điểm A bắt buộc nhận hàng trước 10:00 (nước lũ đang dâng). Cầu dẫn vào điểm C giới hạn tải trọng xe $\le 2.5$ tấn.
-- **Biến cố động (Dynamic Disruption ở phút 2.0):** Đường nối sang điểm B bị sạt lở, xe phải đi vòng thêm 45 phút.
-- **Hành động khắc phục:** Học sinh phải tính toán chuyển bớt hàng sang xe khác hoặc hy sinh hoãn chuyến tại điểm ít cấp bách hơn để cứu điểm A.
+- **Biến cố động (Dynamic Disruption ở phút 2.0):** Tin nhắn khẩn báo đường nối sang điểm B bị sạt lở, xe phải đi vòng thêm 45 phút.
+- **Hành động khắc phục:** Học sinh sử dụng Thẻ quẹt quyết định (*Reigns* Card-Swipe) để đánh đổi giữa Chi phí nhiên liệu, Thời gian cứu trợ và An toàn tải trọng.
+
+---
+
+### Cụm ngành 3 & 4 (Mở rộng Đa ngành): Luật Kinh tế & Marketing Sự kiện
+
+| Ngành Nghề | Kịch Bản Bối Cảnh Đời Thường (Không Cần Kiến Thức Nền) | Cơ Chế Game Hóa (Diegetic UI) | Năng Lực Lao Động Đo Lường |
+| :--- | :--- | :--- | :--- |
+| **Luật Kinh tế** | Cho sẵn "Quy định công ty" gồm 3 gạch đầu dòng ngắn. Học sinh đọc nhanh 4 đoạn thỏa thuận thuê ca sĩ biểu diễn trường (5–6 dòng) và đóng dấu chỉ ra câu chữ có "bẫy" gài sẵn (như mập mờ thời hạn phạt). | **Bàn Kiểm Duyệt Hợp Đồng (*Papers, Please*)** + Đóng dấu `[ĐẠT]` / `[CÓ BẪY RỦI RO]`. | Khả năng đọc kỹ chi tiết văn bản; sự nhạy bén với câu chữ và rủi ro pháp lý. |
+| **Marketing** | Cho ngân sách 10 triệu kéo khách đến sự kiện trường. Sếp nhắn tin Zalo/Slack dồn dập đòi vừa đông khách vừa sang trọng. Học sinh quẹt thẻ trái/phải chọn phương án đánh đổi (thuê KOL tốn tiền nhưng nhanh vs tự làm content rẻ nhưng rủi ro ít view). | **Thẻ Quẹt Quyết Định (*Reigns* Card-Swipe)** + **3 Thanh Trade-off Bars** (Ngân sách / Lượng khách / Hài lòng của Sếp). | Tư duy đánh đổi nguồn lực; khả năng chịu áp lực từ yêu cầu mâu thuẫn của cấp trên. |
 
 ---
 

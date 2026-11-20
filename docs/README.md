@@ -13,16 +13,18 @@ docs/
 ├── PHASED_IMPLEMENTATION_PLAN.md      # Kế hoạch tổng thể 5 giai đoạn & ma trận Đầu vào / Đầu ra
 │
 ├── sprints/                           # HỒ SƠ ĐIỀU PHỐI TỪNG SPRINT (Reading Dossiers)
-│   ├── sprint_0_scaffolding.md        # Sprint 0: Scaffolding, Design Tokens & Build Tooling
-│   ├── sprint_1_core_engine.md        # Sprint 1: Type Contracts, Động cơ Tính điểm & Seed Data
-│   ├── sprint_2_task_workspace.md     # Sprint 2: Không gian Tác vụ, 2 Archetypes & Live HUD
-│   ├── sprint_3_blind_matching.md     # Sprint 3: Radar 3 trục & Khung Ghép nối Ẩn danh
-│   ├── sprint_4_parent_alignment.md   # Sprint 4: Báo cáo Phụ huynh & Xuất bản in A4
-│   └── sprint_5_field_validation.md   # Sprint 5: Thực nghiệm Thực địa ĐMST (N=20-30 cặp)
+│   ├── sprint_0_scaffolding.md        # [DONE] Sprint 0: Scaffolding, Design Tokens & Build Tooling
+│   ├── sprint_1_core_engine.md        # [DONE] Sprint 1: Type Contracts, Động cơ Tính điểm & Seed Data
+│   ├── sprint_2_task_workspace.md     # [DONE] Sprint 2: Không gian Tác vụ, 2 Archetypes & Live HUD
+│   ├── sprint_3_blind_matching.md     # [DONE] Sprint 3: Radar 3 trục & Khung Ghép nối Ẩn danh
+│   ├── sprint_4_parent_alignment.md   # [DONE] Sprint 4: Báo cáo Phụ huynh & Xuất bản in A4
+│   ├── sprint_5_field_validation.md   # [DONE] Sprint 5: Thực nghiệm Thực địa ĐMST (N=25 cặp)
+│   └── sprint_6_diegetic_gamification.md # [NEW] Sprint 6: Nâng cấp Giao diện Diegetic UI & Game hóa Lao động
 │
 ├── validation/                        # HỒ SƠ THỰC NGHIỆM ĐMST
 │   ├── Validation_Plan.md             # Kế hoạch thực nghiệm 4 bước & kịch bản phỏng vấn
-│   └── OBSERVATION_LOG_TEMPLATE.md    # Mẫu phiếu quan sát thực địa cho học sinh & phụ huynh
+│   ├── OBSERVATION_LOG_TEMPLATE.md    # Mẫu phiếu quan sát thực địa cho học sinh & phụ huynh
+│   └── FIELD_VALIDATION_REPORT.md     # Báo cáo tổng hợp kết quả thực nghiệm N=25 cặp (Pass H0->H3)
 │
 └── roadmap/                           # LỘ TRÌNH MỞ RỘNG TƯƠNG LAI (POST-MVP & COMMERCIAL)
     ├── post_mvp_features.md           # Kế hoạch mở rộng 20+ cụm ngành nghề, Task CMS & B2B Portal

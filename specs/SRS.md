@@ -161,10 +161,10 @@ Bảng ma trận dưới đây liên kết toàn bộ các khâu từ **Mục ti
 
 | Giả thuyết Nghiên cứu (Validation Plan) | Mã Yêu cầu Chức năng (FR) | Mã Yêu cầu Phi chức năng (NFR) | Tài liệu Đặc tả Chuyên biệt Tham chiếu | File / Component Kỹ thuật Đảm nhiệm |
 | :--- | :--- | :--- | :--- | :--- |
-| **$H_0$** (Sàng lọc Sớm Ma sát) | `FR-02`, `FR-03` | `NFR-01`, `NFR-03` | [Scenario_&_Scoring_Spec.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/specs/Scenario_&_Scoring_Spec.md)<br>[Task_Engine_Architecture.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/specs/Task_Engine_Architecture.md) | `src/engine/TaskEngineRunner.tsx`<br>`src/engine/archetypes/TriageClassifier.tsx` |
+| **$H_0$** (Sàng lọc Sớm Ma sát) | `FR-02`, `FR-03` | `NFR-01`, `NFR-03` | [Scenario_&_Scoring_Spec.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/specs/Scenario_&_Scoring_Spec.md)<br>[Task_Engine_Architecture.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/specs/Task_Engine_Architecture.md) | `src/components/TaskWorkspace.tsx`<br>`src/components/archetypes/TriageClassifier.tsx` |
 | **$H_2$** (Thực chứng vs Trắc nghiệm) | `FR-04`, `FR-05` | `NFR-01`, `NFR-02` | [Scenario_&_Scoring_Spec.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/specs/Scenario_&_Scoring_Spec.md) | `src/engine/TelemetryBus.ts`<br>`src/engine/ScoringEngine.ts` |
 | **$H_1$** (Phá vỡ Định kiến Trường Top) | `FR-06` | `NFR-03`, `NFR-06` | [Data_Schema_&_Seed_Data.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/specs/Data_Schema_&_Seed_Data.md)<br>[UI_UX_Wireframe_Spec.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/specs/UI_UX_Wireframe_Spec.md) | `src/components/BlindMatchingCards.tsx` |
-| **$H_3$** (Đồng thuận Gia đình) | `FR-07`, `FR-08`, `FR-09` | `NFR-02`, `NFR-05` | [UI_UX_Wireframe_Spec.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/specs/UI_UX_Wireframe_Spec.md)<br>[Data_Schema_&_Seed_Data.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/specs/Data_Schema_&_Seed_Data.md) | `src/components/ParentAlignmentKit.tsx`<br>`src/styles/print.css` |
+| **$H_3$** (Đồng thuận Gia đình) | `FR-07`, `FR-08`, `FR-09` | `NFR-02`, `NFR-05` | [UI_UX_Wireframe_Spec.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/specs/UI_UX_Wireframe_Spec.md)<br>[Data_Schema_&_Seed_Data.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/specs/Data_Schema_&_Seed_Data.md) | `src/components/ParentAlignmentKit.tsx`<br>`src/index.css` |
 
 ---
 

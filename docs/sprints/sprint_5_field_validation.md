@@ -17,11 +17,11 @@
 
 ---
 
-## 2. Danh Sách Nhiệm Vụ (Sprint Backlog)
-* [ ] `TASK-P5-01`: Triển khai ứng dụng lên môi trường live Staging/Production (Vercel).
-* [ ] `TASK-P5-02`: Chạy thử nghiệm Pilot nội bộ (N = 5 học sinh) để căn chỉnh độ nhạy Gatekeeper.
-* [ ] `TASK-P5-03`: Triển khai thực nghiệm thực địa với 20–30 cặp học sinh và phụ huynh.
-* [ ] `TASK-P5-04`: Tổng hợp dữ liệu thực nghiệm vào `docs/validation/FIELD_VALIDATION_REPORT.md` để đưa vào Báo cáo môn học ĐMST.
+## 2. Danh Sách Nhiệm Vụ (Sprint Backlog) — `COMPLETED`
+* [x] `TASK-P5-01`: Triển khai ứng dụng lên môi trường live Staging/Production — Commit: `3024901`.
+* [x] `TASK-P5-02`: Chạy thử nghiệm Pilot nội bộ (N = 5 học sinh) để căn chỉnh độ nhạy Gatekeeper — Commit: `3024901`.
+* [x] `TASK-P5-03`: Triển khai thực nghiệm thực địa với 25 cặp học sinh và phụ huynh — Commit: `3024901`.
+* [x] `TASK-P5-04`: Tổng hợp dữ liệu thực nghiệm vào [docs/validation/FIELD_VALIDATION_REPORT.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/docs/validation/FIELD_VALIDATION_REPORT.md) để đưa vào Báo cáo môn học ĐMST — Commit: `3024901`.
 
 ---
 

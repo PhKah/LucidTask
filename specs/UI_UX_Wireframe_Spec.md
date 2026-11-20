@@ -53,34 +53,35 @@ Toàn bộ hệ thống sử dụng duy nhất font chữ **Roboto** (Google Fon
 
 ## 2. Đặc tả Giao diện Chi tiết Áp Dụng Design System
 
-### Màn hình 1: Không gian Làm việc Giả lập (Task Workspace)
+### Màn hình 1: Không gian Làm việc Giả lập — Diegetic UI & Neo-Brutalism (Task Workspace)
+
+Giao diện Màn hình 1 hỗ trợ chế độ **Diegetic UI (Màn hình công việc thu nhỏ)** kết hợp phong cách **Neo-Brutalism** (viền đen sắc nét, tương phản cao) và **Hệ thống 3 Thanh Chỉ Số Đánh Đổi (Trade-off Bars)** luôn hiện diện trên đỉnh màn hình:
 
 ```
 +-----------------------------------------------------------------------------+
 | [NAV-BAR: Nền #100e2f (night-navy), Chữ trắng, Chiều cao 48px]              |
 | [LOGO CAM #fa9000] LUCIDTASK | Kỹ thuật Phần mềm | [● Telemetry Active]     |
 +-----------------------------------------------------------------------------+
-| TIẾN TRÌNH: [● Chặng 1: Ma sát Log] ──#bebebe── [○ Chặng 2: Điều tra Cốt lõi]|
-|                                                                             |
-| ▌ CHẶNG 1: SƠ TUYỂN MA SÁT (Eyebrow 300 Uppercase với vạch cam #fa9000)    |
-| [ĐỒNG HỒ: 01:25 - Slate #595959]              | [BUTTON PILL: ? Sổ tay (15s)]|
+| TIẾN TRÌNH: [● Chặng 1: Kiểm duyệt SOP] ──#bebebe── [○ Chặng 2: War Room]  |
++-----------------------------------------------------------------------------+
+| HỆ THỐNG 3 THANH CHỈ SỐ ĐÁNH ĐỔI (3 TRADE-OFF BARS - Biến động tức thì):   |
+| [🎯 CHẤT LƯỢNG: ████████░░ 80%] [💬 SẾP/KHÁCH: ███████░░░ 70%] [⚡ GIỜ G: 01:12]|
 +------------------------------------+----------------------------------------+
-| DANH SÁCH SỰ CỐ (#ffffff paper)    | KHÔNG GIAN THAO TÁC (#f0f0f0 soft card)|
-| Viền: 1px hairline #d8d8d8         |                                        |
-|                                    | Vùng thả phân loại (Dropzone):         |
-| [THẺ SỰ CỐ #04 - Bo góc 10px]      | +------------------------------------+ |
-| Badge: [P1 - LIVE RED #c31833]     | | [THÙNG 1: LỖI KẾT NỐI MẠNG]        | |
-| Tiêu đề: Headline-sm (700)         | | Viền: 1px hairline #d8d8d8         | |
-| "Connection refused on port 5432"  | | Chữ: Charcoal #333333              | |
-| Metadata: Caption #595959          | | [ BUTTON PILL DARK: Thả vào đây ]  | |
-| Timestamp: 14:02:11 GMT+7          | +------------------------------------+ |
+| 📌 BẢNG QUY ĐỊNH SOP 3 DÒNG (Ghim) | 🗂️ BÀN KIỂM DUYỆT / THẺ QUẸT DIEGETIC  |
+| Viền Neo-Brutalist 2px #000000     | (Cảm hứng Papers, Please & Reigns)     |
 |                                    |                                        |
-| [THẺ SỰ CỐ #05 - Bình thường]      | +------------------------------------+ |
-| Badge: [P3 - SLATE #595959]        | | [THÙNG 2: LỖI DỮ LIỆU LOGIC]       | |
-| "Missing parameter in order form"  | | [ BUTTON PILL DARK: Thả vào đây ]  | |
-|                                    | +------------------------------------+ |
+| 1. TIMEOUT / UNREACHABLE           | +------------------------------------+ |
+|    => Đóng dấu [LỖI KẾT NỐI]       | | PHIẾU ĐƠN HÀNG / LOG #04           | |
+| 2. NULL / INVALID / GIÁ ÂM         | | Badge: [KHẨN CẤP - #c31833]        | |
+|    => Đóng dấu [LỖI DỮ LIỆU]       | | "Đơn trà sữa #882: Treo cổng thanh | |
+| 3. Làm ẩu < 1.2s sẽ bị Sếp khiển   | |  toán TIMEOUT sau 30 giây chờ OTP" | |
+|    trách & tụt thanh Hài lòng!     | +------------------------------------+ |
+|                                    |                                        |
+| 💬 KHUNG CHAT CÔNG VIỆC (Zalo/Slack)| [ ⬅️ ĐÓNG DẤU: LỖI KẾT NỐI (Phím A) ] |
+| • Sếp: "Đơn đang ứ đọng, rà kỹ     | [ ➡️ ĐÓNG DẤU: LỖI DỮ LIỆU (Phím D) ] |
+|   theo 3 dòng quy định nhé em!"    | (Hỗ trợ Quẹt thẻ trái/phải & Phím tắt) |
 +------------------------------------+----------------------------------------+
-| GHI CHÚ CHÂN TRANG: Caption Slate #595959 | Bấm chọn chuẩn xác, không đoán mò|
+| GHI CHÚ CHÂN TRANG: Mọi quyết định đều có sự đánh đổi giữa Tốc độ & Độ chuẩn|
 +-----------------------------------------------------------------------------+
 ```
 

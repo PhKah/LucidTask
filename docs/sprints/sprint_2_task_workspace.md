@@ -18,12 +18,12 @@
 
 ---
 
-## 2. Danh Sách Nhiệm Vụ (Sprint Backlog)
-* [ ] `TASK-P2-01`: Xây dựng `AppShell.tsx` và `IndustrySelector.tsx`.
-* [ ] `TASK-P2-02`: Xây dựng `TaskWorkspace.tsx`, đồng hồ đếm ngược (đổi viền đỏ `#c31833` khi $\le 60$s) và `HandbookDrawer.tsx`.
-* [ ] `TASK-P2-03`: Xây dựng 2 Archetype components (`TriageClassifier.tsx` và `MultiSourceInspector.tsx`).
-* [ ] `TASK-P2-04`: Xây dựng `EarlyExitScreen.tsx` và bộ điều hướng la bàn tư vấn khi click ẩu.
-* [ ] `TASK-P2-05`: Viết Integration Tests `tests/integration/workspace.test.tsx` (`IT-WORK-01`, `IT-WORK-02`).
+## 2. Danh Sách Nhiệm Vụ (Sprint Backlog) — `COMPLETED`
+* [x] `TASK-P2-01`: Xây dựng `AppShell.tsx` và `IndustrySelector.tsx` — Commit: `ae0f985`.
+* [x] `TASK-P2-02`: Xây dựng `TaskWorkspace.tsx`, đồng hồ đếm ngược (đổi viền đỏ `#c31833` khi $\le 60$s) và `HandbookDrawer.tsx` — Commit: `ae0f985`.
+* [x] `TASK-P2-03`: Xây dựng 2 Archetype components (`TriageClassifier.tsx` và `MultiSourceInspector.tsx`) — Commit: `ae0f985`.
+* [x] `TASK-P2-04`: Xây dựng `EarlyExitScreen.tsx` và bộ điều hướng la bàn tư vấn khi click ẩu — Commit: `ae0f985`.
+* [x] `TASK-P2-05`: Viết Integration Tests `tests/integration/workspace.test.tsx` (`IT-WORK-01`, `IT-WORK-02`) — Commit: `ae0f985`.
 
 ---
 

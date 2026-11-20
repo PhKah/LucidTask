@@ -16,10 +16,10 @@
 
 ---
 
-## 2. Danh Sách Nhiệm Vụ (Sprint Backlog)
-* [ ] `TASK-P4-01`: Xây dựng `ParentAlignmentKit.tsx` (bố cục 2 cột, cảnh báo 185 triệu, 3 câu hỏi bàn ăn).
-* [ ] `TASK-P4-02`: Tinh chỉnh CSS in ấn trong `src/index.css` và nút gọi `window.print()`.
-* [ ] `TASK-P4-03`: Tích hợp toàn bộ luồng vào `src/App.tsx` và viết kiểm thử E2E `tests/integration/e2eFlow.test.tsx`.
+## 2. Danh Sách Nhiệm Vụ (Sprint Backlog) — `COMPLETED`
+* [x] `TASK-P4-01`: Xây dựng `ParentAlignmentKit.tsx` (bố cục 2 cột, cảnh báo 185 triệu, 3 câu hỏi bàn ăn) — Commit: `7d79c69`.
+* [x] `TASK-P4-02`: Tinh chỉnh CSS in ấn trong `src/index.css` và nút gọi `window.print()` — Commit: `7d79c69`.
+* [x] `TASK-P4-03`: Tích hợp toàn bộ luồng vào `src/App.tsx` và viết kiểm thử E2E `tests/integration/e2eFlow.test.tsx` — Commit: `7d79c69`.
 
 ---
 

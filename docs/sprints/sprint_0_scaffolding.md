@@ -18,8 +18,8 @@ Lập trình viên / AI Agent bắt buộc phải đọc các tài liệu sau tr
 
 ---
 
-## 2. Danh Sách Nhiệm Vụ (Sprint Backlog)
-* [ ] `TASK-P0-01`: Khởi tạo Scaffolding, tích hợp Design Tokens & cấu hình test runner ([task/Log/20261120_TASK-P0-01_scaffolding-design-tokens.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/task/Log/20261120_TASK-P0-01_scaffolding-design-tokens.md))
+## 2. Danh Sách Nhiệm Vụ (Sprint Backlog) — `COMPLETED`
+* [x] `TASK-P0-01`: Khởi tạo Scaffolding, tích hợp Design Tokens & cấu hình test runner ([task/Log/20261120_TASK-P0-01_scaffolding-design-tokens.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/task/Log/20261120_TASK-P0-01_scaffolding-design-tokens.md)) — Commit: `e4f3ed1`
 
 ---
 

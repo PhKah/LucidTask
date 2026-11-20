@@ -20,10 +20,10 @@
 
 ---
 
-## 2. Danh Sách Nhiệm Vụ (Sprint Backlog)
-* [ ] `TASK-P1-01`: Xây dựng Type Definitions (`task.ts`, `program.ts`, `telemetry.ts`, `state.ts`) và nạp Seed Data Registry.
-* [ ] `TASK-P1-02`: Xây dựng `TelemetryBus.ts` và kiểm thử pub/sub vi thao tác chuột.
-* [ ] `TASK-P1-03`: Xây dựng `ScoringEngine.ts` (Gatekeeper, 3 trục năng lực, Cosine Matching) và Unit Test suite.
+## 2. Danh Sách Nhiệm Vụ (Sprint Backlog) — `COMPLETED`
+* [x] `TASK-P1-01`: Xây dựng Type Definitions (`task.ts`, `program.ts`, `telemetry.ts`, `state.ts`) và nạp Seed Data Registry — Commit: `5e83c7a`.
+* [x] `TASK-P1-02`: Xây dựng `TelemetryBus.ts` và kiểm thử pub/sub vi thao tác chuột — Commit: `5e83c7a`.
+* [x] `TASK-P1-03`: Xây dựng `ScoringEngine.ts` (Gatekeeper, 3 trục năng lực, Cosine Matching) và Unit Test suite (Coverage 93.63%) — Commit: `5e83c7a`.
 
 ---
 

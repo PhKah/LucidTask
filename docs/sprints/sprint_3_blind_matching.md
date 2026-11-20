@@ -17,10 +17,10 @@
 
 ---
 
-## 2. Danh Sách Nhiệm Vụ (Sprint Backlog)
-* [ ] `TASK-P3-01`: Xây dựng `CompetencyRadar.tsx` (3 thanh đo trực quan cam/xanh/đỏ và 2 nhận định định tính).
-* [ ] `TASK-P3-02`: Xây dựng `BlindMatchingCards.tsx` (thẻ mã hóa Alpha/Beta, nút mở khóa, hiệu ứng `canvas-confetti`, render thông tin trường sau khi mở khóa).
-* [ ] `TASK-P3-03`: Viết Invariant Test `tests/integration/blindMatching.test.tsx` (`IT-BLIND-01`, `IT-REVEAL-01`).
+## 2. Danh Sách Nhiệm Vụ (Sprint Backlog) — `COMPLETED`
+* [x] `TASK-P3-01`: Xây dựng `CompetencyRadar.tsx` (3 thanh đo trực quan cam/xanh/đỏ và 2 nhận định định tính) — Commit: `3dadacf`.
+* [x] `TASK-P3-02`: Xây dựng `BlindMatchingCards.tsx` (thẻ mã hóa Alpha/Beta, nút mở khóa, hiệu ứng `canvas-confetti`, render thông tin trường sau khi mở khóa) — Commit: `3dadacf`.
+* [x] `TASK-P3-03`: Viết Invariant Test `tests/integration/blindMatching.test.tsx` (`IT-BLIND-01`, `IT-REVEAL-01`) — Commit: `3dadacf`.
 
 ---
 

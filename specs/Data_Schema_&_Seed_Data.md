@@ -71,6 +71,28 @@ export interface IndustryMarketIntelligence {
     };
   };
 }
+
+// 1.3. Hợp đồng Mở rộng Giao diện Game Hóa Nhập Vai (Diegetic UI & Trade-off Bars Extension)
+export type DiegeticSkinMode =
+  | "CLASSIC_CONSOLE"
+  | "PAPERS_PLEASE_DOCKET"
+  | "REIGNS_CARD_SWIPE"
+  | "WORK_CHAT_WAR_ROOM";
+
+export interface TradeOffBarState {
+  quality_accuracy: number;           // Thanh 1: Độ chính xác / Chất lượng (0 - 100)
+  stakeholder_satisfaction: number;   // Thanh 2: Sự hài lòng của Sếp / Khách (0 - 100)
+  time_sanity: number;                // Thanh 3: Thời gian / Tinh thần Giờ G (0 - 100)
+}
+
+export interface WorkChatMessage {
+  id: string;
+  sender_role: "BOSS" | "CLIENT" | "SYSTEM_BOT" | "TEAMMATE";
+  sender_name: string;
+  message_text: string;
+  trigger_at_sec?: number;            // Thời điểm tin nhắn nhảy vào khung chat
+  urgency: "NORMAL" | "URGENT";
+}
 ```
 
 ---
