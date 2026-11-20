@@ -85,6 +85,14 @@ Giao diện Màn hình 1 hỗ trợ chế độ **Diegetic UI (Màn hình công 
 +-----------------------------------------------------------------------------+
 ```
 
+#### 2.1. Sáu Quy Chuẩn Tương Tác Bàn Làm Việc Đúc Kết Từ Thực Nghiệm Subagent (Áp dụng cho mọi ngành mới)
+1. **Bề mặt Sổ tay Nghề nghiệp (*Diegetic Ledger Surface*):** Khung chứng từ sử dụng nền giấy kem ấm (`#FAF5E8`), đường kẻ mảnh (`#D8CFAF`), lề đỏ bên trái, kết hợp hai cực màu đối ứng: Xanh dương dịu (`#EBF2FA` / chữ `#2B5B84`) cho khay **NỢ / Hiện trạng** và Hồng san hô (`#FBECE9` / chữ `#8C3B2B`) cho khay **CÓ / Giải pháp đối ứng**.
+2. **Tương tác Chạm Dòng Lỗi (*Spot-the-Flaw Hit Targets*):** Mỗi dòng trên chứng từ là một vùng chạm tương tác độc lập. Người chơi chạm trực tiếp vào dòng sai để trả hồ sơ về cho đồng nghiệp, hoặc bấm nút **`Hợp lệ ✓`** nếu tất cả các dòng đều đúng.
+3. **Lắp ghép Không Gõ Phím (*Zero-Typing Chip-to-Slot*):** Khi chuyển sang bước xử lý/định khoản, người chơi chạm chọn **Thẻ nghiệp vụ** đặt vào 2 khay đối ứng và chạm chọn **Chip số liệu/bằng chứng** được trích xuất sẵn từ chứng từ gốc (không bắt gõ bàn phím thủ công).
+4. **Pipeline 3 Bước Thu Gọn Ngay Trên Bàn (`1 · Kiểm tra` $\rightarrow$ `2 · Xử lý` $\rightarrow$ `3 · Ghi sổ`):** Khi chứng từ qua bước 1, tờ chứng từ tự thu gọn thành một dải tóm tắt ở phía trên để nhường diện tích cho 2 khay cân bằng ở bước 2.
+5. **Hàng Đợi Đồng Nghiệp Cá Tính Hóa (*Persona Queue*):** Đồng nghiệp xếp hàng ở mép trên bàn làm việc kèm thanh kiên nhẫn xanh lá rút dần (Sếp có thanh kiên nhẫn ngắn nhất) và 2 huy hiệu xung đột **🛡️ Uy tín** vs **❤️ Thiện cảm**.
+6. **Ghi Chú Dán Trước Ca (*Just-in-Time Sticky Notes*) & Ca Tập Chỉ Tay (*Spotlight Onboarding*):** Chỉ hiển thị 2 ghi chú quy tắc trọng tâm ngay trước ca trực cùng chế độ khoanh sáng (Spotlight) hướng dẫn 2–3 hồ sơ đầu tiên.
+
 ---
 
 ### Màn hình 2: Thẻ Blind Matching (Chế độ Ẩn danh & Lộ diện)

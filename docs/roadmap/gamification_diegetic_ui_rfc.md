@@ -157,16 +157,50 @@ Công việc ngoài đời chia thành hai thái cực về khả năng game hó
 
 ---
 
-### 5.3. Bảng Checklist Bắt Buộc Khi Thiết Kế Ngành Nghề Mới (New Career Module Checklist)
+### 5.3. Sáu Kỹ Thuật UI/UX & Cơ Chế Tương Tác Thực Chiến Đúc Kết Trực Tiếp Từ Quá Trình Chạy Browser Subagent
 
-Trước khi đưa bất kỳ ngành nghề mới nào vào `src/registry/<industry_name>/`, người thiết kế nội dung và lập trình viên phải kiểm tra đủ 4 tiêu chuẩn sau:
+Bên cạnh 5 lý do tâm lý học và 5 điều kiện chuyển đổi ở trên, quá trình dùng Browser Subagent trực tiếp chơi qua các màn của **Nợ Có Ơi** đã bóc tách được **6 kỹ thuật thiết kế giao diện & vi tương tác (Micro-interactions)** cực kỳ tinh tế cần áp dụng chuẩn cho mọi ngành mới trong LucidTask:
+
+1. **Kỹ thuật "Zero-Typing Chip-to-Slot" (Không Gõ Phím, Không Tính Nhẩm Thủ Công):**
+   - Trong môi trường web/mobile, bắt người chơi gõ bàn phím số tiền hay tự cộng trừ nhẩm sẽ gây mệt mỏi và đứt mạch cảm xúc (Flow).
+   - **Cách thiết kế chuẩn:**
+     - Người chơi chạm chọn **Thẻ Nghiệp vụ** ở khay dưới $\rightarrow$ Chạm đặt vào khay **Bên A (Nợ / Hiện trạng)** hoặc **Bên B (Có / Đối ứng)**.
+     - Nếu hồ sơ chỉ có 1 con số duy nhất, hệ thống **tự động điền luôn con số đó** vào thẻ.
+     - Nếu hồ sơ có nhiều con số/thông số (ví dụ: *Tiền hàng `3.000.000`*, *Thuế `240.000`*, *Tổng `3.240.000`*), hệ thống tự trích xuất các con số đó thành **các nút Chip nhỏ ngay bên trong thẻ** — người chơi chỉ việc chạm chọn đúng Chip số liệu! Nhờ vậy, 100% năng lượng não bộ tập trung vào **phán đoán bản chất nghiệp vụ** chứ không phải gõ phím.
+2. **Kỹ thuật "Thu Gọn Chứng Từ Thông Minh" Trong Pipeline 3 Bước (`1 · Kiểm tra` $\rightarrow$ `2 · Định khoản / Xử lý` $\rightarrow$ `3 · Ghi sổ`):**
+   - Không chuyển trang làm đứt mạch thị giác. Mỗi hồ sơ đi qua thanh trạng thái 3 bước ngay trong cùng một khung bàn làm việc:
+     - **Ở Bước `1 · Kiểm tra`:** Hiển thị toàn bộ tờ chứng từ đa dòng để người chơi soi từng dòng. Nếu phát hiện dòng sai $\rightarrow$ chạm trực tiếp vào dòng đó để trả lại ngay. Nếu đúng hết $\rightarrow$ bấm nút **`Hợp lệ ✓`**.
+     - **Chuyển sang Bước `2 · Định khoản / Xử lý`:** Ngay khi bấm `Hợp lệ ✓`, tờ chứng từ dài **tự động thu gọn thành một Dải Tóm Tắt 1 Dòng (Compact Summary Strip)** ở phía trên (chỉ giữ lại 3 con số quan trọng nhất và nút nhỏ `Xem lại cả chứng từ`), giải phóng 75% diện tích màn hình bên dưới cho 2 khay lắp ghép thẻ!
+     - **Ở Bước `3 · Ghi sổ`:** Khi 2 khay cân bằng (`Chưa cân` $\rightarrow$ `Đã cân`), nút **`Ghi sổ`** màu xanh lá sáng lên, bấm xong nổ hiệu ứng thưởng (`+100 đ / +XP`) và tự động dọn bàn đón đồng nghiệp tiếp theo.
+3. **Kỹ thuật "Ca Tập Có Mentor Chỉ Tay" (*Guided Practice Shift* — Đồng Hồ Đứng Yên & Spotlight Viền Vàng):**
+   - Để học sinh THPT chưa biết gì về nghề không bị ngợp, trước khi vào Ca thật có tính giờ, cung cấp một **"Ca tập 2–3 hồ sơ có Mentor (như Cô Ba) chỉ tay"**:
+     - Trong Ca tập: Đồng hồ đứng yên, đồng nghiệp không bỏ về, làm sai không bị phạt vào sổ thật.
+     - Hệ thống dùng **khung viền vàng sáng (Spotlight Highlight)** khoanh đúng vào dòng đang có lỗi hoặc thẻ cần chọn, kèm 1 câu thoại ngắn gọn chỉ dẫn thao tác chạm. Học sinh chỉ mất **45 giây** làm theo tay Mentor là nắm vững 100% luật chơi trước khi vào Ca thật.
+4. **Kỹ thuật "Ghi Chú Dán Ngay Trước Ca Trực" (*Just-in-Time Mentor Sticky Notes*) & Sổ Tay Đối Chiếu Thực Tế:**
+   - Tuyệt đối không bắt người chơi đọc một cuốn cẩm nang 20 quy tắc từ đầu.
+   - Ở màn hình chuẩn bị vào ca (*Shift Briefing*), Mentor chỉ dán **đúng 2 mảnh giấy ghi chú (Sticky Notes)** chứa quy tắc sẽ xuất hiện trong ca trực 3 phút sắp tới (ví dụ: *"Hàng hóa năm 2026 chịu thuế 8%, nhưng cước viễn thông vẫn 10%"*).
+   - Trong lúc làm việc, nút **`Sổ tay`** ở góc trên cho phép mở nhanh **Hồ sơ Công ty mình** (Tên chuẩn, Mã số thuế chuẩn, Số tài khoản, và **Danh sách đen các đối tác vi phạm/bỏ trốn**) để người chơi tra cứu chéo xem chứng từ có bị ghi sai MST hoặc đến từ đối tác trong danh sách đen hay không.
+5. **Kỹ thuật "Hàng Đợi Đồng Nghiệp Có Cá Tính & Độ Kiên Nhẫn Khác Nhau" (*Persona-Driven Queue*):**
+   - Mỗi đồng nghiệp trong hàng chờ mang một loại hồ sơ đặc trưng và tốc độ tụt thanh kiên nhẫn khác nhau:
+     - *Nhân viên trẻ (Bé Mít - Sales, Bé Na - Kho):* Mang hóa đơn bán hàng/xuất kho thông thường, thanh kiên nhẫn dài.
+     - *Sếp / Giám đốc (Anh Tài):* Tính cách *"tốt bụng nhưng hay muốn lách quy định"*, thường mang các chứng từ nhạy cảm/cài bẫy khó và có **thanh kiên nhẫn tụt nhanh nhất**, buộc người chơi phải biết ưu tiên thứ tự xử lý hoặc dùng nút **`Để sau`** một cách chiến thuật.
+6. **Hệ Thống Kinh Tế Vi Mô & Vật Phẩm Bàn Làm Việc (*Tactile Desk Economy*):**
+   - Điểm thưởng / Tiền lương kiếm được sau mỗi ca trực có ý nghĩa sử dụng tức thì: mở khóa hoặc trang bị các **Công cụ hỗ trợ nghiệp vụ thực tế** trên bàn làm việc (như *Máy tính bỏ túi* hiện tổng tự động, *Máy quét mã số thuế* cảnh báo đối tác rủi ro, *Ly trà đá / Hộp bánh* hồi phục thanh kiên nhẫn cho hàng chờ đồng nghiệp), tạo động lực gắn bó dài hạn qua nhiều Micro-Tasks.
+
+---
+
+### 5.4. Bảng Checklist Bắt Buộc Khi Thiết Kế Ngành Nghề Mới (New Career Module Checklist)
+
+Trước khi đưa bất kỳ ngành nghề mới nào vào `src/registry/<industry_name>/`, người thiết kế nội dung và lập trình viên phải kiểm tra đủ 6 tiêu chuẩn sau:
 
 | STT | Hạng Mục Kiểm Duyệt Thiết Kế Ngành Mới | Tiêu Chuẩn Đạt (Pass Criteria) |
 | :---: | :--- | :--- |
 | **1** | **Soi chứng từ chạm đúng dòng lỗi (`Spot-the-Flaw`)** | Mỗi chứng từ phải có 5–8 dòng dữ liệu thực tế. Chỉ dòng có `is_flawed: true` mới là điểm bắt lỗi đúng; chạm vào dòng bình thường phải tính là bắt nhầm; chứng từ không có dòng lỗi nào thì phải bấm `Hợp lệ ✓`. |
-| **2** | **Lắp ráp & Cân bằng chủ động (`Zero-Radio Construction`)** | Không dùng câu hỏi trắc nghiệm Radio A/B/C/D. Người chơi phải tự lắp ghép thẻ + số liệu/chứng cứ vào khay hoặc điều chỉnh thanh trượt nguồn lực để xóa dòng báo đỏ `Lệch ...` về trạng thái cân bằng. |
-| **3** | **Xung đột `🛡️ Uy tín` vs `❤️ Thiện cảm` & `Sai sót ẩn`** | Có các tình huống đồng nghiệp/sếp nhờ "du di": bắt lỗi thẳng tay thì `+Uy tín / -Thiện cảm`; nể nang cho qua thì `+Thiện cảm` nhưng ghi nhận `Sai sót ẩn` bị khui vào cuối ca. |
-| **4** | **Dẫn nhập bình dân & Nghi thức Khóa sổ (`Catharsis`)** | Có ví dụ dẫn nhập kiểu *"Bình dân vỉa hè"* dễ hiểu trong 15 giây ở đầu ca, và có màn hình đối chiếu tổng kết khớp sổ `A = B ✓` ở cuối ca. |
+| **2** | **Lắp ráp không gõ phím (`Zero-Typing Chip-to-Slot`)** | Không dùng câu hỏi trắc nghiệm Radio A/B/C/D và không bắt gõ số thủ công. Người chơi chạm thẻ nghiệp vụ đặt vào 2 khay đối ứng và chạm chọn **Chip số liệu/bằng chứng** trích từ chứng từ gốc để xóa dòng báo đỏ `Lệch ...` về trạng thái `Đã cân`. |
+| **3** | **Pipeline 3 bước thu gọn (`1·Kiểm tra -> 2·Xử lý -> 3·Ghi sổ`)** | Sau khi bấm `Hợp lệ ✓` ở bước 1, chứng từ tự thu gọn thành dải tóm tắt để nhường chỗ cho khay cân bằng ở bước 2 ngay trên cùng một mặt bàn. |
+| **4** | **Ca tập có Mentor chỉ tay & Ghi chú Just-in-Time** | Có 2 mảnh giấy ghi chú nhắc luật của Mentor ngay trước ca, kèm Sổ tay chứa thông tin chuẩn/danh sách đen để tra cứu chéo và chế độ Ca tập khoanh sáng (Spotlight) cho người mới. |
+| **5** | **Xung đột `🛡️ Uy tín` vs `❤️ Thiện cảm` & `Sai sót ẩn`** | Có hàng đợi đồng nghiệp với độ kiên nhẫn khác nhau (Sếp chờ ít nhất); bắt lỗi thẳng tay thì `+Uy tín / -Thiện cảm`; nể nang hoặc cân sổ sai bản chất thì tạo `Sai sót ẩn` bị khui vào cuối ca. |
+| **6** | **Dẫn nhập bình dân & Nghi thức Khóa sổ (`Catharsis`)** | Có ví dụ dẫn nhập kiểu *"Bình dân vỉa hè"* dễ hiểu trong 15 giây ở đầu ca, và có màn hình đối chiếu tổng kết khớp sổ `A = B ✓` ở cuối ca. |
 
 ---
 
