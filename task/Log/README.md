@@ -43,3 +43,4 @@ Mỗi file log lưu trữ phải đảm bảo:
 | Ngày | Mã Task | Giai đoạn | Tên Nhiệm Vụ | Trạng Thái | Commit Hash | File Nhật Ký Chi Tiết |
 | :---: | :---: | :---: | :--- | :---: | :---: | :--- |
 | *Đang chờ* | `TASK-P0-01` | GĐ 0 | Khởi tạo Scaffolding & Design Tokens | DRAFT | - | `task/Log/20261120_TASK-P0-01_scaffolding-design-tokens.md` |
+

@@ -38,5 +38,3 @@ coverage/
 # Temporary / Scratch
 .gemini
 tmp/
-
-task/

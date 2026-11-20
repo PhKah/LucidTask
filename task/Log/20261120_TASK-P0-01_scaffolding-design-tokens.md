@@ -3,13 +3,14 @@
 **Mã Task:** `TASK-P0-01`  
 **Giai đoạn:** Giai đoạn 0 (Sprint 0: Scaffolding & Design System Foundation)  
 **Người thực hiện:** AI Assistant / Antigravity  
+**Slash Command / Action Khuyến nghị:** `/goal` (Chạy tự động trọn gói từ setup dependencies, cấu hình Tailwind/CSS đến khi lệnh build & test pass 100%)  
 **Trạng thái:** `DRAFT` (Sẵn sàng thực thi)  
 **Ngày bắt đầu:** 2026-11-20  
 **Ngày hoàn thành:** Chưa hoàn thành  
 
 ---
 
-## 1. Mục Tiêu & Phạm Vi (Objective & Scope)
+## 1. Mục Tiêu, Phạm Vi & Antigravity IDE Action
 
 ### 1.1. Mục tiêu cốt lõi
 Khởi tạo toàn bộ cấu trúc dự án Frontend với Vite 5, React 18, TypeScript 5, TailwindCSS 3; cấu hình test runner Vitest + Testing Library; tích hợp đầy đủ 100% Design Tokens từ `.AGENTS/DESIGN.md` và CSS in ấn khổ A4 phục vụ các giai đoạn tiếp theo.
@@ -25,6 +26,10 @@ Khởi tạo toàn bộ cấu trúc dự án Frontend với Vite 5, React 18, Ty
 * **NGOÀI PHẠM VI (Out-of-Scope):**
   - Không viết logic tính điểm (`ScoringEngine.ts` thuộc Giai đoạn 1).
   - Không viết component UI tác vụ hay wireframe chi tiết (thuộc Giai đoạn 2 và 3).
+
+### 1.3. Khuyến nghị Kích hoạt Slash Command / Action
+* **Lệnh đề xuất:** `/goal`
+* **Lý do:** Khởi tạo môi trường kỹ thuật đòi hỏi chuỗi lệnh cài đặt package, biên dịch CSS, cấu hình Vitest và đóng gói bundle. Lệnh `/goal` giúp agent tự động lặp kiểm thử, xử lý ngay mọi xung đột package hoặc lỗi cú pháp cho đến khi vượt qua toàn bộ 5 tiêu chuẩn chấp nhận `AC-01` $\rightarrow$ `AC-05`.
 
 ---
 
@@ -107,3 +112,4 @@ npm test
 | Thời gian | Người/Agent | Hành động thực hiện | Kết quả / Ghi chú | Commit Hash |
 | :---: | :---: | :--- | :--- | :---: |
 | 2026-11-20 16:22 | Antigravity | Soạn thảo Task Spec dựa trên Giai đoạn 0 | Sẵn sàng chờ phê duyệt thực thi | `c3e13a1` |
+

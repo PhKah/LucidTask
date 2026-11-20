@@ -3,13 +3,14 @@
 **Mã Task:** `TASK-[PHASE]-[STT]` (Ví dụ: `TASK-P0-01`, `TASK-P1-02`)  
 **Giai đoạn:** [Giai đoạn 0 | Giai đoạn 1 | Giai đoạn 2 | Giai đoạn 3 | Giai đoạn 4 | Giai đoạn 5]  
 **Người thực hiện:** [Tên người thực hiện / AI Agent]  
+**Slash Command / Action Khuyến nghị:** [`/plan` | `/boost` | `/goal` | `/browser` | `/teamwork` | `/grill-me`]  
 **Trạng thái:** `DRAFT` | `IN_PROGRESS` | `TESTING` | `COMPLETED` | `BLOCKED`  
 **Ngày bắt đầu:** YYYY-MM-DD  
 **Ngày hoàn thành:** YYYY-MM-DD (hoặc Chưa hoàn thành)  
 
 ---
 
-## 1. Mục Tiêu & Phạm Vi (Objective & Scope)
+## 1. Mục Tiêu, Phạm Vi & Antigravity IDE Action
 
 ### 1.1. Mục tiêu cốt lõi
 > *Mô tả súc tích trong 1-3 câu: Task này giải quyết bài toán gì, mang lại giá trị gì cho kiến trúc hoặc trải nghiệm người dùng cuối?*
@@ -21,6 +22,19 @@
 * **NGOÀI PHẠM VI (Out-of-Scope - Tuyệt đối không làm trong task này):**
   - Không giải quyết...
   - Không đụng chạm vào file/thành phần...
+
+### 1.3. Hướng dẫn Lựa chọn Slash Command / Action Antigravity IDE
+*Tùy vào đặc thù công việc của Task, lập trình viên/người điều phối kích hoạt lệnh chat phù hợp trong Antigravity IDE:*
+
+| Lệnh Slash Command | Trường hợp áp dụng tối ưu | Mục đích với Task này |
+| :--- | :--- | :--- |
+| **`/plan`** | Task kiến trúc, cấu hình hoặc có nhiều phụ thuộc phức tạp | Lập kế hoạch chi tiết từng bước, rà soát phụ thuộc trước khi sinh code. |
+| **`/boost`** | Task thuật toán lõi, động cơ tính điểm, bài toán kiểm thử khắt khe | Kích hoạt suy luận đa chiều sâu, tối ưu hóa thuật toán và xác minh nghiêm ngặt. |
+| **`/goal`** | Task cần chạy xuyên suốt, tự động hóa chuỗi kiểm thử dài | Yêu cầu Agent tự động xử lý mọi lỗi build/test cho đến khi vượt qua 100% AC. |
+| **`/browser`** | Task UI/UX, kiểm thử DOM Invariant, kiểm tra A4 Print Preview | Mở trình duyệt tương tác thực tế, kiểm tra visual layout và rò rỉ DOM. |
+| **`/teamwork`** | Task quy mô lớn có thể tách thành các sub-agent độc lập | Phân tán nhiều Agent làm việc song song (ví dụ: làm 2 Archetypes cùng lúc). |
+| **`/grill-me`** | Task có các quyết định thiết kế/kinh doanh còn phân vân | Agent phỏng vấn người dùng để chốt các chi tiết kỹ thuật/nghiệp vụ. |
+| **`/compact`** | Hoàn thành một Sprint / chuyển giai đoạn | Thu gọn ngữ cảnh hội thoại, giải phóng bộ nhớ để bắt đầu task mới sạch sẽ. |
 
 ---
 
@@ -123,3 +137,4 @@ npm run build
 | :---: | :---: | :--- | :--- | :---: |
 | YYYY-MM-DD HH:mm | ... | Khởi tạo task và đọc các file specs đầu vào | Đã đọc xong mục X, Y | - |
 | YYYY-MM-DD HH:mm | ... | Hoàn thành code logic & test | Pass 100% test cases | `abcdef1` |
+
