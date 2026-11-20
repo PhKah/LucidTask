@@ -1,0 +1,71 @@
+{
+  "id": "TASK_SWE_STAGE1",
+  "stage": 1,
+  "title": "Chặng 1: Sơ Tuyển Tỉ Mỉ & So Khớp Mã Log Lỗi",
+  "role_title": "Kỹ sư Trực ban Vận hành Hệ thống (Incident Triage)",
+  "scenario_brief": "Hệ thống sàn thương mại điện tử đang ghi nhận loạt cảnh báo lỗi dồn dập. Hãy đọc kỹ quy tắc trong Sổ tay nghiệp vụ để phân loại chính xác từng mã log vào 2 thùng lỗi.",
+  "time_limit_seconds": 90,
+  "interaction_archetype": "TRIAGE_AND_CLASSIFY",
+  "handbook_rules": [
+    {
+      "rule_id": "RULE_CONN",
+      "category": "Lỗi Kết Nối Mạng (Network & Connectivity)",
+      "condition": "Chứa từ khóa: TIMEOUT, CONNECTION_REFUSED, hoặc UNREACHABLE",
+      "target_action": "CONN_ERR",
+      "hint": "Phân loại vào Thùng 1: Lỗi Kết Nối"
+    },
+    {
+      "rule_id": "RULE_DATA",
+      "category": "Lỗi Dữ Liệu & Mã Nguồn (Data & Null Pointer)",
+      "condition": "Chứa từ khóa: NULL_POINTER, INVALID_FORMAT, hoặc OUT_OF_BOUNDS",
+      "target_action": "DATA_ERR",
+      "hint": "Phân loại vào Thùng 2: Lỗi Dữ Liệu"
+    }
+  ],
+  "work_items": [
+    {
+      "id": "TICKET-01",
+      "content": "[14:02:11] ERROR: Upstream TIMEOUT on payment gateway route /v1/checkout",
+      "expected_target": "CONN_ERR"
+    },
+    {
+      "id": "TICKET-02",
+      "content": "[14:02:15] FATAL: CONNECTION_REFUSED by database cluster replica-02",
+      "expected_target": "CONN_ERR"
+    },
+    {
+      "id": "TICKET-03",
+      "content": "[14:02:18] WARN: Gateway host node UNREACHABLE after 3 retry attempts",
+      "expected_target": "CONN_ERR"
+    },
+    {
+      "id": "TICKET-04",
+      "content": "[14:02:22] ERROR: NullPointerException at OrderProcessor.java line 88",
+      "expected_target": "DATA_ERR"
+    },
+    {
+      "id": "TICKET-05",
+      "content": "[14:02:29] ERROR: INVALID_FORMAT: Payload field 'amount_cents' expected numeric string",
+      "expected_target": "DATA_ERR"
+    },
+    {
+      "id": "TICKET-06",
+      "content": "[14:02:34] FATAL: OUT_OF_BOUNDS index [10] in customer profile array",
+      "expected_target": "DATA_ERR"
+    },
+    {
+      "id": "TICKET-07",
+      "content": "[14:02:40] ERROR: Upstream TIMEOUT waiting for SMS OTP service token",
+      "expected_target": "CONN_ERR"
+    },
+    {
+      "id": "TICKET-08",
+      "content": "[14:02:45] ERROR: Parsing error: NULL_POINTER reference in shipping address object",
+      "expected_target": "DATA_ERR"
+    }
+  ],
+  "cut_off_thresholds": {
+    "min_accuracy": 0.60,
+    "min_speed_seconds_per_item": 1.2
+  }
+}

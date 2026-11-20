@@ -1,0 +1,31 @@
+{
+  "industry_id": "IND_TECH_SW",
+  "industry_name": "Kỹ thuật Phần mềm & Công nghệ Thông tin",
+  "headline": "Ngành công nghiệp phát triển phần mềm, điện toán đám mây và hệ thống số.",
+  "data_sources": [
+    "Báo cáo Thị trường IT Việt Nam 2024 - TopCV",
+    "Báo cáo Lương & Tuyển dụng Đông Nam Á - Adecco",
+    "Thống kê Sinh viên Tốt nghiệp Bộ Giáo dục & Đào tạo"
+  ],
+  "market_metrics": {
+    "salary_range_0_to_2_years_vnd": { "min": 10500000, "max": 18000000, "median": 13500000 },
+    "salary_range_3_to_5_years_vnd": { "min": 22000000, "max": 45000000, "median": 30000000 },
+    "long_term_growth_projection_2030": "+18.5% mỗi năm (Nhu cầu cao ở Kỹ sư AI, Cloud và An toàn thông tin)",
+    "automation_ai_risk_level": "MEDIUM",
+    "automation_risk_explanation": "AI đã tự động hóa việc viết mã cơ bản. Vị trí gõ code thuần túy sẽ bị đào thải. Nhu cầu chuyển mạnh sang nhân lực có tư duy logic giải quyết vấn đề, kiểm thử và thiết kế hệ thống."
+  },
+  "academic_risk_stats": {
+    "industry_dropout_or_shift_rate": 22.4,
+    "root_cause_breakdown": {
+      "gap_between_expectation_and_reality": 58.0,
+      "peer_or_parental_pressure": 24.0,
+      "academic_struggle": 18.0
+    },
+    "estimated_wasted_cost_1year_vnd": 185000000,
+    "wasted_cost_breakdown": {
+      "tuition_lost": 45000000,
+      "living_expenses_lost": 60000000,
+      "opportunity_cost_youth_lost": 80000000
+    }
+  }
+}

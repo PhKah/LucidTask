@@ -1,0 +1,78 @@
+{
+  "id": "TASK_SWE_STAGE2",
+  "stage": 2,
+  "title": "Chặng 2: Điều Tra Sự Cố Sập Cổng Thanh Toán Flash-Sale",
+  "role_title": "Kỹ Sư Phản Ứng Sự Cố Cấp Cao (Senior Incident Engineer)",
+  "scenario_brief": "Lúc 14:02, hệ thống ghi nhận hơn 1,000 giao dịch thanh toán flash-sale bị treo đơ dồn dập. Bạn có 3.5 phút để đối soát 3 nguồn thông tin khác nhau, tìm ra nguyên nhân gốc và ra quyết định xử lý chuẩn xác nhất.",
+  "time_limit_seconds": 210,
+  "interaction_archetype": "MULTI_SOURCE_INVESTIGATION",
+  "handbook_rules": [
+    {
+      "rule_id": "RULE_ROOT_CAUSE",
+      "category": "Nguyên Tắc Điều Tra Sự Cố (Root Cause Isolation)",
+      "condition": "Thời điểm bùng phát sự cố (14:02) phải gắn liền với sự kiện thay đổi gần nhất trong lịch sử deploy.",
+      "target_action": "CROSS_CHECK_DEPLOY",
+      "hint": "Luôn kiểm tra lịch sử deploy phiên bản mới nhất trước khi nghi ngờ hạ tầng mạng."
+    },
+    {
+      "rule_id": "RULE_NOISE_REJECTION",
+      "category": "Loại Bỏ Yếu Tố Gây Nhiễu (Red-Herrings)",
+      "condition": "Các thông số cảnh báo bộ nhớ cache dưới 90% không gây treo kết nối SSL.",
+      "target_action": "IGNORE_CACHE_ALARM",
+      "hint": "Cảnh báo Redis 82% là tải bình thường trong giờ Flash-Sale."
+    }
+  ],
+  "investigation_sources": [
+    {
+      "id": "TAB_USER",
+      "tab_title": "1. Khiếu Nại Khách Hàng",
+      "source_type": "USER_REPORTS",
+      "content": [
+        "[14:02:05] Khách hàng #9921: 'Tôi quét mã thanh toán Vietcombank nhưng app báo đang kết nối máy chủ rồi đứng im.'",
+        "[14:02:18] Khách hàng #9944: 'Thẻ Techcombank của tôi bị trừ tiền nhưng đơn hàng chưa xác nhận!'",
+        "[14:02:40] Tổng đài CSKH: Hơn 150 cuộc gọi phản ánh cùng tình trạng treo thanh toán từ 14:01:50."
+      ]
+    },
+    {
+      "id": "TAB_LOGS",
+      "tab_title": "2. Nhật Ký Server & Gateway",
+      "source_type": "SERVER_LOGS",
+      "content": [
+        "[14:01:58] INFO: Healthcheck OK - All 12 worker nodes operational.",
+        "[14:02:01] WARN: Memory usage on Redis Cache cluster reaching 82.4% (Tải Flash-Sale bình thường).",
+        "[14:02:04] CRITICAL: Handshake failure on SSL/TLS layer with banking payment endpoints: Protocol version rejected.",
+        "[14:02:15] CRITICAL: SSL Certificate Authority verification failed: cert_expired_or_invalid_issuer."
+      ]
+    },
+    {
+      "id": "TAB_DEPLOY",
+      "tab_title": "3. Lịch Sử Deploy & Commit",
+      "source_type": "COMMIT_HISTORY",
+      "content": [
+        "[13:30:00] Bản build v1.9 (Commit #8a12c): Ổn định, chạy bình thường.",
+        "[14:00:10] Bản build v2.1 (Commit #fa449): Cập nhật chứng chỉ số SSL mới và thư viện mã hóa thanh toán.",
+        "[14:00:15] CI/CD Pipeline: Bản build v2.1 được deploy hoàn tất lên cụm máy chủ Production."
+      ]
+    }
+  ],
+  "resolution_actions": [
+    {
+      "id": "ACTION_ROLLBACK",
+      "label": "Ra lệnh khẩn cấp: ROLLBACK về bản build v1.9/v2.0 trước đó",
+      "is_optimal": true,
+      "explanation": "Chính xác! Bản deploy 2.1 lúc 14:00 chứa cấu hình chứng chỉ SSL lỗi khiến toàn bộ kết nối bảo mật tới cổng ngân hàng bị từ chối từ 14:02. Rollback là phương án an toàn nhất trong giờ Flash-Sale."
+    },
+    {
+      "id": "ACTION_REBOOT_CACHE",
+      "label": "Khởi động lại toàn bộ Redis Cache Cluster (Đang 82% RAM)",
+      "is_optimal": false,
+      "explanation": "Sai! Bộ nhớ cache 82% là yếu tố gây nhiễu bình thường trong giờ cao điểm. Khởi động lại cache sẽ làm sập luôn toàn bộ giỏ hàng của người dùng mà không giải quyết được lỗi SSL."
+    },
+    {
+      "id": "ACTION_WAIT_MONITOR",
+      "label": "Tạm dừng thao tác và tiếp tục theo dõi thêm 10 phút",
+      "is_optimal": false,
+      "explanation": "Sai! Mỗi phút trôi qua trong giờ Flash-Sale gây thiệt hại hàng trăm triệu đồng doanh thu và mất lòng tin của khách hàng."
+    }
+  ]
+}
