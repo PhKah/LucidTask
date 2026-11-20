@@ -21,7 +21,7 @@ Tài liệu này là **Bản Đặc tả Yêu cầu Phần mềm Duy nhất và 
 5. [Data_Schema_&_Seed_Data.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/specs/Data_Schema_&_Seed_Data.md): Hợp đồng dữ liệu TypeScript và bộ dữ liệu mồi (Seed Data) 8 chương trình đào tạo & thị trường lao động.
 6. [Task_Engine_Architecture.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/specs/Task_Engine_Architecture.md): Kiến trúc động cơ tác vụ, 4 nguyên tử tương tác (Archetypes) và cấu trúc module hóa mở rộng.
 7. [UI_UX_Wireframe_Spec.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/specs/UI_UX_Wireframe_Spec.md): Đặc tả khung giao diện (Wireframes) và hệ thống Design Tokens (Roboto, #fa9000, #c31833, Black Pills).
-8. [Validation_Plan.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/specs/Validation_Plan.md): Kế hoạch thực nghiệm, kịch bản Usability Test, bảng chỉ số thành công và log quan sát thực địa.
+8. [Validation_Plan.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/docs/validation/Validation_Plan.md): Kế hoạch thực nghiệm, kịch bản Usability Test, bảng chỉ số thành công và log quan sát thực địa.
 9. [AI_DLC_Eval_&_Data_Feasibility_Spec.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/specs/AI_DLC_Eval_&_Data_Feasibility_Spec.md): Đặc tả kiểm chứng AI-DLC, khung CRAFT (Spec-as-Source), Ground Truth, ma trận Eval và khử thiên vị dữ liệu.
 10. [QA_TEST_PLAN.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/specs/QA_TEST_PLAN.md): Kế hoạch QA, ma trận Unit/Integration test cases tự động và 7 tiêu chí Definition of Done (DoD).
 

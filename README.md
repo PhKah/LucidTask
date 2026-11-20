@@ -25,4 +25,13 @@ Toàn bộ hệ thống tài liệu đặc tả của dự án được cấu tr
 ### TẦNG 3: KIỂM CHỨNG & ĐÁNH GIÁ (Eval & Quality Gates)
 - [specs/AI_DLC_Eval_&_Data_Feasibility_Spec.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/specs/AI_DLC_Eval_&_Data_Feasibility_Spec.md) — Khung CRAFT, ma trận Ground Truth và chiến lược khử thiên vị (*Trả lời: AI EVAL*).
 - [specs/Scenario_&_Scoring_Spec.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/specs/Scenario_&_Scoring_Spec.md) — Storyboards 2 ngành, từ điển Telemetry và công thức toán học tính điểm (*Trả lời: MATH & LOGIC*).
-- [specs/Validation_Plan.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/specs/Validation_Plan.md) — Kế hoạch thử nghiệm UAT thực địa, kịch bản phỏng vấn sâu (*Trả lời: UAT & DoD*).
+- [specs/QA_TEST_PLAN.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/specs/QA_TEST_PLAN.md) — Kế hoạch kiểm thử, ma trận Unit/Integration test cases và 7 điều kiện DoD (*Trả lời: QA & TESTING*).
+
+---
+
+## 3. Quản Trị Vòng Đời Dự Án (Project Lifecycle & Execution Hub)
+- [docs/README.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/docs/README.md) — Cổng điều phối vòng đời dự án.
+- [docs/sprints/](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/docs/sprints) — Hồ sơ hướng dẫn thực thi 5 Sprint (Sprint 0 $\rightarrow$ Sprint 5).
+- [docs/validation/Validation_Plan.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/docs/validation/Validation_Plan.md) — Kế hoạch thử nghiệm UAT thực địa với 20–30 cặp học sinh – phụ huynh.
+- [docs/roadmap/](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/docs/roadmap) — Lộ trình mở rộng đa ngành và tiến hóa kiến trúc Cloud-Native (Post-MVP).
+- [task/](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/task) — Thư mục nhiệm vụ, biểu mẫu kiểm định và kho lưu trữ nhật ký thực thi (Audit Trail).

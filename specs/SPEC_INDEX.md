@@ -25,9 +25,9 @@ TẦNG 2: ĐẶC TẢ KỸ THUẬT & THIẾT KẾ (System & Implementation Specs
 TẦNG 3: KIỂM CHỨNG & ĐÁNH GIÁ (Eval & Quality Gates)
   ├── AI_DLC_Eval_&_Data_Feasibility_Spec.md ── KHUNG CRAFT & GROUND TRUTH
   ├── Scenario_&_Scoring_Spec.md             ── TOÁN HỌC & THANG ĐIỂM HÀNH VI
-  ├── QA_TEST_PLAN.md                        ── KẾ HOẠCH QA, UNIT/INTEGRATION TEST MATRIX & DoD
-  ├── Validation_Plan.md                     ── KỊCH BẢN THỬ NGHIỆM UAT & THỰC ĐỊA
-  └── PHASED_IMPLEMENTATION_PLAN.md          ── KẾ HOẠCH TRIỂN KHAI 5 GIAI ĐOẠN & MA TRẬN IN/OUT
+  └── QA_TEST_PLAN.md                        ── KẾ HOẠCH QA, UNIT/INTEGRATION TEST MATRIX & DoD
+
+(Ghi chú: Lộ trình thực thi từng Sprint xem tại [docs/sprints/](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/docs/sprints), kế hoạch thực nghiệm xem tại [docs/validation/Validation_Plan.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/docs/validation/Validation_Plan.md), và lộ trình mở rộng dài hạn xem tại [docs/roadmap/](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/docs/roadmap)).
 ```
 
 ---
@@ -46,7 +46,7 @@ TẦNG 3: KIỂM CHỨNG & ĐÁNH GIÁ (Eval & Quality Gates)
 | **Tầng 3** | [AI_DLC_Eval_&_Data_Feasibility_Spec.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/specs/AI_DLC_Eval_&_Data_Feasibility_Spec.md) | **AI Eval** | Khung CRAFT cho AI Agent, định nghĩa Ground Truth, tiêu chuẩn chấp nhận kỹ thuật và chiến lược khử 4 tầng thiên vị (Bias). | 7 |
 | **Tầng 3** | [Scenario_&_Scoring_Spec.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/specs/Scenario_&_Scoring_Spec.md) | **Math & Logic** | Kịch bản chi tiết 2 ngành mẫu (IT & Logistics), từ điển Telemetry và công thức toán học tính 3 trục năng lực & Cosine matching. | 8 |
 | **Tầng 3** | [QA_TEST_PLAN.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/specs/QA_TEST_PLAN.md) | **QA & DoD** | Chiến lược kiểm thử, ma trận Unit/Integration test cases và 7 điều kiện Tiêu chuẩn Hoàn thành (DoD). | 9 |
-| **Tầng 3** | [Validation_Plan.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/specs/Validation_Plan.md) | **UAT & Pilot** | Kế hoạch thực nghiệm với 20-30 cặp học sinh/phụ huynh, kịch bản phỏng vấn sâu và phiếu quan sát thực địa. | 10 |
+| **Thực thi** | [docs/README.md](file:///Users/phamkhanh/Documents/2026.1/DMST/LucidTask/docs/README.md) | **Sprints & UAT** | Hồ sơ hướng dẫn 5 Sprint, kế hoạch thực nghiệm thực địa và lộ trình mở rộng Post-MVP. | 10 |
 
 ---
 
