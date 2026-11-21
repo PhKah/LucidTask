@@ -234,7 +234,7 @@ export const CompetencyRadar: React.FC<CompetencyRadarProps> = ({
               <Compass className="w-3.5 h-3.5 text-accent" />
               <span>2. Khung Môi Trường Nghề Nghiệp RIASEC</span>
             </span>
-            <span className="text-xs font-mono font-black bg-accent text-black px-2 py-0.5 border border-black">
+            <span className="text-xs font-mono font-black bg-accent text-black px-2 py-0.5 border border-black whitespace-nowrap flex-shrink-0">
               MÃ HOLLAND: {riasec.top_code}
             </span>
           </div>

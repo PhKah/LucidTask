@@ -220,8 +220,7 @@ export function evaluateLogisticsMission(
   // 4. AI Co-pilot Trap Verdict (Hạng mục 4/4)
   let aiTrapVerdict: AiTrapVerdict = 'NOT_TRIGGERED';
   if (submission.aiTriggered) {
-    const truck20ftOverloaded = (totals.perResourceAllocated.TRUCK_20FT || 0) > 15;
-    if (truck20ftOverloaded || (overloadViolationsCount > 0 && !submission.aiExplicitlyRejected)) {
+    if (!submission.aiExplicitlyRejected && overloadViolationsCount > 0) {
       aiTrapVerdict = 'TRIGGERED_AND_ACCEPTED';
     } else {
       aiTrapVerdict = 'TRIGGERED_AND_REJECTED';
@@ -431,6 +430,8 @@ export function evaluateLogisticsMission(
     optimalDamageVnd: scenario.optimalDamageVnd,
     lotCBufferedProperly,
     lotBSavedFully,
+    estimatedDamageMillionVnd: submission.estimatedDamageMillionVnd,
+    contingencyPlanText: submission.contingencyPlanText,
     planReasoningScore,
     aiTrapVerdict,
     scores: {
@@ -750,7 +751,9 @@ export function evaluateQaDataMission(submission: QaSubmission): QaEvaluationRes
           ? 'Bản lĩnh QA chuẩn mực: Bác bỏ kết luận "an toàn" của AI Auto-QA và CHẶN RELEASE kịp thời.'
           : releaseDecisionCorrect
             ? 'Quyết định đúng đắn: Đã CHẶN RELEASE trước 20:00 để bảo vệ khách hàng và doanh thu.'
-            : 'Nguy hiểm! Đã chọn DUYỆT RELEASE khi hệ thống còn lỗ hổng âm tiền & trừ ví không hoàn tiền.',
+            : submission.releaseDecision === null
+              ? 'Hết giờ khi chưa chốt quyết định Release (cần chủ động CHẶN RELEASE trước 20:00).'
+              : 'Nguy hiểm! Đã chọn DUYỆT RELEASE khi hệ thống còn lỗ hổng âm tiền & trừ ví không hoàn tiền.',
       detail:
         aiTrapVerdict === 'TRIGGERED_AND_ACCEPTED'
           ? 'AI Auto-QA đã bỏ sót 4 lỗi dữ liệu kín, gắn nhầm đơn sạch DH-1107 và bỏ qua hoàn toàn lỗ hổng trừ ví ở Bước 5 nhưng vẫn giục duyệt Release.'
@@ -807,7 +810,10 @@ export function evaluateQaDataMission(submission: QaSubmission): QaEvaluationRes
     totalExpectedFlowBugs,
     flowBugsCaught,
     flowFalsePositives,
+    releaseDecision: submission.releaseDecision,
     releaseDecisionCorrect,
+    bugReportNote: submission.bugReportNote,
+    tabSwitchCount: submission.tabSwitchCount,
     reportQualityScore,
     aiTrapVerdict,
     scores: {

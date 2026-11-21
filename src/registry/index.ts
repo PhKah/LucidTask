@@ -32,7 +32,7 @@ export const registry: Record<MissionId, MissionIndustryModule> = {
     riasecFocusLabel: 'Realistic (45%) • Enterprising (30%) • Conventional (25%)',
     keyHighlights: [
       'Bảng điều phối 3 cột thực chiến với Bảng thống kê thụ động (tự kiểm soát tải trọng 15t / 5t)',
-      'Bài toán đánh đổi thiệt hại tài chính (72tr phạt SLA vs 160tr hỏng trái cây)',
+      'Bài toán đánh đổi thiệt hại tài chính (phạt trễ SLA vs. nguy cơ hỏng hàng qua đêm)',
       'Cạm bẫy AI Co-pilot & Bản giải trình gửi Giám đốc Vận hành',
     ],
     scenario: LOGISTICS_COLDCHAIN_SCENARIO,

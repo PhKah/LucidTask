@@ -128,6 +128,8 @@ export const LogisticsDispatchBoard: React.FC<LogisticsDispatchBoardProps> = ({
   const handleResetBoard = () => {
     setAllocation(createEmptyLogisticsAllocation());
     setAiBannerVisible(false);
+    setAiTriggered(false);
+    setAiExplicitlyRejected(false);
   };
 
   const handleFinalizeSubmit = () => {
@@ -220,7 +222,7 @@ export const LogisticsDispatchBoard: React.FC<LogisticsDispatchBoardProps> = ({
                       <strong>Hạn sử dụng:</strong> {lot.shelfLifeLabel}
                     </div>
                     <div>
-                      <strong>Mốc giao / SLA:</strong> {lot.deadlineLabel}
+                      <strong>Mốc giao / Phạt trễ (SLA):</strong> {lot.deadlineLabel}
                     </div>
                     <div>
                       <strong>Giá trị lô:</strong> {formatVnd(lot.totalValueVnd)} (
@@ -354,17 +356,17 @@ export const LogisticsDispatchBoard: React.FC<LogisticsDispatchBoardProps> = ({
             <div className="overflow-x-auto">
               <table className="w-full text-xs border-collapse">
                 <thead>
-                  <tr className="bg-soft-gray border-y-2 border-black text-[11px] font-black uppercase text-black">
-                    <th className="py-2.5 px-2 text-left min-w-[125px]">Lô hàng</th>
+                  <tr className="bg-soft-gray border-y-2 border-black text-[10px] font-black uppercase text-black">
+                    <th className="py-2 px-1.5 text-left w-[108px]">Lô hàng</th>
                     {scenario.resources.map(res => (
-                      <th key={res.id} className="py-2.5 px-1.5 text-center min-w-[78px]">
-                        <div>{res.shortLabel}</div>
-                        <div className="text-[10px] font-normal text-muted-gray normal-case">
+                      <th key={res.id} className="py-2 px-1 text-center min-w-[66px]">
+                        <div className="leading-tight">{res.shortLabel}</div>
+                        <div className="text-[9px] font-normal text-muted-gray normal-case leading-tight mt-0.5">
                           {res.category === 'AFTERNOON_VEHICLE'
-                            ? '15:00'
+                            ? `15:00 • ≤${res.maxCapacityTons}t`
                             : res.category === 'COLD_STORAGE'
-                              ? '-18°C→0°C'
-                              : '03:30'}
+                              ? `-18→0°C • ≤${res.maxCapacityTons}t`
+                              : '03:30 • Bãi'}
                         </div>
                       </th>
                     ))}
@@ -377,16 +379,22 @@ export const LogisticsDispatchBoard: React.FC<LogisticsDispatchBoardProps> = ({
 
                     return (
                       <tr key={lot.id} className="hover:bg-neutral-50/70">
-                        <td className="py-3 px-2 align-top">
+                        <td className="py-2.5 px-1.5 align-top">
                           <div className="font-black text-black">{lot.code}</div>
                           <div className="text-[11px] text-neutral-700 leading-tight">
                             {lot.name}
                           </div>
-                          <div className="mt-1 font-mono text-[10px] text-muted-gray">
-                            Đã xếp: <strong>{allocatedForLot}</strong>/{lot.totalTons}t
-                            {remainingForLot !== 0 && (
-                              <span className="ml-1">
-                                ({remainingForLot > 0 ? `còn ${remainingForLot}t` : `dư ${Math.abs(remainingForLot)}t`})
+                          <div className="mt-1 font-mono text-[10px] text-neutral-800 flex flex-wrap items-center gap-1">
+                            <span>
+                              <strong>{allocatedForLot}</strong>/{lot.totalTons}t
+                            </span>
+                            {remainingForLot !== 0 ? (
+                              <span className="bg-amber-100 border border-amber-500 text-amber-950 font-bold px-1 py-0.5 leading-none">
+                                {remainingForLot > 0 ? `còn ${remainingForLot}t` : `dư ${Math.abs(remainingForLot)}t`}
+                              </span>
+                            ) : (
+                              <span className="bg-emerald-100 border border-emerald-600 text-emerald-900 font-bold px-1 py-0.5 leading-none">
+                                đủ
                               </span>
                             )}
                           </div>
@@ -395,13 +403,13 @@ export const LogisticsDispatchBoard: React.FC<LogisticsDispatchBoardProps> = ({
                         {scenario.resources.map(res => {
                           const val = allocation[lot.id][res.id];
                           return (
-                            <td key={res.id} className="py-3 px-1 text-center align-middle">
+                            <td key={res.id} className="py-2.5 px-0.5 text-center align-middle">
                               <div className="inline-flex items-center border border-black bg-white">
                                 <button
                                   type="button"
                                   aria-label={`Giảm ${lot.code} tại ${res.shortLabel}`}
                                   onClick={() => updateCell(lot.id, res.id, val - 1, true)}
-                                  className="px-1.5 py-1 text-xs font-black hover:bg-soft-gray border-r border-hairline"
+                                  className="px-1 py-1 text-xs font-black hover:bg-soft-gray border-r border-hairline"
                                 >
                                   −
                                 </button>
@@ -411,14 +419,24 @@ export const LogisticsDispatchBoard: React.FC<LogisticsDispatchBoardProps> = ({
                                   inputMode="numeric"
                                   aria-label={`${lot.code} - ${res.shortLabel}`}
                                   value={val}
-                                  onChange={e => updateCell(lot.id, res.id, Number(e.target.value), false)}
-                                  className="w-9 py-1 text-center font-mono text-xs font-bold focus:outline-none focus:bg-amber-50 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                  onFocus={e => e.currentTarget.select()}
+                                  onClick={e => {
+                                    if (e.currentTarget.value === '0') {
+                                      e.currentTarget.select();
+                                    }
+                                  }}
+                                  onChange={e => {
+                                    const cleaned = e.target.value.replace(/^0+(?=\d)/, '');
+                                    e.target.value = cleaned;
+                                    updateCell(lot.id, res.id, Number(cleaned), false);
+                                  }}
+                                  className="w-7 py-1 text-center font-mono text-xs font-bold focus:outline-none focus:bg-amber-50 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                 />
                                 <button
                                   type="button"
                                   aria-label={`Tăng ${lot.code} tại ${res.shortLabel}`}
                                   onClick={() => updateCell(lot.id, res.id, val + 1, true)}
-                                  className="px-1.5 py-1 text-xs font-black hover:bg-soft-gray border-l border-hairline"
+                                  className="px-1 py-1 text-xs font-black hover:bg-soft-gray border-l border-hairline"
                                 >
                                   +
                                 </button>
@@ -456,7 +474,7 @@ export const LogisticsDispatchBoard: React.FC<LogisticsDispatchBoardProps> = ({
                     id="estimated-damage-input"
                     type="number"
                     min={0}
-                    placeholder="VD: 72"
+                    placeholder="Nhập số triệu VNĐ"
                     value={estimatedDamageInput}
                     onChange={e => setEstimatedDamageInput(e.target.value)}
                     className="w-full px-3 py-2 font-mono text-sm font-bold focus:outline-none focus:bg-amber-50"
@@ -466,8 +484,8 @@ export const LogisticsDispatchBoard: React.FC<LogisticsDispatchBoardProps> = ({
                   </span>
                 </div>
               </div>
-              <div className="text-[11px] text-muted-gray leading-snug bg-soft-gray p-2.5 border border-hairline">
-                Gợi ý tự tính: Đối chiếu phạt trễ 12 giờ (18:00 → 06:00) so với tổn thất hỏng hàng nếu giữ lại lô tươi sống qua đêm.
+              <div className="text-[11px] text-neutral-800 leading-snug bg-amber-50/70 p-2.5 border border-amber-300">
+                <strong>Gợi ý tự tính (khuyến nghị điền):</strong> Đối chiếu tiền phạt giao trễ 12 giờ (18:00 → 06:00) với giá trị hàng có nguy cơ hỏng qua đêm theo số liệu ở Thẻ 1 (Cột Trái). Con số này sẽ được đối chiếu ở màn hình Tổng kết.
               </div>
             </div>
 

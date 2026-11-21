@@ -94,6 +94,21 @@ export const MissionBriefing: React.FC<MissionBriefingProps> = ({
                 ? 'Không có câu hỏi trắc nghiệm A/B. Toàn bộ số liệu định mức tải trọng, nhiệt độ và giá trị hàng đều nằm sẵn ở Cột Trái. Bảng thống kê Cột Phải chỉ cộng dồn số liệu thô — bạn cần tự đối chiếu giới hạn an toàn trước khi chốt lệnh.'
                 : 'Hoàn toàn KHÔNG yêu cầu biết lập trình hay gõ code. Mọi quy chuẩn dữ liệu (4 dòng) đều ghim sẵn ở Cột Trái và Sơ đồ Luồng Thanh Toán được viết 100% bằng tiếng Việt đời thường.'}
             </p>
+            <div className="pt-1.5 mt-1.5 border-t border-amber-300 text-[11px] text-neutral-800 flex flex-wrap gap-x-4 gap-y-1">
+              {isLogistics ? (
+                <>
+                  <span><strong>Giải mã nhanh:</strong></span>
+                  <span>• <strong>Phạt trễ (SLA)</strong> = Tiền phạt giao hàng sau giờ hẹn (18:00)</span>
+                  <span>• <strong>Cấp đông sâu (-18°C)</strong> = Giữ đông cứng hoàn toàn</span>
+                </>
+              ) : (
+                <>
+                  <span><strong>Giải mã nhanh:</strong></span>
+                  <span>• <strong>Release</strong> = Mở bán tính năng trên web cho khách</span>
+                  <span>• <strong>Lỗi logic</strong> = Sai quy trình tính tiền / hoàn tiền</span>
+                </>
+              )}
+            </div>
           </div>
         </div>
 

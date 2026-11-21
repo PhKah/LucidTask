@@ -40,6 +40,7 @@ const DEFECT_BADGE_MAP: Record<DefectCategory, string> = {
 
 export const QaDataWorkbench: React.FC<QaDataWorkbenchProps> = ({ scenario, onSubmit }) => {
   const [activeTab, setActiveTab] = useState<'DATA_GRID' | 'LOGIC_FLOW'>('DATA_GRID');
+  const [visitedFlowTab, setVisitedFlowTab] = useState<boolean>(false);
   const [flaggedOrders, setFlaggedOrders] = useState<Record<string, DefectCategory>>({});
   const [flaggedNodes, setFlaggedNodes] = useState<Record<string, string>>({});
   const [expandedOrderId, setExpandedOrderId] = useState<string | null>(null);
@@ -77,6 +78,9 @@ export const QaDataWorkbench: React.FC<QaDataWorkbenchProps> = ({ scenario, onSu
   };
 
   const handleSwitchTab = (target: 'DATA_GRID' | 'LOGIC_FLOW') => {
+    if (target === 'LOGIC_FLOW') {
+      setVisitedFlowTab(true);
+    }
     if (target !== activeTab) {
       tabSwitchCountRef.current += 1;
       telemetryBus.publish('tab_switched', {
@@ -167,7 +171,7 @@ export const QaDataWorkbench: React.FC<QaDataWorkbenchProps> = ({ scenario, onSu
     onSubmit({
       flaggedOrders: { ...flaggedOrders },
       flaggedNodes: { ...flaggedNodes },
-      releaseDecision: releaseDecision || 'BLOCK_RELEASE',
+      releaseDecision,
       bugReportNote: bugReportNote.trim(),
       aiTriggered,
       aiExplicitlyRejected,
@@ -195,7 +199,7 @@ export const QaDataWorkbench: React.FC<QaDataWorkbenchProps> = ({ scenario, onSu
           </span>
           <span className="hidden md:inline text-gray-500">|</span>
           <span className="font-mono text-gray-300 text-[11px]">
-            DEADLINE RELEASE: <strong className="text-white">{scenario.releaseDeadline}</strong>
+            MỐC MỞ BÁN (RELEASE): <strong className="text-white">{scenario.releaseDeadline}</strong>
           </span>
         </div>
 
@@ -292,6 +296,11 @@ export const QaDataWorkbench: React.FC<QaDataWorkbenchProps> = ({ scenario, onSu
                 >
                   <GitBranch className="w-3.5 h-3.5 text-accent" />
                   <span>2. Sơ Đồ Luồng Tiếng Việt ({flaggedNodeCount} lỗi)</span>
+                  {!visitedFlowTab && (
+                    <span className="bg-amber-200 text-black px-1.5 py-0.5 text-[9px] font-black border border-black">
+                      CHƯA MỞ
+                    </span>
+                  )}
                 </button>
               </div>
 
@@ -551,9 +560,9 @@ export const QaDataWorkbench: React.FC<QaDataWorkbenchProps> = ({ scenario, onSu
                           </button>
 
                           {isExpanded && (
-                            <div className="px-4 pb-4 pt-2 border-t border-black bg-white space-y-2.5">
+                            <div className="px-4 pb-4 pt-2.5 border-t border-black bg-white space-y-2.5">
                               <div className="text-xs font-black text-black">
-                                Bạn phát hiện lỗ hổng logic nào tại Bước {node.stepNumber}?
+                                Kiểm tra Bước {node.stepNumber}: Bước này có lỗ hổng logic nào không?
                               </div>
                               <div className="space-y-2">
                                 {node.bugOptions.map(opt => (
@@ -580,9 +589,10 @@ export const QaDataWorkbench: React.FC<QaDataWorkbenchProps> = ({ scenario, onSu
                                     handleTagFlowNode(node.id, null);
                                     setExpandedNodeId(null);
                                   }}
-                                  className="text-xs font-bold text-muted-gray hover:text-black underline"
+                                  className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold border border-black bg-white hover:bg-emerald-50 text-black"
                                 >
-                                  Bước này hợp lệ (Gỡ thẻ lỗi)
+                                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700" />
+                                  <span>Bước này hợp lệ (Không có lỗi — Gỡ thẻ)</span>
                                 </button>
                               </div>
                             </div>
@@ -616,7 +626,7 @@ export const QaDataWorkbench: React.FC<QaDataWorkbenchProps> = ({ scenario, onSu
               <button
                 type="button"
                 onClick={() => setReleaseDecision('BLOCK_RELEASE')}
-                className={`p-3.5 border-2 text-left transition-all flex items-start gap-3 ${
+                className={`p-3.5 border-2 text-left flex items-start gap-3 ${
                   releaseDecision === 'BLOCK_RELEASE'
                     ? 'border-black bg-black text-white shadow-[3px_3px_0px_0px_#fa9000]'
                     : 'border-black bg-white hover:bg-soft-gray text-black'
@@ -642,7 +652,7 @@ export const QaDataWorkbench: React.FC<QaDataWorkbenchProps> = ({ scenario, onSu
               <button
                 type="button"
                 onClick={() => setReleaseDecision('APPROVE_RELEASE')}
-                className={`p-3.5 border-2 text-left transition-all flex items-start gap-3 ${
+                className={`p-3.5 border-2 text-left flex items-start gap-3 ${
                   releaseDecision === 'APPROVE_RELEASE'
                     ? 'border-black bg-black text-white shadow-[3px_3px_0px_0px_#fa9000]'
                     : 'border-black bg-white hover:bg-soft-gray text-black'
@@ -673,7 +683,7 @@ export const QaDataWorkbench: React.FC<QaDataWorkbenchProps> = ({ scenario, onSu
               <textarea
                 id="qa-bug-report-note"
                 rows={3}
-                placeholder="VD: Phát hiện lỗi dữ liệu ngày 30/02, giá âm, sai tổng tiền, đơn trùng lặp và 2 lỗi logic thanh toán nghiêm trọng ở Bước 3 (âm tiền) và Bước 5 (trừ ví không hoàn tiền khi hết hàng)..."
+                placeholder="VD: Tóm tắt các nhóm lỗi dữ liệu bạn phát hiện ở Bảng 15 đơn, bước nào trong Sơ đồ luồng có lỗ hổng gây sai tiền/tồn kho và lý do bạn chọn CHẶN hay DUYỆT release..."
                 value={bugReportNote}
                 onChange={e => {
                   setBugReportNote(e.target.value);
@@ -686,13 +696,20 @@ export const QaDataWorkbench: React.FC<QaDataWorkbenchProps> = ({ scenario, onSu
             </div>
 
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2 border-t border-hairline">
-              <span className="text-[11px] text-muted-gray">
-                {releaseDecision === null
-                  ? 'Hãy chọn CHẶN RELEASE hoặc DUYỆT RELEASE ở trên.'
-                  : bugReportNote.trim().length < 15
-                    ? 'Hãy nhập bản tóm tắt lỗi gửi Đội Kỹ Thuật (tối thiểu 15 ký tự).'
-                    : 'Đã sẵn sàng gửi báo cáo QA! Hãy nhớ kiểm tra cả 2 Tab trước khi nộp.'}
-              </span>
+              <div className="text-[11px] text-muted-gray space-y-1">
+                {!visitedFlowTab && (
+                  <div className="text-amber-900 bg-amber-50 border border-amber-400 px-2.5 py-1 font-bold inline-block">
+                    Lưu ý: Bạn chưa mở Tab 2 (Sơ Đồ Luồng Tiếng Việt) để rà soát lỗi quy trình thanh toán!
+                  </div>
+                )}
+                <div>
+                  {releaseDecision === null
+                    ? 'Hãy chọn CHẶN RELEASE hoặc DUYỆT RELEASE ở trên.'
+                    : bugReportNote.trim().length < 15
+                      ? 'Hãy nhập bản tóm tắt lỗi gửi Đội Kỹ Thuật (tối thiểu 15 ký tự).'
+                      : 'Đã sẵn sàng gửi báo cáo QA! Hãy nhớ kiểm tra cả 2 Tab trước khi nộp.'}
+                </div>
+              </div>
 
               <button
                 type="button"

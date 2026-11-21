@@ -151,21 +151,38 @@ export class ScoringEngine {
     profile: CompetencyProfile,
     programs: EducationalProgram[]
   ): ProgramMatchResult[] {
-    const userVector: [number, number, number] = [
-      profile.logic_score / 100,
-      profile.patience_score / 100,
-      profile.resilience_score / 100,
-    ];
+    const rawSum = profile.logic_score + profile.patience_score + profile.resilience_score;
+    const userVector: [number, number, number] =
+      rawSum > 0
+        ? [
+            profile.logic_score / rawSum,
+            profile.patience_score / rawSum,
+            profile.resilience_score / rawSum,
+          ]
+        : [1 / 3, 1 / 3, 1 / 3];
+
+    // Modulate pure trait-shape cosine match by composite readiness (range ~0.62..1.00)
+    const readinessFactor = 0.62 + 0.38 * (profile.composite_score / 100);
 
     const scored = programs.map(prog => {
-      const progVector: [number, number, number] = [
-        prog.match_traits.weight_logic,
-        prog.match_traits.weight_patience,
-        prog.match_traits.weight_resilience,
-      ];
+      const progSum =
+        prog.match_traits.weight_logic +
+        prog.match_traits.weight_patience +
+        prog.match_traits.weight_resilience;
+      const progVector: [number, number, number] =
+        progSum > 0
+          ? [
+              prog.match_traits.weight_logic / progSum,
+              prog.match_traits.weight_patience / progSum,
+              prog.match_traits.weight_resilience / progSum,
+            ]
+          : [1 / 3, 1 / 3, 1 / 3];
 
       const matchCoefficient = this.computeCosineMatch(userVector, progVector);
-      const matchPercentage = Math.round(matchCoefficient * 100);
+      const matchPercentage = Math.min(
+        99,
+        Math.max(25, Math.round(matchCoefficient * readinessFactor * 100))
+      );
 
       return {
         program: prog,

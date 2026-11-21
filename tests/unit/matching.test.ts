@@ -62,6 +62,7 @@ describe('Blind Matching & Vector Space Suite (UT-COSINE-01 & UT-COSINE-02)', ()
     const ranked = ScoringEngine.rankPrograms(MOCK_PROFILE, logPrograms);
     expect(ranked[0].rank).toBe(1);
     expect(ranked[0].match_percentage).toBeGreaterThanOrEqual(ranked[1].match_percentage);
+    expect(ranked[0].match_percentage).toBeGreaterThanOrEqual(80);
     expect(ranked[ranked.length - 1].rank).toBe(5);
   });
 });

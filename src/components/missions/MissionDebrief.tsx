@@ -97,6 +97,24 @@ const LogisticsAuditDetails: React.FC<{ ev: LogisticsEvaluationResult }> = ({ ev
         <div className="text-[11px] text-muted-gray mt-1">
           Phạt SLA: {formatVnd(ev.slaPenaltyVnd)} • Hỏng hàng: {formatVnd(ev.spoilageDamageVnd)}
         </div>
+        <div className="mt-2 pt-2 border-t border-hairline text-[11px]">
+          {ev.estimatedDamageMillionVnd !== undefined && ev.estimatedDamageMillionVnd !== null ? (
+            <span className="font-bold text-black">
+              Số bạn tự tính trước đó:{' '}
+              <span className="font-mono">
+                {ev.estimatedDamageMillionVnd} triệu VNĐ
+              </span>
+              {Math.abs(ev.estimatedDamageMillionVnd * 1_000_000 - ev.totalFinancialDamageVnd) <=
+              3_000_000
+                ? ' (Khớp chuẩn!)'
+                : ' (Lệch so với thực tế)'}
+            </span>
+          ) : (
+            <span className="text-amber-800 font-semibold">
+              Bạn đã bỏ trống ô tự tính thiệt hại trước khi chốt lệnh.
+            </span>
+          )}
+        </div>
       </div>
 
       <div className="p-4 border-2 border-emerald-700 bg-emerald-50">
@@ -160,6 +178,15 @@ const LogisticsAuditDetails: React.FC<{ ev: LogisticsEvaluationResult }> = ({ ev
         </tbody>
       </table>
     </div>
+
+    {ev.contingencyPlanText && ev.contingencyPlanText.trim().length > 0 && (
+      <div className="bg-soft-gray border border-black p-3.5 text-xs space-y-1">
+        <div className="font-black uppercase text-[11px] text-black">
+          Bản giải trình bạn đã gửi Giám Đốc Vận Hành:
+        </div>
+        <p className="text-neutral-800 italic leading-relaxed">"{ev.contingencyPlanText}"</p>
+      </div>
+    )}
   </div>
 );
 
@@ -189,6 +216,11 @@ const QaAuditDetails: React.FC<{ ev: QaEvaluationResult }> = ({ ev }) => (
         <div className="text-[11px] text-muted-gray mt-1">
           Đánh dấu nhầm bước sạch: {ev.flowFalsePositives}
         </div>
+        {ev.tabSwitchCount === 0 && (
+          <div className="text-[11px] font-bold text-live-red mt-1">
+            Cảnh báo: Bạn đã chốt lệnh mà chưa mở Tab 2 (Sơ đồ luồng)!
+          </div>
+        )}
       </div>
 
       <div
@@ -206,7 +238,11 @@ const QaAuditDetails: React.FC<{ ev: QaEvaluationResult }> = ({ ev }) => (
             ev.releaseDecisionCorrect ? 'text-emerald-800' : 'text-live-red'
           }`}
         >
-          {ev.releaseDecisionCorrect ? 'CHẶN RELEASE — ĐÚNG' : 'DUYỆT RELEASE — SAI'}
+          {ev.releaseDecisionCorrect
+            ? 'CHẶN RELEASE — ĐÚNG'
+            : ev.releaseDecision === null
+              ? 'CHƯA CHỐT RELEASE (HẾT GIỜ) — SAI'
+              : 'DUYỆT RELEASE — SAI'}
         </div>
         <div className="text-[11px] text-neutral-700 mt-1">
           Bắt buộc chặn vì còn lỗ hổng âm tiền & trừ ví không hoàn!
@@ -288,6 +324,15 @@ const QaAuditDetails: React.FC<{ ev: QaEvaluationResult }> = ({ ev }) => (
         </div>
       </div>
     </div>
+
+    {ev.bugReportNote && ev.bugReportNote.trim().length > 0 && (
+      <div className="bg-soft-gray border border-black p-3.5 text-xs space-y-1">
+        <div className="font-black uppercase text-[11px] text-black">
+          Bản báo cáo lỗi bạn đã gửi Đội Kỹ Thuật:
+        </div>
+        <p className="text-neutral-800 italic leading-relaxed">"{ev.bugReportNote}"</p>
+      </div>
+    )}
   </div>
 );
 

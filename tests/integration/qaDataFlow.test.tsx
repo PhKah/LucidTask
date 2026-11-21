@@ -26,7 +26,9 @@ describe('E2E Integration: QA & Data Cleaning Flow (15 Orders + Vietnamese Logic
     fireEvent.click(screen.getByRole('button', { name: 'TRÙNG ĐƠN' }));
 
     // 4. Switch to Tab 2: Vietnamese Logic Flowchart (zero code syntax)
+    expect(screen.getByText('CHƯA MỞ')).toBeInTheDocument();
     fireEvent.click(screen.getByRole('tab', { name: /Sơ Đồ Luồng Tiếng Việt/i }));
+    expect(screen.queryByText('CHƯA MỞ')).not.toBeInTheDocument();
     expect(screen.getByTestId('flow-node-NODE_3')).toBeInTheDocument();
     expect(screen.getByTestId('flow-node-NODE_5')).toBeInTheDocument();
 
@@ -54,6 +56,7 @@ describe('E2E Integration: QA & Data Cleaning Flow (15 Orders + Vietnamese Logic
     // 6. Verify Debrief shows 2/2 Logic Bugs & BLOCK RELEASE correct
     expect(screen.getByText(/2 \/ 2 lỗ hổng logic/i)).toBeInTheDocument();
     expect(screen.getByText(/CHẶN RELEASE — ĐÚNG/i)).toBeInTheDocument();
+    expect(screen.getByText(/Bản báo cáo lỗi bạn đã gửi Đội Kỹ Thuật/i)).toBeInTheDocument();
 
     // 7. Proceed to Blind Matching & verify Holland code
     fireEvent.click(
@@ -61,5 +64,26 @@ describe('E2E Integration: QA & Data Cleaning Flow (15 Orders + Vietnamese Logic
     );
     expect(screen.getByText(/MÃ HOLLAND:/i)).toBeInTheDocument();
     expect(screen.getByText(/CHẾ ĐỘ ẨN DANH/i)).toBeInTheDocument();
+  });
+
+  it('keeps CHƯA MỞ badge and footer Tab 2 warning visible after AI Auto-QA until Tab 2 is opened', () => {
+    render(<App />);
+
+    fireEvent.click(screen.getByRole('button', { name: /VÀO TRẠM SĂN LỖI QA & DỮ LIỆU/i }));
+    fireEvent.click(screen.getByRole('button', { name: /VÀO BÀN LÀM VIỆC NGAY/i }));
+
+    expect(screen.getByText('CHƯA MỞ')).toBeInTheDocument();
+    expect(screen.getByText(/Lưu ý: Bạn chưa mở Tab 2/i)).toBeInTheDocument();
+
+    // Trigger AI Auto-QA without opening Tab 2 (AI pre-tags NODE_3)
+    fireEvent.click(screen.getByRole('button', { name: /AI Auto-QA: Quét lỗi tự động/i }));
+
+    expect(screen.getByText('CHƯA MỞ')).toBeInTheDocument();
+    expect(screen.getByText(/Lưu ý: Bạn chưa mở Tab 2/i)).toBeInTheDocument();
+
+    // Switching to Tab 2 clears both cues
+    fireEvent.click(screen.getByRole('tab', { name: /Sơ Đồ Luồng Tiếng Việt/i }));
+    expect(screen.queryByText('CHƯA MỞ')).not.toBeInTheDocument();
+    expect(screen.queryByText(/Lưu ý: Bạn chưa mở Tab 2/i)).not.toBeInTheDocument();
   });
 });

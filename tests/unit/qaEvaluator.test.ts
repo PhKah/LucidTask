@@ -90,4 +90,26 @@ describe('QA Software Testing & Data Cleaning Evaluator (Mission 2 Audit)', () =
     expect(result.flowBugsCaught).toBe(1);
     expect(result.scores.composite).toBeLessThan(45);
   });
+
+  it('does not auto-credit BLOCK_RELEASE when releaseDecision is null on timeout', () => {
+    const result = evaluateQaDataMission({
+      flaggedOrders: PERFECT_ORDER_FLAGS,
+      flaggedNodes: PERFECT_NODE_FLAGS,
+      releaseDecision: null,
+      bugReportNote: 'Đang rà soát bảng 15 đơn hàng nhưng hết giờ trước khi kịp chọn quyết định.',
+      aiTriggered: false,
+      aiExplicitlyRejected: false,
+      elapsedSeconds: 900,
+      tabSwitchCount: 1,
+      panicClicksCount: 0,
+    });
+
+    expect(result.releaseDecision).toBeNull();
+    expect(result.releaseDecisionCorrect).toBe(false);
+    expect(result.scores.conscientiousness).toBeLessThan(100);
+    expect(result.scores.emotional_stability).toBeLessThan(60);
+    const gateCriterion = result.criteria.find(c => c.id === 'QA_RELEASE_GATE');
+    expect(gateCriterion?.status).toBe('FAIL');
+    expect(gateCriterion?.summary).toMatch(/Hết giờ khi chưa chốt/i);
+  });
 });

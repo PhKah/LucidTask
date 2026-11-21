@@ -116,6 +116,8 @@ export interface LogisticsEvaluationResult {
   optimalDamageVnd: number;
   lotCBufferedProperly: boolean;
   lotBSavedFully: boolean;
+  estimatedDamageMillionVnd?: number | null;
+  contingencyPlanText?: string;
   planReasoningScore: number; // 0 - 100
   aiTrapVerdict: AiTrapVerdict;
   scores: {
@@ -214,7 +216,7 @@ export type ReleaseDecision = 'BLOCK_RELEASE' | 'APPROVE_RELEASE';
 export interface QaSubmission {
   flaggedOrders: Record<string, DefectCategory>;
   flaggedNodes: Record<string, string>; // nodeId -> selected bugOptionId
-  releaseDecision: ReleaseDecision;
+  releaseDecision: ReleaseDecision | null;
   bugReportNote: string;
   aiTriggered: boolean;
   aiExplicitlyRejected: boolean;
@@ -252,7 +254,10 @@ export interface QaEvaluationResult {
   totalExpectedFlowBugs: number;
   flowBugsCaught: number;
   flowFalsePositives: number;
+  releaseDecision: ReleaseDecision | null;
   releaseDecisionCorrect: boolean;
+  bugReportNote?: string;
+  tabSwitchCount?: number;
   reportQualityScore: number; // 0 - 100
   aiTrapVerdict: AiTrapVerdict;
   scores: {

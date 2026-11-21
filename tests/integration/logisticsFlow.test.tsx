@@ -44,7 +44,9 @@ describe('E2E Integration: Logistics Cold-Chain Dispatch Flow (Passive Ledger + 
     expect(ledger).toHaveTextContent('42 / 42 tấn');
 
     // 6. Write Contingency Dispatch Plan & Submit
-    fireEvent.change(screen.getByPlaceholderText('VD: 72'), { target: { value: '72' } });
+    fireEvent.change(screen.getByLabelText(/Thiệt hại tài chính dự kiến/i), {
+      target: { value: '72' },
+    });
     fireEvent.change(screen.getByLabelText(/Lý do chọn phương án đánh đổi/i), {
       target: {
         value:
@@ -57,6 +59,9 @@ describe('E2E Integration: Logistics Cold-Chain Dispatch Flow (Passive Ledger + 
     // 7. Debrief Verification (Closure & Catharsis)
     expect(screen.getByText(/PHẢN BIỆN ĐỘC LẬP XUẤT SẮC/i)).toBeInTheDocument();
     expect(screen.getAllByText(/72\.000\.000đ/i).length).toBeGreaterThanOrEqual(1);
+    expect(screen.getByText(/Số bạn tự tính trước đó/i)).toBeInTheDocument();
+    expect(screen.getByText(/Khớp chuẩn!/i)).toBeInTheDocument();
+    expect(screen.getByText(/Bản giải trình bạn đã gửi Giám Đốc Vận Hành/i)).toBeInTheDocument();
 
     // 8. Proceed to Blind Matching & verify IT-BLIND-01
     fireEvent.click(
@@ -71,5 +76,41 @@ describe('E2E Integration: Logistics Cold-Chain Dispatch Flow (Passive Ledger + 
     fireEvent.click(screen.getByRole('button', { name: /TIẾN VÀO BÁO CÁO ĐỒNG THUẬN GIA ĐÌNH/i }));
     expect(screen.getByText(/Báo Cáo Đồng Thuận Định Hướng Nghề Nghiệp/i)).toBeInTheDocument();
     expect(screen.getByText(/VÙNG ĐỒNG THUẬN GIA ĐÌNH/i)).toBeInTheDocument();
+  });
+
+  it('resets aiTriggered when clicking Đặt lại after AI Co-pilot so a subsequent manual overload is not labeled TRIGGERED_AND_ACCEPTED', () => {
+    render(<App />);
+
+    fireEvent.click(screen.getByRole('button', { name: /VÀO BẢNG ĐIỀU PHỐI LOGISTICS/i }));
+    fireEvent.click(screen.getByRole('button', { name: /VÀO BÀN LÀM VIỆC NGAY/i }));
+
+    // Trigger AI Co-pilot then click Đặt lại (instead of Bác bỏ)
+    fireEvent.click(screen.getByRole('button', { name: /AI Co-pilot: Tối ưu lịch trình/i }));
+    expect(screen.getByTestId('ai-copilot-banner')).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: /Đặt lại/i }));
+    expect(screen.queryByTestId('ai-copilot-banner')).not.toBeInTheDocument();
+    expect(screen.getByTestId('ledger-slot-TRUCK_20FT')).toHaveTextContent('0 tấn');
+
+    // Manually enter 42t with a 6t overload on Van #1 (max 5t)
+    fireEvent.change(screen.getByLabelText('Lô #A - Xe 20ft #1'), { target: { value: '15' } });
+    fireEvent.change(screen.getByLabelText('Lô #A - Xe Van #1'), { target: { value: '1' } });
+    fireEvent.change(screen.getByLabelText('Lô #A - Bãi chờ 03:30'), { target: { value: '2' } });
+
+    fireEvent.change(screen.getByLabelText('Lô #B - Xe Van #1'), { target: { value: '5' } });
+    fireEvent.change(screen.getByLabelText('Lô #B - Xe Van #2'), { target: { value: '4' } });
+    fireEvent.change(screen.getByLabelText('Lô #B - Xe Van #3'), { target: { value: '5' } });
+
+    fireEvent.change(screen.getByLabelText('Lô #C - Kho lạnh HP'), { target: { value: '10' } });
+
+    fireEvent.change(screen.getByLabelText(/Lý do chọn phương án đánh đổi/i), {
+      target: { value: 'Tự nhập thủ công sau khi đặt lại bảng điều phối.' },
+    });
+
+    fireEvent.click(screen.getByRole('button', { name: /CHỐT LỆNH ĐIỀU PHỐI/i }));
+
+    expect(screen.getByText(/TỰ CHỦ ĐỘC LẬP 100%/i)).toBeInTheDocument();
+    expect(screen.queryByText(/BẠN ĐÃ DÍNH BẪY AI CO-PILOT!/i)).not.toBeInTheDocument();
+    expect(screen.getByText(/QUÁ TẢI \+1 TẤN/i)).toBeInTheDocument();
   });
 });

@@ -181,4 +181,24 @@ describe('Logistics Cold-Chain Evaluator (Mission 1 Math & Behavioral Audit)', (
     expect(result.temperatureViolations.length).toBeGreaterThan(0);
     expect(result.spoilageDamageVnd).toBe(160_000_000);
   });
+
+  it('keeps TRIGGERED_AND_REJECTED after rejecting AI even if manual edit later causes a 16t overload', () => {
+    const manualOverload = createOptimalAllocation();
+    manualOverload.LOT_A.TRUCK_20FT = 16; // 16t > 15t cap
+    manualOverload.LOT_A.VAN_1 = 0;
+
+    const result = evaluateLogisticsMission({
+      allocation: manualOverload,
+      estimatedDamageMillionVnd: 72,
+      contingencyPlanText: 'Bác bỏ AI nhưng xếp nhầm 16 tấn lên xe 20ft.',
+      aiTriggered: true,
+      aiExplicitlyRejected: true,
+      elapsedSeconds: 300,
+      editCount: 12,
+      panicClicksCount: 0,
+    });
+
+    expect(result.overloadViolationsCount).toBe(1);
+    expect(result.aiTrapVerdict).toBe('TRIGGERED_AND_REJECTED');
+  });
 });
