@@ -8,6 +8,9 @@ import {
   ShieldCheck,
   RotateCcw,
   Award,
+  TrendingUp,
+  Lightbulb,
+  Info,
 } from 'lucide-react';
 import {
   AiTrapVerdict,
@@ -15,6 +18,8 @@ import {
   MissionEvaluationResult,
   QaEvaluationResult,
 } from '../../types/mission';
+import { getLogisticsDamageComparison, getLogisticsDamageTier } from '../../engine/logisticsOutcome';
+import { LOGISTICS_COLDCHAIN_SCENARIO } from '../../registry/logistics_coldchain/scenario';
 
 interface MissionDebriefProps {
   evaluation: MissionEvaluationResult;
@@ -67,36 +72,48 @@ const renderAiVerdictBanner = (verdict: AiTrapVerdict, isLogistics: boolean) => 
       <ShieldCheck className="w-6 h-6 text-black flex-shrink-0 mt-0.5" />
       <div className="space-y-1">
         <div className="text-xs font-black uppercase text-black">
-          KIỂM TOÁN ĐỘ PHỤ THUỘC AI: TỰ CHỦ ĐỘC LẬP 100%
+          AI CO-PILOT: KHÔNG SỬ DỤNG TRONG LƯỢT NÀY
         </div>
         <p className="text-xs text-neutral-800 leading-relaxed">
-          Bạn hoàn thành toàn bộ quy trình phân tích và chốt phương án bằng tư duy độc lập mà không cần kích hoạt nút hỗ trợ AI Co-pilot.
+          Bạn hoàn thành lượt chơi mà không kích hoạt AI Co-pilot. Vì vậy chưa có dữ liệu về cách bạn kiểm chứng đề xuất từ AI.
         </p>
       </div>
     </div>
   );
 };
 
-const LogisticsAuditDetails: React.FC<{ ev: LogisticsEvaluationResult }> = ({ ev }) => (
+const LogisticsAuditDetails: React.FC<{ ev: LogisticsEvaluationResult }> = ({ ev }) => {
+  const tier = getLogisticsDamageTier(ev);
+  const comparison = getLogisticsDamageComparison(ev);
+  const actualStyle = {
+    optimal: 'border-emerald-700 bg-emerald-50',
+    'needs-improvement': 'border-amber-600 bg-amber-50',
+    unsafe: 'border-red-700 bg-red-50',
+  }[tier];
+  const actualLabel = {
+    optimal: 'ĐẠT MỨC TỐI ƯU',
+    'needs-improvement': 'HỢP LỆ — CHƯA TỐI ƯU',
+    unsafe: 'CÓ VI PHẠM RÀNG BUỘC',
+  }[tier];
+  const actualTextColor = {
+    optimal: 'text-emerald-800',
+    'needs-improvement': 'text-amber-900',
+    unsafe: 'text-red-800',
+  }[tier];
+  return (
   <div className="space-y-6">
-    {/* Financial Damage Comparison */}
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <div className="p-4 border-2 border-black bg-white">
-        <div className="text-[11px] font-bold uppercase text-muted-gray">
-          Thiệt hại từ phương án của bạn
-        </div>
-        <div
-          className={`text-xl font-mono font-black mt-1 ${
-            ev.totalFinancialDamageVnd <= 72_000_000 && ev.overloadViolationsCount === 0
-              ? 'text-emerald-700'
-              : 'text-live-red'
-          }`}
-        >
+    {/* Three benchmarks use one visual system: green = target, amber =
+        valid but suboptimal, red = violates constraints. */}
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4" aria-label="So sánh thiệt hại điều phối">
+      <div data-testid="result-actual-card" className={`p-4 border-2 ${actualStyle} flex flex-col gap-1.5`}>
+        <div className="text-[11px] font-black uppercase text-neutral-900">Phương án bạn đã gửi</div>
+        <span className={`self-start border px-2 py-0.5 text-[10px] font-black ${actualTextColor} border-current`}>{actualLabel}</span>
+        <div className={`text-xl font-mono font-black mt-1 ${actualTextColor}`}>
           {formatVnd(ev.totalFinancialDamageVnd)}
         </div>
-        <div className="text-[11px] text-muted-gray mt-1">
-          Phạt SLA: {formatVnd(ev.slaPenaltyVnd)} • Hỏng hàng: {formatVnd(ev.spoilageDamageVnd)}
-        </div>
+        <p className="text-[11px] text-neutral-800 mt-auto leading-relaxed">
+          Phạt SLA: {formatVnd(ev.slaPenaltyVnd)} · Hỏng hàng: {formatVnd(ev.spoilageDamageVnd)}
+        </p>
         <div className="mt-2 pt-2 border-t border-hairline text-[11px]">
           {ev.estimatedDamageMillionVnd !== undefined && ev.estimatedDamageMillionVnd !== null ? (
             <span className="font-bold text-black">
@@ -116,30 +133,35 @@ const LogisticsAuditDetails: React.FC<{ ev: LogisticsEvaluationResult }> = ({ ev
           )}
         </div>
       </div>
-
-      <div className="p-4 border-2 border-emerald-700 bg-emerald-50">
-        <div className="text-[11px] font-bold uppercase text-emerald-800">
-          Mức tối ưu chuẩn (Giữ 2t Cá hồi #A)
-        </div>
+      <div data-testid="result-optimal-card" className="p-4 border-2 border-emerald-700 bg-emerald-50 flex flex-col gap-1.5">
+        <div className="text-[11px] font-black uppercase text-neutral-900">Mức tối ưu tham chiếu</div>
+        <span className="self-start border border-emerald-700 text-emerald-800 px-2 py-0.5 text-[10px] font-black">MỐC ĐỐI CHIẾU</span>
         <div className="text-xl font-mono font-black text-emerald-800 mt-1">
-          72.000.000đ
+          {formatVnd(ev.optimalDamageVnd)}
         </div>
-        <div className="text-[11px] text-emerald-900 mt-1">
-          2 tấn × 12 giờ × 3tr SLA (0đ hỏng hàng — Tiết kiệm 88 triệu!)
-        </div>
+        <p className="text-[11px] text-neutral-800 mt-auto leading-relaxed">Giữ 2 tấn Lô #A qua đêm; không phát sinh hỏng hàng.</p>
       </div>
+      <div data-testid="result-risk-card" className="p-4 border-2 border-red-700 bg-red-50 flex flex-col gap-1.5">
+        <div className="text-[11px] font-black uppercase text-neutral-900">Phương án sai thường gặp</div>
+        <span className="self-start border border-red-700 text-red-800 px-2 py-0.5 text-[10px] font-black">RỦI RO HỎNG HÀNG</span>
+        <div className="text-xl font-mono font-black text-red-800 mt-1">{formatVnd(LOGISTICS_COLDCHAIN_SCENARIO.baselineWrongDamageVnd)}</div>
+        <p className="text-[11px] text-neutral-800 mt-auto leading-relaxed">Để 2 tấn Lô #B ngoài bãi quá 12 giờ hoặc trong kho âm độ.</p>
+      </div>
+    </div>
 
-      <div className="p-4 border border-hairline bg-soft-gray">
-        <div className="text-[11px] font-bold uppercase text-muted-gray">
-          Phương án sai phổ biến (Giữ 2t Trái cây #B)
-        </div>
-        <div className="text-xl font-mono font-black text-neutral-700 mt-1">
-          160.000.000đ
-        </div>
-        <div className="text-[11px] text-muted-gray mt-1">
-          2 tấn × 80tr hỏng 100% do quá 12h ngoài bãi / âm độ kho đông
-        </div>
+    <div data-testid="damage-comparison" className={`border-l-4 p-4 space-y-2 ${tier === 'optimal' ? 'border-emerald-700 bg-emerald-50' : tier === 'unsafe' ? 'border-red-700 bg-red-50' : 'border-amber-600 bg-amber-50'}`}>
+      <div className="flex gap-2 items-center text-sm font-black text-neutral-900">
+        {tier === 'optimal' ? <Info className="w-5 h-5 shrink-0 text-emerald-800" /> : <TrendingUp className="w-5 h-5 shrink-0 text-amber-900" />}
+        Vì sao phương án của bạn có kết quả này?
       </div>
+      <p className="text-xs leading-relaxed text-neutral-900">{comparison.description}</p>
+      {comparison.actionable && (
+        <div className="flex gap-2 items-start text-xs leading-relaxed text-neutral-900">
+          <Lightbulb className="w-4 h-4 shrink-0 mt-0.5" />
+          <span><strong>Cơ hội cải thiện:</strong> {comparison.actionable}</span>
+        </div>
+      )}
+      {tier === 'unsafe' && <p className="text-xs text-red-900 font-semibold">Lưu ý: Mức thiệt hại chỉ là phép tính của kịch bản; phương án vi phạm không được xem là lựa chọn vận hành an toàn.</p>}
     </div>
 
     {/* Vehicle Physical Capacity Audit Table */}
@@ -178,7 +200,6 @@ const LogisticsAuditDetails: React.FC<{ ev: LogisticsEvaluationResult }> = ({ ev
         </tbody>
       </table>
     </div>
-
     {ev.contingencyPlanText && ev.contingencyPlanText.trim().length > 0 && (
       <div className="bg-soft-gray border border-black p-3.5 text-xs space-y-1">
         <div className="font-black uppercase text-[11px] text-black">
@@ -188,7 +209,8 @@ const LogisticsAuditDetails: React.FC<{ ev: LogisticsEvaluationResult }> = ({ ev
       </div>
     )}
   </div>
-);
+  );
+};
 
 const QaAuditDetails: React.FC<{ ev: QaEvaluationResult }> = ({ ev }) => (
   <div className="space-y-6">

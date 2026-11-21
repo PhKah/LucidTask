@@ -1,6 +1,24 @@
 import '@testing-library/jest-dom';
 import { vi } from 'vitest';
 
+if (typeof window.PointerEvent === 'undefined') {
+  class PointerEventPolyfill extends MouseEvent {
+    readonly pointerId: number;
+    readonly pointerType: string;
+
+    constructor(type: string, init: PointerEventInit = {}) {
+      super(type, init);
+      this.pointerId = init.pointerId ?? 0;
+      this.pointerType = init.pointerType ?? '';
+    }
+  }
+  Object.defineProperty(window, 'PointerEvent', {
+    configurable: true,
+    writable: true,
+    value: PointerEventPolyfill,
+  });
+}
+
 // Mock canvas-confetti
 vi.mock('canvas-confetti', () => ({
   default: vi.fn(),

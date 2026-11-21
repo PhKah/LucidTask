@@ -30,6 +30,9 @@ describe('E2E Integration: Logistics Cold-Chain Dispatch Flow (Passive Ledger + 
     expect(screen.queryByTestId('ai-copilot-banner')).not.toBeInTheDocument();
     expect(screen.getByTestId('ledger-slot-TRUCK_20FT')).toHaveTextContent('0 tấn');
 
+    // Phase 1 branch: use legacy +/- table for the original integration scenario.
+    fireEvent.click(screen.getByRole('tab', { name: /Bảng truyền thống/i }));
+
     // 5. Manually enter optimal 42-ton allocation
     fireEvent.change(screen.getByLabelText('Lô #A - Xe 20ft #1'), { target: { value: '15' } });
     fireEvent.change(screen.getByLabelText('Lô #A - Xe Van #1'), { target: { value: '1' } });
@@ -55,6 +58,8 @@ describe('E2E Integration: Logistics Cold-Chain Dispatch Flow (Passive Ledger + 
     });
 
     fireEvent.click(screen.getByRole('button', { name: /CHỐT LỆNH ĐIỀU PHỐI/i }));
+    expect(screen.getByRole('dialog', { name: 'Sẵn sàng chốt lệnh!' })).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: 'Xác nhận chốt lệnh' }));
 
     // 7. Debrief Verification (Closure & Catharsis)
     expect(screen.getByText(/PHẢN BIỆN ĐỘC LẬP XUẤT SẮC/i)).toBeInTheDocument();
@@ -91,7 +96,8 @@ describe('E2E Integration: Logistics Cold-Chain Dispatch Flow (Passive Ledger + 
     fireEvent.click(screen.getByRole('button', { name: /Đặt lại/i }));
     expect(screen.queryByTestId('ai-copilot-banner')).not.toBeInTheDocument();
     expect(screen.getByTestId('ledger-slot-TRUCK_20FT')).toHaveTextContent('0 tấn');
-
+    // Chuyển sang bảng nhập số liệu truyền thống.
+    fireEvent.click(screen.getByRole('tab', { name: /Bảng truyền thống/i }));
     // Manually enter 42t with a 6t overload on Van #1 (max 5t)
     fireEvent.change(screen.getByLabelText('Lô #A - Xe 20ft #1'), { target: { value: '15' } });
     fireEvent.change(screen.getByLabelText('Lô #A - Xe Van #1'), { target: { value: '1' } });
@@ -109,7 +115,10 @@ describe('E2E Integration: Logistics Cold-Chain Dispatch Flow (Passive Ledger + 
 
     fireEvent.click(screen.getByRole('button', { name: /CHỐT LỆNH ĐIỀU PHỐI/i }));
 
-    expect(screen.getByText(/TỰ CHỦ ĐỘC LẬP 100%/i)).toBeInTheDocument();
+    expect(screen.getByRole('dialog', { name: 'Có rủi ro trước khi chốt' })).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: 'Vẫn chốt để nhận đánh giá' }));
+
+    expect(screen.getByText(/AI CO-PILOT: KHÔNG SỬ DỤNG TRONG LƯỢT NÀY/i)).toBeInTheDocument();
     expect(screen.queryByText(/BẠN ĐÃ DÍNH BẪY AI CO-PILOT!/i)).not.toBeInTheDocument();
     expect(screen.getByText(/QUÁ TẢI \+1 TẤN/i)).toBeInTheDocument();
   });

@@ -69,7 +69,7 @@ export const ParentAlignmentKit: React.FC<ParentAlignmentKitProps> = ({
   };
 
   const dinnerQuestion1 = isLogistics
-    ? '"Con cảm thấy thế nào khi trực tiếp điều phối 42 tấn hàng container lạnh, tự kiểm soát tải trọng xe 15 tấn/5 tấn và phải chấp nhận thiệt hại nhỏ 72 triệu để cứu 160 triệu trái cây? Con có hứng thú với nhịp độ ra quyết định đó không?"'
+    ? '"Con cảm thấy thế nào khi trực tiếp điều phối 42 tấn hàng container lạnh, tự kiểm soát tải trọng xe 15 tấn/5 tấn và phải cân nhắc thiệt hại do giao trễ và rủi ro hỏng trái cây? Con có hứng thú với nhịp độ ra quyết định đó không?"'
     : '"Con cảm thấy thế nào khi ngồi rà soát từng dòng trong bảng 15 đơn hàng và bắt lỗi trên sơ đồ luồng thanh toán tiếng Việt? Con thấy thích thú khi săn ra lỗi ẩn hay cảm thấy mệt mỏi?"';
 
   return (

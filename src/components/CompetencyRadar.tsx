@@ -9,6 +9,10 @@ import {
   ArrowRight,
   CheckCircle2,
   Bot,
+  ShieldCheck,
+  Scale,
+  BrainCircuit,
+  Info,
 } from 'lucide-react';
 import { CompetencyProfile } from '../types/state';
 import { MissionId } from '../types/mission';
@@ -31,6 +35,7 @@ export const CompetencyRadar: React.FC<CompetencyRadarProps> = ({
     resilience_score,
     composite_score,
     qualitative_insights,
+    behavior_findings,
     big_five,
     big_five_weights,
     riasec,
@@ -43,10 +48,10 @@ export const CompetencyRadar: React.FC<CompetencyRadarProps> = ({
 
   const aiBadge =
     ai_trap_verdict === 'TRIGGERED_AND_REJECTED'
-      ? { label: 'PHẢN BIỆN AI XUẤT SẮC', cls: 'bg-emerald-700 text-white' }
+      ? { label: 'ĐÃ BÁC BỎ ĐỀ XUẤT AI', cls: 'bg-emerald-700 text-white' }
       : ai_trap_verdict === 'TRIGGERED_AND_ACCEPTED'
         ? { label: 'CẢNH BÁO PHỤ THUỘC AI', cls: 'bg-live-red text-white' }
-        : { label: 'TỰ CHỦ ĐỘC LẬP 100%', cls: 'bg-black text-accent' };
+        : { label: 'KHÔNG SỬ DỤNG AI', cls: 'bg-black text-accent' };
 
   return (
     <div className="card-hairline border-2 border-black shadow-[5px_5px_0px_0px_#000] space-y-6 animate-fadeIn">
@@ -257,25 +262,63 @@ export const CompetencyRadar: React.FC<CompetencyRadarProps> = ({
         </div>
       </div>
 
-      {/* Qualitative Insights */}
-      {qualitative_insights.length > 0 && (
-        <div className="pt-4 border-t border-hairline space-y-2">
-          <span className="text-xs font-bold uppercase tracking-wider text-muted-gray block">
-            Nhận Định Hành Vi Thực Chứng:
-          </span>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-            {qualitative_insights.map((insight, idx) => (
-              <div
-                key={idx}
-                className="bg-white border border-hairline p-3 text-xs text-gray-800 leading-relaxed"
-              >
-                <span className="w-1.5 h-1.5 bg-black inline-block mr-1.5 align-middle" />
-                {insight}
-              </div>
-            ))}
+      {/* Behavioral findings: task evidence, not a clinical or psychometric diagnosis. */}
+      {(behavior_findings?.length || qualitative_insights.length > 0) && (
+        <section aria-label="Nhận định hành vi thực chứng" className="pt-5 border-t-2 border-black space-y-3">
+          <div className="flex items-center gap-3">
+            <span className="bg-night-navy p-2.5 text-accent border border-black"><Award className="w-5 h-5" /></span>
+            <div>
+              <h3 className="text-sm font-black uppercase tracking-wide text-black">Năng lực thể hiện qua nhiệm vụ</h3>
+              <p className="text-[11px] text-neutral-600">Nhận xét theo hành vi và kết quả được ghi nhận trong lượt chơi</p>
+            </div>
           </div>
-        </div>
+          {behavior_findings?.length ? (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              {behavior_findings.map((finding, idx) => {
+                const Icon = finding.id === 'constraints' ? ShieldCheck : finding.id === 'tradeoff' ? Scale : BrainCircuit;
+                const tone = {
+                  strength: 'border-emerald-700 bg-emerald-50 text-emerald-900',
+                  improve: 'border-amber-600 bg-amber-50 text-amber-900',
+                  caution: 'border-red-700 bg-red-50 text-red-900',
+                  neutral: 'border-neutral-500 bg-neutral-50 text-neutral-900',
+                }[finding.status];
+                const badge = {
+                  strength: 'ĐIỂM ĐÃ THỂ HIỆN',
+                  improve: 'CÓ THỂ CẢI THIỆN',
+                  caution: 'CẦN RÀ SOÁT',
+                  neutral: 'CHƯA ĐỦ DỮ LIỆU',
+                }[finding.status];
+                return (
+                  <article
+                    key={finding.id}
+                    data-testid={`behavior-card-${finding.id}`}
+                    className={`border-2 p-4 flex flex-col gap-2 lt-insight-enter ${tone}`}
+                    style={{ animationDelay: `${idx * 110}ms` }}
+                  >
+                    <div className="flex items-center justify-between gap-2">
+                      <Icon className="w-6 h-6 shrink-0" aria-hidden="true" />
+                      <span className="text-[9px] font-black uppercase tracking-wide border border-current px-1.5 py-0.5">{badge}</span>
+                    </div>
+                    <h4 className="text-sm font-black text-black">{finding.title}</h4>
+                    <p className="text-xs leading-relaxed text-neutral-800">{finding.text}</p>
+                  </article>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              {qualitative_insights.map((insight, idx) => (
+                <div key={idx} className="border-2 border-neutral-300 bg-neutral-50 p-4 flex gap-2 lt-insight-enter" style={{ animationDelay: `${idx * 110}ms` }}>
+                  <Info className="w-4 h-4 shrink-0 mt-0.5 text-neutral-600" aria-hidden="true" />
+                  <p className="text-xs leading-relaxed text-neutral-800">{insight}</p>
+                </div>
+              ))}
+            </div>
+          )}
+          <p className="text-[10px] text-neutral-600">Nhận định chỉ phản ánh kết quả mô phỏng của lượt chơi, không kết luận mức độ phù hợp nghề nghiệp hay đặc điểm tâm lý của bạn.</p>
+        </section>
       )}
+
     </div>
   );
 };

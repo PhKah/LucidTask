@@ -1,14 +1,12 @@
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import {
   Bot,
   Clock,
   RotateCcw,
   Send,
-  Snowflake,
-  Truck,
   Undo2,
-  Package,
   Calculator,
+  X,
   FileText,
 } from 'lucide-react';
 import {
@@ -22,6 +20,10 @@ import { createEmptyLogisticsAllocation } from '../../registry/logistics_coldcha
 import { computeLogisticsPassiveTotals } from '../../engine/MissionEvaluators';
 import { telemetryBus } from '../../engine/TelemetryBus';
 import CountdownTimer from '../CountdownTimer';
+import LogisticsDragDropPanel from './LogisticsDragDropPanel';
+import LogisticsInfoDock from './LogisticsInfoDock';
+import LogisticsFeedbackModal, { LogisticsFeedbackMode } from './LogisticsFeedbackModal';
+import { AllocationCheckMessage, checkLogisticsPlan } from '../../engine/logisticsDragDrop';
 
 interface LogisticsDispatchBoardProps {
   scenario: LogisticsScenario;
@@ -46,6 +48,11 @@ export const LogisticsDispatchBoard: React.FC<LogisticsDispatchBoardProps> = ({
   );
   const [estimatedDamageInput, setEstimatedDamageInput] = useState<string>('');
   const [contingencyPlanText, setContingencyPlanText] = useState<string>('');
+  // Experimental branch only. The original +/- matrix remains available.
+  const [interactionMode, setInteractionMode] = useState<'DRAG' | 'TABLE'>('DRAG');
+  const [auditMessages, setAuditMessages] = useState<AllocationCheckMessage[] | null>(null);
+  const [feedbackMode, setFeedbackMode] = useState<LogisticsFeedbackMode | null>(null);
+  const [isLedgerOpen, setIsLedgerOpen] = useState(false);
 
   // AI Co-pilot Trap state (Hạng mục 4/4)
   const [aiTriggered, setAiTriggered] = useState<boolean>(false);
@@ -86,6 +93,7 @@ export const LogisticsDispatchBoard: React.FC<LogisticsDispatchBoardProps> = ({
     }
     const safeTons = Math.max(0, Math.min(42, Math.floor(Number.isNaN(rawValue) ? 0 : rawValue)));
     editCountRef.current += 1;
+    setAuditMessages(null); // checked data is stale after any edit
 
     setAllocation(prev => ({
       ...prev,
@@ -105,6 +113,7 @@ export const LogisticsDispatchBoard: React.FC<LogisticsDispatchBoardProps> = ({
   const handleTriggerAiCopilot = () => {
     preAiSnapshotRef.current = cloneAllocation(allocation);
     setAllocation(cloneAllocation(scenario.aiCopilotTrapAllocation));
+    setAuditMessages(null);
     setAiTriggered(true);
     setAiBannerVisible(true);
     setAiExplicitlyRejected(false);
@@ -116,6 +125,7 @@ export const LogisticsDispatchBoard: React.FC<LogisticsDispatchBoardProps> = ({
 
   const handleRejectAiCopilot = () => {
     setAllocation(cloneAllocation(preAiSnapshotRef.current));
+    setAuditMessages(null);
     setAiBannerVisible(false);
     setAiExplicitlyRejected(true);
 
@@ -127,6 +137,7 @@ export const LogisticsDispatchBoard: React.FC<LogisticsDispatchBoardProps> = ({
 
   const handleResetBoard = () => {
     setAllocation(createEmptyLogisticsAllocation());
+    setAuditMessages(null);
     setAiBannerVisible(false);
     setAiTriggered(false);
     setAiExplicitlyRejected(false);
@@ -150,6 +161,12 @@ export const LogisticsDispatchBoard: React.FC<LogisticsDispatchBoardProps> = ({
     });
   };
 
+  const closeFeedback = useCallback(() => setFeedbackMode(null), []);
+  const handleAuditClick = () => {
+    setAuditMessages(checkLogisticsPlan(allocation, scenario));
+    setFeedbackMode('AUDIT');
+  };
+
   const allLotsBalanced =
     passiveTotals.perLotAllocated.LOT_A === 18 &&
     passiveTotals.perLotAllocated.LOT_B === 14 &&
@@ -157,142 +174,73 @@ export const LogisticsDispatchBoard: React.FC<LogisticsDispatchBoardProps> = ({
 
   const canSubmit = allLotsBalanced && contingencyPlanText.trim().length >= 15;
 
+  const handleSubmissionReview = () => {
+    const checks = checkLogisticsPlan(allocation, scenario);
+    const items = checks.filter(message => message.type === 'error');
+    if (contingencyPlanText.trim().length < 15) {
+      items.push({
+        id: 'incomplete-contingency',
+        type: 'error',
+        title: 'Bản giải trình chưa hoàn tất',
+        text: 'Bản giải trình gửi Giám đốc Vận hành cần ít nhất 15 ký tự.',
+        suggestion: 'Ghi rõ vì sao bạn chọn phương án này và cách cân đối thời gian, chi phí, rủi ro.',
+      });
+    }
+    setAuditMessages(items.length > 0 ? items : checks);
+    setFeedbackMode('SUBMIT');
+  };
+
   return (
     <div className="space-y-5 animate-fadeIn">
-      {/* Top Command Status Bar */}
-      <div className="bg-night-navy text-white border-2 border-black px-4 py-3 flex flex-wrap items-center justify-between gap-3">
-        <div className="flex flex-wrap items-center gap-3 text-xs">
-          <span className="bg-accent text-black font-black px-2.5 py-1 uppercase tracking-wider">
-            BẢNG ĐIỀU PHỐI CHUỖI LẠNH • CẢNG HẢI PHÒNG → HÀ NỘI
-          </span>
-          <span className="inline-flex items-center gap-1.5 font-mono text-gray-200">
-            <Clock className="w-3.5 h-3.5 text-accent" />
-            <span>HIỆN TẠI: <strong>{scenario.currentClock}</strong></span>
-          </span>
-          <span className="hidden md:inline text-gray-500">|</span>
-          <span className="font-mono text-gray-300 text-[11px]">
-            CHUYẾN TĂNG CƯỜNG: <strong className="text-white">{scenario.nextConvoySchedule}</strong>
+      {/* Compact command bar: show the numbers a dispatcher needs immediately. */}
+      <div className="flex flex-wrap items-center justify-between gap-3 border-2 border-black bg-night-navy px-4 py-3 text-white">
+        <div className="flex min-w-0 flex-wrap items-center gap-2 text-xs">
+          <strong className="bg-accent px-2.5 py-1 font-black uppercase text-black">Điều phối chuỗi lạnh</strong>
+          <span className="hidden font-bold text-gray-200 sm:inline">Hải Phòng → Hà Nội</span>
+          <span className="inline-flex items-center gap-1 font-mono text-gray-200">
+            <Clock className="h-3.5 w-3.5 text-accent" /> {scenario.currentClock}
           </span>
         </div>
-
-        <CountdownTimer
-          initialSeconds={scenario.durationMinutes * 60}
-          isRunning={true}
-          onTimeUp={handleFinalizeSubmit}
-        />
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="border border-white/40 px-2.5 py-1 font-mono text-xs font-bold" aria-label="Tổng số tấn đã phân bổ">
+            {passiveTotals.totalAllocatedTons} / 42 tấn
+          </span>
+          <button
+            type="button"
+            onClick={() => setIsLedgerOpen(true)}
+            aria-label="Mở bảng thống kê"
+            aria-controls="passive-resource-ledger"
+            aria-expanded={isLedgerOpen}
+            className="inline-flex items-center gap-1.5 border border-white/60 px-2.5 py-1 text-xs font-bold hover:bg-white/10"
+          >
+            <Calculator className="h-3.5 w-3.5 text-accent" /> Thống kê
+          </button>
+          <CountdownTimer
+            initialSeconds={scenario.durationMinutes * 60}
+            isRunning={true}
+            onTimeUp={handleFinalizeSubmit}
+          />
+        </div>
       </div>
 
-      {/* 3-COLUMN INTERACTIVE DISPATCH BOARD */}
-      <div className="grid grid-cols-1 xl:grid-cols-12 gap-5 items-start">
-        {/* ============================================================
-         * CỘT TRÁI: DỮ LIỆU LÔ HÀNG & ĐỊNH MỨC VẬN TẢI (00:00)
-         * ============================================================ */}
-        <aside className="xl:col-span-3 space-y-4">
-          {/* Thẻ 1: 3 Lô hàng kẹt cảng */}
-          <div className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_#000] p-4 space-y-3">
-            <div className="flex items-center justify-between border-b-2 border-black pb-2">
-              <div className="flex items-center gap-1.5 text-xs font-black uppercase text-black">
-                <Package className="w-4 h-4 text-accent" />
-                <span>Thẻ 1: 3 Lô Hàng Kẹt Cảng</span>
-              </div>
-              <span className="font-mono text-[11px] font-black bg-black text-white px-2 py-0.5">
-                TỔNG 42 TẤN
-              </span>
-            </div>
-
-            <div className="space-y-3 text-xs">
-              {scenario.lots.map(lot => (
-                <div
-                  key={lot.id}
-                  className="p-3 bg-soft-gray border border-black space-y-1.5"
-                >
-                  <div className="flex items-center justify-between gap-2">
-                    <span className="font-black text-black uppercase">
-                      {lot.code} • {lot.name}
-                    </span>
-                    <span className="font-mono font-black bg-accent text-black px-1.5 py-0.5 border border-black flex-shrink-0">
-                      {lot.totalTons} tấn
-                    </span>
-                  </div>
-                  <div className="grid grid-cols-1 gap-1 text-[11px] text-neutral-800">
-                    <div>
-                      <strong>Nhiệt độ:</strong> {lot.tempRequirementLabel}
-                    </div>
-                    <div>
-                      <strong>Hạn sử dụng:</strong> {lot.shelfLifeLabel}
-                    </div>
-                    <div>
-                      <strong>Mốc giao / Phạt trễ (SLA):</strong> {lot.deadlineLabel}
-                    </div>
-                    <div>
-                      <strong>Giá trị lô:</strong> {formatVnd(lot.totalValueVnd)} (
-                      {lot.valuePerTonVnd / 1_000_000}tr/tấn)
-                    </div>
-                  </div>
-                  <p className="text-[11px] text-muted-gray border-t border-hairline pt-1.5 leading-snug">
-                    {lot.spoilageRiskNote}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Thẻ 2: Nguồn lực Phương tiện & Kho bãi */}
-          <div className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_#000] p-4 space-y-3">
-            <div className="flex items-center gap-1.5 text-xs font-black uppercase text-black border-b-2 border-black pb-2">
-              <Truck className="w-4 h-4 text-accent" />
-              <span>Thẻ 2: Định Mức Xe &amp; Kho Bãi</span>
-            </div>
-
-            <div className="space-y-2.5 text-[11px] text-neutral-800">
-              <div className="p-2.5 bg-soft-gray border border-hairline">
-                <div className="font-black text-black">Xe tải lạnh hạng nặng (20ft) — 1 xe</div>
-                <div>• Tải trọng tối đa: <strong>15 tấn/xe</strong></div>
-                <div>• Lịch chạy: 15:00 → Hà Nội 17:30</div>
-                <div>• Chi phí: <strong>6.000.000đ/chuyến</strong></div>
-              </div>
-
-              <div className="p-2.5 bg-soft-gray border border-hairline">
-                <div className="font-black text-black">Xe tải van lạnh hạng trung — 3 xe</div>
-                <div>• Tải trọng tối đa: <strong>5 tấn/xe</strong> (Tổng 3 xe: 15 tấn)</div>
-                <div>• Lịch chạy: 15:00 → Hà Nội 18:00</div>
-                <div>• Chi phí: <strong>3.500.000đ/chuyến/xe</strong></div>
-              </div>
-
-              <div className="p-2.5 bg-soft-gray border border-hairline">
-                <div className="font-black text-black flex items-center gap-1">
-                  <Snowflake className="w-3.5 h-3.5 text-sky-700" />
-                  <span>Kho lạnh trung chuyển Hải Phòng</span>
-                </div>
-                <div>• Sức chứa trống: <strong>15 tấn</strong></div>
-                <div>• Dải nhiệt cố định: <strong>-18°C đến 0°C</strong></div>
-                <div>• Lưu kho: <strong>1.500.000đ/tấn/ngày</strong> (chờ chuyến 03:30)</div>
-              </div>
-
-              <div className="p-2.5 bg-soft-gray border border-hairline">
-                <div className="font-black text-black">Chuyến tăng cường sáng mai (03:30)</div>
-                <div>• Xuất bến 03:30 → cập bến Hà Nội <strong>06:00 sáng mai</strong></div>
-                <div>• Thời gian trễ so với mốc 18:00: <strong>12 giờ</strong></div>
-                <div>• Thời gian lưu bãi từ 14:30 → 03:30: <strong>13 giờ</strong></div>
-              </div>
-            </div>
-          </div>
-        </aside>
+      {/* One slim reference dock + an expanded play area. The original six drop targets stay untouched. */}
+      <div className="flex flex-col items-start gap-3 lg:flex-row lg:gap-4">
+        <LogisticsInfoDock scenario={scenario} />
 
         {/* ============================================================
          * CỘT GIỮA: BẢNG ĐIỀU PHỐI PHÂN BỔ (ALLOCATION MATRIX) + AI + GIẢI TRÌNH
          * ============================================================ */}
-        <section className="xl:col-span-6 space-y-5">
+        <section className="min-w-0 w-full flex-1 space-y-4">
           {/* Matrix Card */}
           <div className="bg-white border-2 border-black shadow-[4px_4px_0px_0px_#000] p-4 sm:p-5 space-y-4">
             {/* Toolbar with AI Co-pilot Trigger (Hạng mục 4/4) */}
             <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b-2 border-black">
               <div>
                 <h2 className="text-sm font-black uppercase text-black">
-                  Bảng Điều Phối Phân Bổ Tài Nguyên (Đơn vị: Tấn)
+                  Bảng điều phối • 42 tấn
                 </h2>
                 <p className="text-[11px] text-muted-gray">
-                  Nhập trực tiếp số tấn của từng lô hàng vào đội xe chiều nay (15:00) hoặc giữ lại qua đêm chờ chuyến 03:30.
+                  Kéo hàng vào xe, kho hoặc bãi chờ. Di chuột vào thanh thông tin bên trái để xem dữ liệu lô.
                 </p>
               </div>
 
@@ -304,6 +252,7 @@ export const LogisticsDispatchBoard: React.FC<LogisticsDispatchBoardProps> = ({
                 >
                   <Bot className="w-3.5 h-3.5 text-accent" />
                   <span>AI Co-pilot: Tối ưu lịch trình</span>
+                  <span className="ml-1 border border-white/60 px-1.5 py-0.5 text-[9px] font-black text-amber-200">CHƯA KIỂM CHỨNG</span>
                 </button>
 
                 <button
@@ -328,9 +277,12 @@ export const LogisticsDispatchBoard: React.FC<LogisticsDispatchBoardProps> = ({
                   <Bot className="w-5 h-5 text-night-navy flex-shrink-0 mt-0.5" />
                   <div className="text-xs text-neutral-900 leading-relaxed">
                     <div className="font-black uppercase text-night-navy mb-0.5">
-                      AI Co-pilot Đã Tự Động Điền Lịch Trình Cứu Hàng:
+                      ĐỀ XUẤT AI — CHƯA KIỂM CHỨNG:
                     </div>
                     <p>{scenario.aiCopilotMessage}</p>
+                    <p className="mt-2 font-bold text-amber-800 border-t border-indigo-200 pt-2">
+                      Đây là đề xuất chưa được xác nhận. Hãy mở biểu tượng Xe/Kho ở thanh thông tin để đối chiếu định mức và bấm “Kiểm tra phương án” trước khi chốt.
+                    </p>
                   </div>
                 </div>
                 <div className="flex flex-wrap items-center justify-end gap-2 pt-1">
@@ -352,7 +304,41 @@ export const LogisticsDispatchBoard: React.FC<LogisticsDispatchBoardProps> = ({
               </div>
             )}
 
-            {/* Allocation Matrix Table */}
+            {/* Phase 1 game-design branch: switch without discarding the original table. */}
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div className="font-black text-[11px] uppercase text-black">Chế độ phân bổ</div>
+              <div role="tablist" aria-label="Chế độ phân bổ hàng" className="inline-flex gap-1">
+                <button
+                  type="button"
+                  role="tab"
+                  aria-selected={interactionMode === 'DRAG'}
+                  onClick={() => setInteractionMode('DRAG')}
+                  className={`border border-black px-3 py-1.5 text-[11px] font-bold ${interactionMode === 'DRAG' ? 'bg-night-navy text-white' : 'bg-white hover:bg-soft-gray text-black'}`}
+                >
+                  Kéo thả (thử nghiệm)
+                </button>
+                <button
+                  type="button"
+                  role="tab"
+                  aria-selected={interactionMode === 'TABLE'}
+                  onClick={() => setInteractionMode('TABLE')}
+                  className={`border border-black px-3 py-1.5 text-[11px] font-bold ${interactionMode === 'TABLE' ? 'bg-night-navy text-white' : 'bg-white hover:bg-soft-gray text-black'}`}
+                >
+                  Bảng truyền thống (+/-)
+                </button>
+              </div>
+            </div>
+
+            {interactionMode === 'DRAG' ? (
+              <LogisticsDragDropPanel
+                scenario={scenario}
+                allocation={allocation}
+                onChangeCell={(lotId, resourceId, value) => updateCell(lotId, resourceId, value)}
+                onAudit={handleAuditClick}
+                auditIssues={auditMessages || []}
+              />
+            ) : (
+            /* Original allocation matrix with updated styles retained from main. */
             <div className="overflow-x-auto">
               <table className="w-full text-xs border-collapse">
                 <thead>
@@ -378,7 +364,7 @@ export const LogisticsDispatchBoard: React.FC<LogisticsDispatchBoardProps> = ({
                     const remainingForLot = lot.totalTons - allocatedForLot;
 
                     return (
-                      <tr key={lot.id} className="hover:bg-neutral-50/70">
+                      <tr key={lot.id} className={`hover:bg-neutral-50/70 ${auditMessages?.some(issue => issue.type === 'error' && issue.lotId === lot.id) ? 'bg-red-50/50' : ''}`}>
                         <td className="py-2.5 px-1.5 align-top">
                           <div className="font-black text-black">{lot.code}</div>
                           <div className="text-[11px] text-neutral-700 leading-tight">
@@ -403,7 +389,7 @@ export const LogisticsDispatchBoard: React.FC<LogisticsDispatchBoardProps> = ({
                         {scenario.resources.map(res => {
                           const val = allocation[lot.id][res.id];
                           return (
-                            <td key={res.id} className="py-2.5 px-0.5 text-center align-middle">
+                            <td key={res.id} className={`py-2.5 px-0.5 text-center align-middle ${auditMessages?.some(issue => issue.type === 'error' && issue.resourceId === res.id) ? 'bg-red-100/70 ring-1 ring-inset ring-red-500' : ''}`}>
                               <div className="inline-flex items-center border border-black bg-white">
                                 <button
                                   type="button"
@@ -450,6 +436,7 @@ export const LogisticsDispatchBoard: React.FC<LogisticsDispatchBoardProps> = ({
                 </tbody>
               </table>
             </div>
+            )}
           </div>
 
           {/* Contingency Dispatch Plan (Bản Giải Trình Khẩn Cấp) */}
@@ -457,7 +444,7 @@ export const LogisticsDispatchBoard: React.FC<LogisticsDispatchBoardProps> = ({
             <div className="flex items-center gap-2 border-b-2 border-black pb-2">
               <FileText className="w-4 h-4 text-accent" />
               <h2 className="text-sm font-black uppercase text-black">
-                Bản Giải Trình Phương Án Đánh Đổi Khẩn Cấp (Gửi Giám Đốc Vận Hành)
+                Giải trình phương án điều phối
               </h2>
             </div>
 
@@ -484,9 +471,10 @@ export const LogisticsDispatchBoard: React.FC<LogisticsDispatchBoardProps> = ({
                   </span>
                 </div>
               </div>
-              <div className="text-[11px] text-neutral-800 leading-snug bg-amber-50/70 p-2.5 border border-amber-300">
-                <strong>Gợi ý tự tính (khuyến nghị điền):</strong> Đối chiếu tiền phạt giao trễ 12 giờ (18:00 → 06:00) với giá trị hàng có nguy cơ hỏng qua đêm theo số liệu ở Thẻ 1 (Cột Trái). Con số này sẽ được đối chiếu ở màn hình Tổng kết.
-              </div>
+              <details className="border border-hairline bg-soft-gray text-[11px] text-muted-gray">
+                <summary className="cursor-pointer px-3 py-2 font-bold text-black">Gợi ý tính thiệt hại (xem khi cần)</summary>
+                <p className="px-3 pb-2 leading-relaxed">Đối chiếu phạt trễ 12 giờ (18:00 → 06:00) với tổn thất hỏng hàng khi giữ lô tươi sống qua đêm.</p>
+              </details>
             </div>
 
             <div>
@@ -524,15 +512,14 @@ export const LogisticsDispatchBoard: React.FC<LogisticsDispatchBoardProps> = ({
                   <span>Hãy nhập bản giải trình ngắn gửi Giám đốc Vận hành trước khi chốt lệnh.</span>
                 ) : (
                   <span className="font-bold text-black">
-                    Đã phân bổ đủ 42/42 tấn và hoàn tất bản giải trình. Hãy tự rà soát lại định mức Cột Trái trước khi nộp!
+                    Đã phân bổ đủ 42/42 tấn. Hãy mở thông tin Xe/Kho để tự đối chiếu định mức trước khi nộp!
                   </span>
                 )}
               </div>
 
               <button
                 type="button"
-                disabled={!canSubmit}
-                onClick={handleFinalizeSubmit}
+                onClick={handleSubmissionReview}
                 className="btn-pill-dark text-xs py-3 px-6 bg-black text-white hover:bg-neutral-800 flex-shrink-0 gap-2"
               >
                 <Send className="w-3.5 h-3.5 text-accent" />
@@ -542,17 +529,32 @@ export const LogisticsDispatchBoard: React.FC<LogisticsDispatchBoardProps> = ({
           </div>
         </section>
 
-        {/* ============================================================
-         * CỘT PHẢI: BẢNG THỐNG KÊ CHI PHÍ & TÀI NGUYÊN THỤ ĐỘNG (PASSIVE LEDGER)
-         * STRICT INVARIANT: RAW NUMBERS ONLY — ZERO OVERLOAD/TEMP RED WARNINGS!
-         * ============================================================ */}
+        {/* The ledger remains passive and intact, but is shown only on demand. */}
+        {isLedgerOpen && (
+          <button
+            type="button"
+            aria-label="Đóng lớp phủ thống kê"
+            className="fixed inset-0 z-30 cursor-default bg-night-navy/30"
+            onClick={() => setIsLedgerOpen(false)}
+          />
+        )}
         <aside
+          id="passive-resource-ledger"
           data-testid="passive-resource-ledger"
-          className="xl:col-span-3 bg-white border-2 border-black shadow-[4px_4px_0px_0px_#000] p-4 space-y-4"
+          className={`${isLedgerOpen ? 'fixed' : 'hidden'} bottom-0 right-0 top-0 z-40 w-[min(92vw,420px)] overflow-y-auto border-l-2 border-black bg-white p-4 shadow-[-8px_0_30px_rgba(0,0,0,0.2)] space-y-4`}
         >
-          <div className="flex items-center gap-1.5 text-xs font-black uppercase text-black border-b-2 border-black pb-2">
-            <Calculator className="w-4 h-4 text-black" />
-            <span>Thống Kê Tài Nguyên Thụ Động</span>
+          <div className="flex items-center justify-between gap-2 border-b-2 border-black pb-2 text-xs font-black uppercase text-black">
+            <span className="inline-flex items-center gap-1.5">
+              <Calculator className="h-4 w-4" /> Thống kê tài nguyên thụ động
+            </span>
+            <button
+              type="button"
+              aria-label="Đóng bảng thống kê"
+              onClick={() => setIsLedgerOpen(false)}
+              className="p-1 hover:bg-soft-gray"
+            >
+              <X className="h-4 w-4" />
+            </button>
           </div>
 
           {/* Total Progress */}
@@ -629,10 +631,19 @@ export const LogisticsDispatchBoard: React.FC<LogisticsDispatchBoardProps> = ({
 
           {/* Passive Disclaimer */}
           <p className="text-[10px] text-muted-gray leading-relaxed border-t border-hairline pt-3">
-            * Bảng thống kê chỉ cộng dồn số liệu thô theo thời gian thực (không bao gồm tiền phạt SLA, thiệt hại hỏng hàng hay cảnh báo vượt tải). Chuyên viên điều phối tự đối chiếu với Thẻ 1 &amp; Thẻ 2 ở Cột Trái trước khi chốt lệnh.
+            * Bảng thống kê chỉ cộng dồn dữ liệu vận hành, không tự đánh giá mức độ hợp lệ của phương án. Hãy xem thông tin chi tiết qua thanh bên trái và tự kiểm tra trước khi chốt lệnh.
           </p>
         </aside>
       </div>
+      {feedbackMode && auditMessages && (
+        <LogisticsFeedbackModal
+          mode={feedbackMode}
+          messages={auditMessages}
+          canSubmit={canSubmit}
+          onClose={closeFeedback}
+          onFinalize={handleFinalizeSubmit}
+        />
+      )}
     </div>
   );
 };

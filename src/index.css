@@ -60,3 +60,91 @@
   }
 }
 
+/* Logistics Phase 2: strong but brief feedback. The original white workspace is unchanged. */
+@keyframes lt-modal-appear {
+  from { opacity: 0; transform: translateY(22px) scale(.975); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes lt-backdrop-appear { from { opacity: 0; } to { opacity: 1; } }
+@keyframes lt-error-appear {
+  from { opacity: 0; transform: translateX(12px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes lt-attention-pulse {
+  0%, 100% { box-shadow: inset 0 0 0 0 rgba(220, 38, 38, .2); }
+  45% { box-shadow: inset 0 0 0 3px rgba(220, 38, 38, .28); }
+}
+@keyframes lt-success-pop {
+  0% { transform: scale(.75); } 65% { transform: scale(1.09); } 100% { transform: scale(1); }
+}
+@keyframes lt-warning-nudge {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-3px); }
+  75% { transform: translateX(3px); }
+}
+@keyframes lt-drop-recorded {
+  0%, 100% { background-color: #fff; box-shadow: none; }
+  35% { background-color: #fff3d6; box-shadow: inset 0 0 0 3px #fa9000; }
+}
+@keyframes lt-drop-bad {
+  0%, 100% { background-color: #fff; transform: translateX(0); }
+  25%, 75% { background-color: #fee2e2; transform: translateX(-3px); }
+  50% { transform: translateX(3px); }
+}
+.lt-modal-backdrop { animation: lt-backdrop-appear .18s ease-out both; }
+.lt-modal-enter { animation: lt-modal-appear .24s cubic-bezier(.2,.85,.3,1) both; }
+.lt-error-card { animation: lt-error-appear .25s ease-out both; }
+.lt-icon-success { animation: lt-success-pop .45s cubic-bezier(.22,.9,.3,1.1) both; }
+.lt-icon-warning { animation: lt-warning-nudge .36s ease-out both; }
+.lt-audit-warning { animation: lt-attention-pulse 1.2s ease-in-out 2; }
+.lt-drop-recorded { animation: lt-drop-recorded .55s ease-out both; }
+.lt-drop-error { animation: lt-drop-bad .44s ease-out both; }
+@media (prefers-reduced-motion: reduce) {
+  .lt-modal-backdrop, .lt-modal-enter, .lt-error-card, .lt-icon-success,
+  .lt-icon-warning, .lt-audit-warning, .lt-drop-recorded, .lt-drop-error {
+    animation: none !important;
+  }
+}
+
+/* Phase 3: compact cargo preview and evidence cards. Keep existing palette. */
+@keyframes lt-drop-hint-enter {
+  from { opacity: 0; transform: translateY(5px) scale(.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes lt-insight-reveal {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.lt-drop-hint { animation: lt-drop-hint-enter .14s ease-out both; }
+.lt-insight-enter { animation: lt-insight-reveal .42s cubic-bezier(.16,.8,.25,1) both; }
+@media (prefers-reduced-motion: reduce) {
+  .lt-drop-hint, .lt-insight-enter { animation: none !important; }
+}
+
+/* Phase 4: a real, compact parcel follows the pointer; never the source card. */
+.lt-parcel-ghost {
+  position: fixed;
+  z-index: 9999;
+  width: 80px;
+  height: 80px;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  will-change: transform;
+  transform-origin: top left;
+}
+.lt-cargo-parcel { display: block; overflow: visible; }
+@keyframes lt-parcel-to-target {
+  from { transform: translate3d(0,0,0) scale(1); opacity: 1; }
+  80% { opacity: 1; }
+  to { transform: translate3d(var(--lt-parcel-dx),var(--lt-parcel-dy),0) scale(.24); opacity: 0; }
+}
+@keyframes lt-parcel-back-to-source {
+  from { transform: translate3d(0,0,0) scale(1); opacity: 1; }
+  to { transform: translate3d(var(--lt-parcel-dx),var(--lt-parcel-dy),0) scale(.8); opacity: 0; }
+}
+.lt-parcel-fly { animation: lt-parcel-to-target .28s cubic-bezier(.21,.75,.3,1) both; }
+.lt-parcel-return { animation: lt-parcel-back-to-source .26s ease-in both; }
+@media (prefers-reduced-motion: reduce) {
+  .lt-parcel-fly, .lt-parcel-return { animation-duration: .01ms !important; }
+}

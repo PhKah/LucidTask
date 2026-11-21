@@ -4,7 +4,7 @@
  */
 
 import { EducationalProgram } from './program';
-import { AiTrapVerdict, MissionCriterionAudit, MissionId } from './mission';
+import { AiTrapVerdict, LogisticsBehaviorFinding, MissionCriterionAudit, MissionId } from './mission';
 
 export type TaskWorkflowState =
   | 'IDLE'              // Chọn 1 trong 2 nhiệm vụ (Logistics / QA-Data)
@@ -46,6 +46,7 @@ export interface CompetencyProfile {
   resilience_score: number;  // Trục 3: Bản lĩnh Áp lực & Phản biện độc lập (0 - 100)
   composite_score: number;   // Điểm tổng hợp có trọng số theo đặc thù ngành (0 - 100)
   qualitative_insights: string[];
+  behavior_findings?: LogisticsBehaviorFinding[];
   big_five: BigFiveProfile;
   big_five_weights: BigFiveWeights;
   riasec: RiasecProfile;

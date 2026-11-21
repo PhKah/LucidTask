@@ -5,6 +5,7 @@ import {
   FlowNodeAuditRow,
   LogisticsAllocationMatrix,
   LogisticsEvaluationResult,
+  LogisticsBehaviorFinding,
   LogisticsSubmission,
   MissionCriterionAudit,
   OrderAuditRow,
@@ -126,16 +127,13 @@ function scoreLogisticsPlanText(
   if (normalized.trim().length >= 30) score += 20;
   if (normalized.trim().length >= 80) score += 10;
 
-  // 2. Numeric estimate check (72M optimal or matching user's own valid calculation)
-  if (estimatedDamageMillion !== null && !Number.isNaN(estimatedDamageMillion)) {
+  // 2. Score the player's estimate against *their submitted plan*, not
+  // the fixed optimal 72M example. A 72M estimate for a 108M plan is incorrect.
+  if (estimatedDamageMillion !== null && Number.isFinite(estimatedDamageMillion)) {
     const actualMillion = actualDamageVnd / 1_000_000;
-    if (Math.abs(estimatedDamageMillion - 72) <= 3) {
-      score += 30;
-    } else if (Math.abs(estimatedDamageMillion - actualMillion) <= 5) {
-      score += 20;
-    } else {
-      score += 5;
-    }
+    const error = Math.abs(estimatedDamageMillion - actualMillion);
+    if (error <= 3) score += 30;
+    else if (error <= 5) score += 20;
   }
 
   // 3. Key tradeoff reasoning cues
@@ -381,41 +379,51 @@ export function evaluateLogisticsMission(
     },
   ];
 
-  // 9. Qualitative Insights
-  const qualitativeInsights: string[] = [];
-  if (conscientiousness >= 80) {
-    qualitativeInsights.push(
-      'Kỷ luật kiểm soát số liệu xuất sắc: Tự đối chiếu chính xác giới hạn tải trọng 15t/5t và dải nhiệt độ trên bảng tính thụ động mà không cần công cụ báo lỗi tự động.'
-    );
-  } else {
-    qualitativeInsights.push(
-      'Cần nâng cao thói quen tự kiểm tra định mức vật lý và nhiệt độ bảo quản trước khi ký duyệt lệnh điều phối.'
-    );
-  }
-
-  if (emotionalStability >= 80) {
-    qualitativeInsights.push(
-      'Bản lĩnh đánh đổi dưới sự khan hiếm (Scarcity Triage) vững vàng: Bình tĩnh chấp nhận mức phạt nhỏ 72 triệu có kiểm soát thay vì hoảng loạn nhồi nhét xe hay đánh mất 160 triệu trái cây.'
-    );
-  } else {
-    qualitativeInsights.push(
-      'Khi đối mặt với nguồn lực thiếu hụt bắt buộc phải chịu tổn thất, cần giữ bình tĩnh tính rõ chênh lệch chi phí cơ hội (72tr vs 160tr) trước khi chốt phương án.'
-    );
-  }
-
-  if (aiTrapVerdict === 'TRIGGERED_AND_REJECTED') {
-    qualitativeInsights.push(
-      'Tư duy phản biện độc lập rất sắc bén: Không bị đánh lừa bởi lời hứa "0đ phạt" của AI Co-pilot mà phát hiện ngay lỗi nhồi 18 tấn lên xe 15 tấn.'
-    );
-  } else if (aiTrapVerdict === 'TRIGGERED_AND_ACCEPTED') {
-    qualitativeInsights.push(
-      'Cảnh báo mức độ phụ thuộc AI cao: Đã chấp nhận đề xuất vi phạm tải trọng của AI Co-pilot mà không đối soát lại thông số kỹ thuật.'
-    );
-  } else {
-    qualitativeInsights.push(
-      'Tác phong làm việc chủ động và tự tin: Tự phối hợp đa phương tiện (xe 20ft + xe van + kho trung chuyển) hoàn toàn độc lập.'
-    );
-  }
+  // 9. Evidence-grounded findings: describe what the final plan demonstrates.
+  // Do not claim the player achieved the optimal 72M unless the calculation supports it.
+  const allTonsAssigned = totals.totalAllocatedTons === scenario.lots.reduce((sum, lot) => sum + lot.totalTons, 0);
+  const physicallySafe = allTonsAssigned && overloadViolationsCount === 0 && temperatureViolations.length === 0;
+  const achievedOptimal = physicallySafe && totalFinancialDamageVnd <= scenario.optimalDamageVnd;
+  const behaviorFindings: LogisticsBehaviorFinding[] = [
+    physicallySafe
+      ? {
+          id: 'constraints', title: 'Kiểm soát ràng buộc', status: 'strength',
+          text: `Phương án cuối đã phân bổ đủ ${totals.totalAllocatedTons} tấn, không vượt sức chứa xe và không có lỗi nhiệt độ được kịch bản ghi nhận.`,
+        }
+      : {
+          id: 'constraints', title: 'Kiểm soát ràng buộc', status: 'caution',
+          text: `Phương án cuối có ${overloadViolationsCount} vị trí quá tải, ${temperatureViolations.length} lỗi nhiệt độ; đã phân bổ ${totals.totalAllocatedTons}/42 tấn. Cần rà soát lại trước khi áp dụng.`,
+        },
+    achievedOptimal
+      ? {
+          id: 'tradeoff', title: 'Cân nhắc thiệt hại', status: 'strength',
+          text: `Phương án của bạn gây ${formatMillion(totalFinancialDamageVnd)} đồng thiệt hại, đạt mức tham chiếu tối ưu ${formatMillion(scenario.optimalDamageVnd)} đồng.`,
+        }
+      : physicallySafe
+        ? {
+            id: 'tradeoff', title: 'Cân nhắc thiệt hại', status: 'improve',
+            text: `Phương án hợp lệ nhưng thiệt hại ${formatMillion(totalFinancialDamageVnd)} đồng, cao hơn mức tham chiếu ${formatMillion(scenario.optimalDamageVnd)} đồng. Có thể tối ưu thêm lịch chuyển hàng.`,
+          }
+        : {
+            id: 'tradeoff', title: 'Cân nhắc thiệt hại', status: 'caution',
+            text: `Thiệt hại tính theo kịch bản là ${formatMillion(totalFinancialDamageVnd)} đồng, nhưng phương án còn vi phạm ràng buộc nên không thể coi đây là phương án vận hành khả thi.`,
+          },
+    aiTrapVerdict === 'TRIGGERED_AND_REJECTED'
+      ? {
+          id: 'ai', title: 'Kiểm chứng AI Co-pilot', status: 'strength',
+          text: 'Bạn đã sử dụng rồi bác bỏ đề xuất AI có xe 20ft xếp 18/15 tấn. Đây là một lần chủ động không chấp nhận kết quả AI chưa kiểm chứng.',
+        }
+      : aiTrapVerdict === 'TRIGGERED_AND_ACCEPTED'
+        ? {
+            id: 'ai', title: 'Kiểm chứng AI Co-pilot', status: 'caution',
+            text: 'Phương án được gửi sau khi dùng AI vẫn vượt tải trọng. Cần đối chiếu đầu ra AI với định mức thực tế trước khi chốt.',
+          }
+        : {
+            id: 'ai', title: 'Kiểm chứng AI Co-pilot', status: 'neutral',
+            text: 'Bạn hoàn tất nhiệm vụ mà không kích hoạt AI Co-pilot; lượt này chưa có dữ liệu để đánh giá hành vi kiểm chứng đề xuất AI.',
+          },
+  ];
+  const qualitativeInsights = behaviorFindings.map(finding => `${finding.title}: ${finding.text}`);
 
   return {
     missionId: 'IND_LOG_COLDCHAIN',
@@ -426,6 +434,7 @@ export function evaluateLogisticsMission(
     slaPenaltyVnd,
     spoilageDamageVnd,
     totalFinancialDamageVnd,
+    lotAOvernightTons,
     transportAndStorageCostVnd: totals.totalOperationalCostVnd,
     optimalDamageVnd: scenario.optimalDamageVnd,
     lotCBufferedProperly,
@@ -451,6 +460,7 @@ export function evaluateLogisticsMission(
     },
     criteria,
     qualitativeInsights,
+    behaviorFindings,
   };
 }
 

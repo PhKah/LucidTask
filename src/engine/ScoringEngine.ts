@@ -42,7 +42,7 @@ export class ScoringEngine {
     confidenceLevel: number
   ): CompetencyProfile {
     const logic_score = clamp(
-      0.55 * ev.scores.openness + 0.45 * (ev.totalFinancialDamageVnd <= 72_000_000 && ev.overloadViolationsCount === 0 ? 96 : ev.scores.emotional_stability),
+      0.55 * ev.scores.openness + 0.45 * (ev.totalFinancialDamageVnd <= ev.optimalDamageVnd && ev.overloadViolationsCount === 0 && ev.temperatureViolations.length === 0 ? 96 : ev.scores.emotional_stability),
       15,
       100
     );
@@ -57,6 +57,7 @@ export class ScoringEngine {
       resilience_score,
       composite_score: ev.scores.composite,
       qualitative_insights: ev.qualitativeInsights,
+      behavior_findings: ev.behaviorFindings,
       big_five: {
         conscientiousness: ev.scores.conscientiousness,
         emotional_stability: ev.scores.emotional_stability,

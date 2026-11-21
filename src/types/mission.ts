@@ -103,6 +103,13 @@ export interface VehicleAuditRow {
   overloadAmount: number;
 }
 
+export interface LogisticsBehaviorFinding {
+  id: 'constraints' | 'tradeoff' | 'ai';
+  title: string;
+  status: 'strength' | 'improve' | 'caution' | 'neutral';
+  text: string;
+}
+
 export interface LogisticsEvaluationResult {
   missionId: 'IND_LOG_COLDCHAIN';
   totalAllocatedTons: number;
@@ -112,6 +119,7 @@ export interface LogisticsEvaluationResult {
   slaPenaltyVnd: number;
   spoilageDamageVnd: number;
   totalFinancialDamageVnd: number;
+  lotAOvernightTons: number;
   transportAndStorageCostVnd: number;
   optimalDamageVnd: number;
   lotCBufferedProperly: boolean;
@@ -137,6 +145,7 @@ export interface LogisticsEvaluationResult {
   };
   criteria: MissionCriterionAudit[];
   qualitativeInsights: string[];
+  behaviorFindings: LogisticsBehaviorFinding[];
 }
 
 /* ============================================================================
